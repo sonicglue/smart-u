@@ -1,0 +1,284 @@
+{
+  "name": "InvoiceHasItem",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este lote."
+    },
+    "idInvoice": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idInvoice",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador de la orden de compra del producto."
+    },
+    "idProduct": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idProduct",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del producto para este lote."
+    },
+    "index": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "index",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Indice de las operaciones de los productos."
+    },
+    "unit": {
+      "type": "string",
+      "required": false,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "default": "PZA",
+      "mysql": {
+        "columnName": "unit",
+        "dataType": "varchar",
+        "dataLength": 10,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Unidad de medida de la factura."
+    },
+    "quantity": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "quantity",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Cantidad de productos registrados en la factura."
+    },
+    "currency": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "currency",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Tipo de moneda."
+    },
+    "currencyExchange": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "currencyExchange",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Tipo de cambio."
+    },
+    "price": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "price",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Precio del producto (incluye iva)."
+    },
+    "neto": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "neto",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Precio del producto (sin IVA)."
+    },
+    "tax": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "tax",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Impuestos retenidos por producto."
+    },
+    "discount": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "discount",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Bonificación o descuentos aplicados en los productos."
+    },
+    "total": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "total",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Total de los productos menos descuentos aplicados."
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "length": 250,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "description",
+        "dataType": "varchar",
+        "dataLength": 250,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Notas sobre el producto comprado."
+    },
+    "satCode": {
+      "type": "string",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "satCode",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Código del SAT."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "invoice": {
+      "type": "belongsTo",
+      "model": "Invoice",
+      "foreignKey": "idInvoice"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "idProduct"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

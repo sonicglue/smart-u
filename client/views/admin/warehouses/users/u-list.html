@@ -1,0 +1,109 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-12 col-md-8">
+    <h4>Usuarios registrados.</h4>
+  </div><!--/.col-sm-6-->
+  <!--Botones-->
+  <div class="col-sm-12 col-md-4 text-right">
+    <button type="button" class="btn btn-primary btn-sm"
+      ng-disabled="busy"
+      ng-click="$state.go('admin.user.add')">
+      <span class="fa fa-plus"></span>
+      Registrar Usuario
+    </button>
+  </div><!--/.col-sm-6-->
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<div ng-hide="busy">
+  <!--Filtros-->
+  <div class="row mb-3">
+    <div class="col">
+      <form class="form-inline" autocomplete="off">
+        <!--Select-->
+        <div class="form-group">
+          <label class="col-form-label">
+            Filtrar por estado:
+          </label>
+          <select class="form-control form-control-sm ml-3 mr-3"
+            ng-model="formFilters.status"
+            ng-options="item.tag as item.label for item in usersStatus">
+          </select>
+        </div><!--/.form-group-->
+      </form>
+    </div><!--/.col-->
+  </div>
+  <!--Lista de usuarios-->
+  <div class="table-responsive-lg">
+    <table class="table table-sm table-striped">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Número</th>
+          <th scope="col">Nombre completo</th>
+          <th scope="col">Tipo de cuenta</th>
+          <th scope="col">Estatus de la cuenta</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Almacén/Ruta</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-hide="users.length">
+          <td colspan="8" class="text-center">
+            No se encontraron usuarios
+          </td>
+        </tr> 
+        <tr ng-repeat="user in users">
+          <td class="text-right" scope="row">
+            {{$index + 1}}
+          </td>
+          <td class="text-left" scope="row">
+            {{user.name}} {{user.lastName}}
+          </td>
+          <td class="text-center">
+            {{typeLabel[user.type]}}
+          </td>
+          <td class="text-center">
+            {{statusLabel[user.accountStatus]}}
+          </td>
+          <td class="text-left">
+            {{user.email}}
+          </td>
+          <td class="text-left">
+            {{user.warehouse.name}}
+            <span class="badge badge-pill badge-danger"
+              ng-show="user.warehouses.length > 1">
+              +{{user.warehouses.length - 1}}
+            </span>
+          </td>
+          <td class="text-center text-nowrap">
+            <button class="btn btn-sm"
+              ng-disabled="user.id === currentUser.id || user.accountStatus === 'pre-active'"
+              ng-click="toggle(user)"
+              ng-class="user.status === 'active' ? 'btn-info' : 'btn-outline-info'">
+              <span class="fa" ng-class="user.status === 'active' ? 'fa-unlock-alt' : 'fa-lock'"></span>
+            </button>
+            <button type="button" class="btn btn-primary btn-sm"
+              ng-click="$state.go('admin.user.edit', {userId: user.id})">
+              <span class="fas fa-pencil-alt"></span>
+            </button>
+            <!--<button class="btn btn-danger btn-sm"
+              ng-disabled="user.inserts"
+              ng-hide="user.finishedDate"
+              ng-click="delete(user)">
+              <span class="far fa-trash-alt"></span>
+            </button>-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Paginación-->
+  <div ng-include="'views/common/pagination.html'"></div>
+</div>

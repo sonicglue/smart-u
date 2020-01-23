@@ -1,0 +1,508 @@
+<!--Subtitulo-->
+<div class="row mb-3">
+  <!--Sección-->
+  <div class="col-sm-9">
+    <h4>Registro de ordenes de compra</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-disabled="busy"
+      ng-click="$state.go('admin.purchase-order.list')">
+      <span class="fa fa-arrow-left"></span>
+      Cancelar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Tarjeta-->
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card">
+      <div class="card-header text-right">
+        &nbsp;
+        <button type="button" class="btn btn-primary btn-sm"
+          ng-disabled="busy"
+          ng-hide="purchaseOrder.finishedDate"
+          ng-click="$state.go('admin.purchase-order.edit', {purchaseId: purchaseOrder.id})">
+          <span class="fas fa-pencil-alt"></span>
+          Editar
+        </button>
+      </div><!--card-header-->
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <dl class="row">
+              <!--Número-->
+              <dt class="col-sm-4 col-md-6 text-sm-right">Número de orden</dt>
+              <dd class="col-sm-8 col-md-6">{{purchaseOrder.number}}</dd>
+              <!--Proveedor-->
+              <dt class="col-sm-4 col-md-6 text-sm-right">Proveedor</dt>
+              <dd class="col-sm-8 col-md-6">{{purchaseOrder.provider.name}}</dd>
+              <!--Empresa-->
+              <dt class="col-sm-4 col-md-6 text-sm-right">Empresa</dt>
+              <dd class="col-sm-8 col-md-6">{{purchaseOrder.company.name}}</dd>
+              <!--Fecha de compra-->
+              <dt class="col-sm-4 col-md-6 text-sm-right">Fecha de compra</dt>
+              <dd class="col-sm-8 col-md-6">{{getDateFormat(purchaseOrder.purchaseDate, 'L')}}</dd>
+              <!--Forma de pago-->
+              <dt class="col-sm-4 col-md-6 text-sm-right">Forma de pago</dt>
+              <dd class="col-sm-8 col-md-6">{{setPaymentMethod(purchaseOrder.paymentMethod)}}</dd>
+              <!--Condiciones-->
+              <dt class="col-sm-4 col-md-6 text-sm-right">Condiciones</dt>
+              <dd class="col-sm-8 col-md-6">{{setPaymentRule(purchaseOrder.paymentRule)}}</dd>
+              <!--Fecha de pago-->
+              <dt class="col-sm-4 col-md-6 text-sm-right">Fecha de pago</dt>
+              <dd class="col-sm-8 col-md-6">{{getDateFormat(purchaseOrder.paymentDate, 'L')}}</dd>
+            </dl>
+          </div><!--/.col-md-6-->
+          <div class="col-md-6">
+            <dl class="row">
+              <!--Moneda-->
+              <dt class="col-sm-4 col-md-5 text-sm-right">
+                Moneda
+              </dt>
+              <dd class="col-sm-8 col-md-7">
+                {{purchaseOrder.currency === 'pesos' ? 'Pesos' : 'Dolares americanos'}}
+              </dd>
+              <!--Tipo de cambio-->
+              <dt class="col-sm-4 col-md-5 text-sm-right">
+                Tipo de cambio
+              </dt>
+              <dd class="col-sm-8 col-md-7"
+                ng-bind-html="makeAmount('pesos', purchaseOrder.currencyExchange)"></dd>
+              <!--Total de la factura-->
+              <dt class="col-sm-4 col-md-5 text-sm-right">
+                Total de la factura
+              </dt>
+              <dd class="col-sm-8 col-md-7"
+                ng-bind-html="makeAmount(purchaseOrder.currency, purchaseOrder.total)"></dd>
+              <!--Total en pesos-->
+              <dt class="col-sm-4 col-md-5 text-sm-right"
+                ng-show="purchaseOrder.currency !== 'pesos'">
+                Total a pagar (pesos)
+              </dt>
+              <dd class="col-sm-8 col-md-7" style="border: solid #c3c3c3 1px;"
+                ng-show="purchaseOrder.currency !== 'pesos'"
+                ng-bind-html="makeAmount('pesos', purchaseOrder.currencyTotal)"></dd>
+              <!--Apoyo de la marca-->
+              <dt class="col-sm-4 col-md-5 text-sm-right">
+                Apoyo de la marca
+              </dt>
+              <dd class="col-sm-8 col-md-7"
+                ng-bind-html="makeAmount(purchaseOrder.currency, purchaseOrder.brandDiscount)">
+              </dd>
+              <!--Nota de crédito-->
+              <dt class="col-sm-4 col-md-5 text-sm-right">
+                Baja de precio
+              </dt>
+              <dd class="col-sm-8 col-md-7"
+                ng-bind-html="makeAmount(purchaseOrder.currency, purchaseOrder.additionalDiscount)">
+              </dd>
+              <!--Nota de crédito-->
+              <dt class="col-sm-4 col-md-5 text-sm-right">
+                Nota de crédito
+              </dt>
+              <dd class="col-sm-8 col-md-7" style="border: solid #c3c3c3 1px;"
+                ng-bind-html="makeAmount(purchaseOrder.currency, purchaseOrder.discount)">
+              </dd>
+              <!--Archivo-->
+              <dt class="col-sm-4 col-md-5 text-sm-right"
+                ng-show="purchaseOrder.file">
+                Factura digital
+              </dt>
+              <dd class="col-sm-8 col-md-7"
+                ng-show="purchaseOrder.file">
+                <a href="/api/Containers/purchase-orders/download/{{purchaseOrder.file}}"
+                  target="_blank">
+                  <span class="fa fa-file"></span>
+                  {{purchaseOrder.file}}
+                </a>
+              </dd>
+            </dl>
+          </div><!--/.col-md-6-->
+        </div><!--/.row-->
+      </div><!--/.card-body-->
+    </div><!--/.card-->
+  </div><!--/.col-sm-10-->
+</div><!--/.row-->
+<!--Formulario de lotes-->
+<div class="mt-4" ng-hide="stockView">
+  <div class="row mt-3">
+    <h4 class="col-sm-6 col-md-7">Productos:</h4>
+    <div class="col-sm-6 col-md-5 text-right">
+      <button type="button" class="btn btn-sm"
+        ng-class="formFlg ? 'btn-primary' : 'btn-warning'"
+        ng-hide="purchaseOrder.finishedDate"
+        ng-click="formFlg = !formFlg">
+        <span class="fa" ng-class="formFlg ? 'fa-plus' : 'fa-close'"></span>
+        {{formFlg ? 'Agregar un producto' : 'Cancelar'}}
+      </button>
+    </div>
+  </div>
+  <form name="formBatch" autocomplete="off"
+    class="needs-validation" novalidate
+    ng-hide="purchaseOrder.finishedDate || formFlg"
+    ng-submit="save()">
+    <!--Primera fila-->
+    <div class="form-row align-items-end">
+      <!--Tipo de producto-->
+      <div class="form-group col-sm-6 col-md-2">
+        <label class="col-form-label col-form-label-sm">Producto</label>
+        <select class="form-control form-control-sm" required
+          ng-disabled="busy"
+          ng-model="currentBatch.product.idProductType"
+          ng-options="productType.id as productType.name for productType in productTypes">
+          <option value="">Selecciona una opción</option>
+        </select>
+        <div class="invalid-feedback">
+          Debe seleccionar un tipo de producto.
+        </div>
+      </div>
+      <!--Marca-->
+      <div class="form-group col-sm-6 col-md-2">
+        <label class="col-form-label col-form-label-sm">Marca</label>
+        <select class="form-control form-control-sm" required
+          ng-disabled="busy"
+          ng-model="currentBatch.product.idBrand"
+          ng-options="brand.id as brand.name for brand in brands">
+          <option value="">Selecciona una opción</option>
+        </select>
+        <div class="invalid-feedback">
+          Debe seleccionar una marca de la lista.
+        </div>
+      </div>
+      <!--Modelo-->
+      <div class="form-group col-sm-12 col-md-3">
+        <label class="col-form-label col-form-label-sm">Modelo</label>
+        <div class="input-group input-group-sm">
+          <select class="form-control form-control-sm" required
+            ng-disabled="busy"
+            ng-model="currentBatch.product.idProductModel"
+            ng-options="model.id as model.name for model in models">
+            <option value="">Selecciona una opción</option>
+          </select>
+          <div class="input-group-append">
+            <button type="button" class="btn btn-outline-primary"
+              ng-disabled="busy"
+              ng-click="$state.go('admin.product.add')">
+              <span class="fa fa-plus"></span>
+              <span class="d-md-none d-lg-inline">Nuevo</span>
+            </button>
+          </div>
+          <div class="invalid-feedback">
+            Debe seleccionar un modelo de la lista.
+          </div>
+        </div>
+      </div>
+      <!--Color-->
+      <div class="form-group col-sm-4 col-md-2">
+        <label class="col-form-label col-form-label-sm">Color</label>
+        <select class="form-control form-control-sm" required
+          ng-disabled="busy"
+          ng-model="currentBatch.product.idColor"
+          ng-options="color.id as color.name for color in colors">
+          <option value="">Selecciona una opción</option>
+        </select>
+        <div class="invalid-feedback">
+          Debe seleccionar un color de la lista.
+        </div>
+      </div>
+      <!--Variable-->
+      <div class="form-group col-sm-4 col-md-2">
+        <label class="col-form-label col-form-label-sm">{{variant.name}}</label>
+        <select class="form-control form-control-sm" required
+          ng-disabled="busy"
+          ng-model="currentBatch.product.idVariantOption"
+          ng-options="option.id as option.value for option in variant.options">
+          <option value="">Selecciona una opción</option>
+        </select>
+        <div class="invalid-feedback">
+          Debe seleccionar una variante de la lista.
+        </div>
+      </div>
+      <!--Es de prepago-->
+      <div class="form-group col-sm-3 col-md-1">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="prepaid"
+            ng-disabled="busy"
+            ng-model="cuerentBatch.isPrepaid">
+          <label for="prepaid" class="col-check-label col-check-label-sm">
+            <span class="d-inline d-md-none">Es prepago</span>
+            <span class="d-none d-md-inline">Prepago</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <!--Segunda fila-->
+    <div class="form-row align-items-end justify-content-end">
+      <!--Cantidad-->
+      <div class="form-group col-sm-3 col-md-2 col-lg-2">
+        <label class="col-form-label col-form-label-sm">Cantidad</label>
+        <input type="number" class="form-control form-control-sm"
+          min="1" step="1" placeholder="0" required
+          ng-disabled="busy"
+          ng-model="currentBatch.stockSize">
+        <div class="invalid-feedback">
+          Debe indicar la cantidad de productos a comprar.
+        </div>
+      </div>
+      <!--Costo unitario sin iva-->
+      <div class="form-group col-sm-3 col-md-2 col-lg-2">
+        <label class="col-form-label col-form-label-sm">Costo unitario</label>
+        <input type="number" class="form-control form-control-sm"
+          min="0" step="0.01" placeholder="0.00" required
+          ng-disabled="busy"
+          ng-model="currentBatch.cost">
+        <div class="invalid-feedback">
+          Debe indicar el precio unitario con IVA del producto.
+        </div>
+      </div>
+      <!--Apoyo proveedor-->
+      <div class="form-group col-sm-3 col-md-2 col-lg-2"
+        ng-show="purchaseOrder.provider.discount">
+        <label class="col-form-label col-form-label-sm">Desc. proveedor</label>
+        <input type="number" class="form-control form-control-sm"
+          min="0" step="0.1" placeholder="0.00"
+          ng-disabled="true"
+          ng-model="currentBatch.providerSupport">
+      </div>
+      <!--Apoyo marca-->
+      <div class="form-group col-sm-3 col-md-2 col-lg-2">
+        <label class="col-form-label col-form-label-sm">Costo con IVA</label>
+        <input type="number" class="form-control form-control-sm"
+          min="0" step="0.1" placeholder="0.00"
+          ng-disabled="true"
+          ng-model="currentBatch.costWithTax">
+      </div>
+      <!--Apoyo marca-->
+      <div class="form-group col-sm-3 col-md-2 col-lg-2">
+        <label class="col-form-label col-form-label-sm">Apoyo marca</label>
+        <input type="number" class="form-control form-control-sm"
+          min="0" step="0.1" placeholder="0.00"
+          ng-disabled="busy"
+          ng-model="currentBatch.brandSupport">
+      </div>
+      <!--Baja de precio-->
+      <div class="form-group col-sm-3 col-md-2 col-lg-2">
+        <label class="col-form-label col-form-label-sm">Baja de precio</label>
+        <input type="number" class="form-control form-control-sm"
+          min="0" step="0.1" placeholder="0.00"
+          ng-disabled="busy"
+          ng-model="currentBatch.additionalSupport">
+      </div>
+      <!--Apoyo marca-->
+      <div class="form-group col-sm-3 col-md-2 col-lg-2">
+        <label class="col-form-label col-form-label-sm">Costo total</label>
+        <input type="number" class="form-control form-control-sm"
+          min="0" step="0.1" placeholder="0.00"
+          ng-disabled="true"
+          ng-model="currentBatch.modifiedCost">
+      </div>
+      <!--Botones-->
+      <div class="col-sm-3 col-md-2 col-lg-1 text-nowrap">
+        <button type="submit" class="btn btn-success btn-sm mb-3"
+          ng-disabled="busy">
+          <span class="fa fa-arrow-down"></span>
+        </button>
+        <button type="button" class="btn btn-warning btn-sm mb-3"
+          ng-disabled="busy"
+          ng-click="clean()">
+          <span class="fa fa-close"></span>
+        </button>
+      </div>
+    </div><!--/.form-row-->
+  </form>
+  <!--Lista de lotes registrados-->
+  <div class="table-responsive-lg mt-3">
+    <table class="table table-sm table-striped">
+      <thead class="thead-light">
+        <tr>
+          <th colspan="2">Productos</th>
+          <th>Costo unitario <small>(con IVA)</small></th>
+          <th>Apoyo marca</th>
+          <th>Baja de precio</th>
+          <th>Costo total</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-hide="purchaseOrder.batches.length">
+          <td colspan="7" class="text-center">
+            No se han registrado productos.
+          </td>
+        </tr>
+        <tr ng-repeat="batch in purchaseOrder.batches" ng-class="currentBatch.id === batch.id ? 'table-info' : ''">
+          <td class="text-right text-nowrap">{{batch.stockCount | number}} / {{batch.stockSize | number}}</td>
+          <td class="text-nowrap" ng-bind-html="setProductName(batch.product.name)"></td>
+          <td class="text-center text-nowrap" ng-bind-html="makeAmount(purchaseOrder.currency, batch.costWithTax)"></td>
+          <td class="text-center text-nowrap" ng-bind-html="makeAmount(purchaseOrder.currency, batch.brandSupport)"></td>
+          <td class="text-center text-nowrap" ng-bind-html="makeAmount(purchaseOrder.currency, batch.additionalSupport)"></td>
+          <td class="text-center text-nowrap" ng-bind-html="makeAmount(purchaseOrder.currency, (batch.modifiedCost * batch.stockSize))"></td>
+          <td class="text-center text-nowrap">
+            <button type="button" class="btn btn-primary btn-sm"
+              ng-hide="purchaseOrder.finishedDate"
+              ng-disabled="busy"
+              ng-click="load(batch)">
+              <span class="fas fa-pencil-alt"></span>
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+              ng-disabled="busy"
+              ng-click="toggleView(batch)">
+              <span class="fa fa-cubes"></span>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm"
+              ng-hide="purchaseOrder.finishedDate"
+              ng-disabled="busy || batch.stockCount"
+              ng-click="delete(batch)">
+              <span class="far fa-trash-alt"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="5" class="text-right">Total:</th>
+          <td class="text-center text-nowrap"
+            ng-bind-html="makeAmount(purchaseOrder.currency, (purchaseOrder.total - purchaseOrder.discount))"></td>
+          <th>&nbsp;</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div><!--/.table-responsige-lg-->
+  <!--Terminar orden de compra-->
+  <div class="text-center">
+    <button type="button" class="btn btn-outline-success btn-sm"
+      ng-show="purchaseOrder.batches.length"
+      ng-disabled="busy || (purchaseOrder.stockCount !== purchaseOrder.stockSize)"
+      ng-click="finish(purchaseOrder)">
+      <span class="fa fa-key"></span>
+      Terminar la orden de compra
+    </button>
+  </div>
+</div>
+<!--Lista de stock-->
+<div class="mt-4" ng-show="stockView">
+  <div class="row mt-3">
+    <div class="col-sm-9">
+      <h4>Números de serie registrados</h4>
+    </div>
+    <!--Botones-->
+    <div class="col-sm-3 text-right">
+      <button class="btn btn-warning btn-sm"
+        ng-disabled="busy"
+        ng-click="toggleView('close')">
+        <span class="fa fa-close"></span>
+        Cerrar lista
+      </button>
+    </div>
+  </div><!--/.row-->
+  <!--Datos del lote y del stock-->
+  <div class="row mt-2">
+    <div class="col-md-6 col-lg-4 mb-sm-3">
+      <div class="card">
+        <h6 class="card-header">
+          {{currentStock.product.name}}
+        </h6>
+        <div class="card-body">
+          <dl class="row">
+            <!--Cantidad-->
+            <dt class="col-sm-5 text-sm-right">Cantidad</dt>
+            <dd class="col-sm-7">{{currentStock.stockCount}} / {{currentStock.stockSize}}</dd>
+            <!--Tipo de cambio-->
+            <dt class="col-sm-5 text-sm-right">Costo c/u <small>(+IVA)</small></dt>
+            <dd class="col-sm-7"
+              ng-bind-html="makeAmount(purchaseOrder.currency, currentStock.costWithTax)"></dd>
+            <!--Apoyo proveedor-->
+            <dt class="col-sm-5 text-sm-right">Apoyo marca</dt>
+            <dd class="col-sm-7"
+              ng-bind-html="makeAmount(purchaseOrder.currency, currentStock.brandSupport)"></dd>
+            <!--Apoyo marca-->
+            <dt class="col-sm-5 text-sm-right">Baja de precio</dt>
+            <dd class="col-sm-7"
+              ng-bind-html="makeAmount(purchaseOrder.currency, currentStock.additionalSupport)"></dd>
+            <!--Apoyo marca-->
+            <dt class="col-sm-5 text-sm-right">Costo total <small>(c/u)</small></dt>
+            <dd class="col-sm-7"
+              ng-bind-html="makeAmount(purchaseOrder.currency, currentStock.modifiedCost)"></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-8">
+      <!--Formulario para carga de arvhicos-->
+      <div class="form-group form-row" ng-hide="purchaseOrder.finishedDate">
+        <label class="col-sm-4 col-md-12 col-lg-4 col-form-label col-form-label-sm text-sm-right text-md-left text-lg-right">
+          Cargar desde archivo:
+        </label>
+        <!--File input-->
+        <div class="col-sm-6 col-md-9 col-lg-5" ng-hide="uploader.queue.length">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupFileAddon01">
+                <span class="fa fa-upload"></span>
+              </span>
+            </div>
+            <div class="custom-file custom-file-sm">
+              <input type="file" id="archiv" class="custom-file-input" nv-file-select uploader="uploader">
+              <label for="archiv" class="custom-file-label">Elige un archivo CSV.</label>
+            </div>
+          </div>
+        </div>
+        <!--Unset input-->
+        <div class="col-sm-6 col-md-9 col-lg-5" ng-show="uploader.queue.length">
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control form-control-sm" value="{{uploader.queue[0].file.name}}" disabled>
+            <div class="input-group-append">
+              <button type="button" class="btn btn-outline-danger"
+                ng-disabled="busy"
+                ng-click="unsetFile()">
+                <span class="fa fa-close"></span>
+                Quitar
+              </button>
+            </div>
+          </div>
+        </div>
+        <!--Botón de carga-->
+        <div class="col-sm-2 col-md-3">
+          <button type="button" class="btn btn-sm btn-success"
+            ng-disabled="!uploader.queue.length || busy"
+            ng-click="uploadFile()">
+            <span class="fa fa-cloud-upload"></span>
+            <span class="d-sm-none d-md-inline">Cargar</span>
+          </button>
+        </div>
+      </div>
+      <!--Loader-->
+      <div class="text-center" ng-show="uploader.queue.length && busy">
+        <span class="fa fa-gear fa-spin"></span>
+        Procesando archivo...
+      </div>
+      <!--Mensaje de error-->
+      <div class="alert alert-warning alert-dismissible fade show" role="alert"
+        ng-show="errors.length">
+        <p><strong>¡Atención!</strong>
+          Se encontrarón los siguientes errores al procesar el archivo.</p>
+        <hr>
+        <code class="mb-0">
+          <p ng-repeat="error in errors">{{$index + 1}}) {{error.message}}</p>
+        </code>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--Números de serie-->
+      <div class="row mx-0">
+        <div class="col-sm-4 col-md-6 col-lg-3 p-2 bg-white border border-secondary text-center"
+          ng-repeat="stock in currentStock.stocks">
+          <span class="align-middle"
+            ng-bind-html="makeSerial(stock.IMEI)"></span>
+          <button type="button" class="close align-top" aria-label="Close"
+            ng-show="stock.status === 'active' && !purchaseOrder.finishedDate"
+            ng-click="drop(stock)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><!--/.row-->
+</div>

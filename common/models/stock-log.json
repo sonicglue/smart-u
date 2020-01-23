@@ -1,0 +1,141 @@
+{
+  "name": "StockLog",
+  "plural": "StockLogs",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "StockLog"
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este log."
+    },
+    "idStock": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idStock",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del stock."
+    },
+    "date": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Fecha y hora en la que se registro el log."
+    },
+    "event": {
+      "type": "string",
+      "required": true,
+      "length": 15,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "event",
+        "dataType": "varchar",
+        "dataLength": 15,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Evento relacionado al registro del log."
+    },
+    "description": {
+      "type": "string",
+      "required": true,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "description",
+        "dataType": "varchar",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Descripción relacionada al registro del log."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "stock": {
+      "type": "belongsTo",
+      "model": "Stock",
+      "foreignKey": "idStock"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "support",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "deleteById",
+        "find",
+        "findOne",
+        "patchAttributes"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "storer",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "deleteById",
+        "find",
+        "findOne",
+        "patchAttributes"
+      ]
+    }
+  ],
+  "methods": {}
+}

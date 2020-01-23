@@ -1,0 +1,72 @@
+<div class="mb-3">
+  <!--Título-->
+  <h4>Utilice los filtros de búsqueda.</h4>
+</div>
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Buscador-->
+<div ng-hide="busy">
+  <form name="guaranteeFilter" autocomplete="off" class="needs-validation" novalidate
+    ng-submit="searchGuarantees()">
+    <div class="form-row">
+      <!--Periodo de búsqueda-->
+      <div class="form-group col-lg-4">
+        <label for="range">
+          <span class="far fa-calendar-alt"></span>
+          Periodo:</label>
+        <input type="text" id="range" name="daterange" class="form-control form-control-sm">
+      </div>
+      <!--Estatus de la garantía-->
+      <div class="form-group col-lg-4">
+        <label for="status">Estado de la garantía:</label>
+        <select id="status" class="form-control form-control-sm"
+          ng-model="search.status"
+          ng-options="event.id as event.label for event in events | orderBy: 'label'">
+          <option value="">Selecciona un estado</option>
+        </select>
+      </div>
+      <!--Proveedor-->
+      <div class="form-group col-lg-4">
+        <label for="provider">Proveedor:</label>
+        <select id="provider" class="form-control form-control-sm"
+          ng-model="search.idProvider"
+          ng-options="provider.id as provider.name for provider in allProviders | orderBy: 'name'">
+          <option value="">Selecciona un vendedor</option>
+        </select>
+      </div>
+    </div><!--/.row-->
+    <div class="form-row">
+      <!--Asesor de venta-->
+      <div class="form-group col-lg-4">
+        <label for="seller">Asesor de venta:</label>
+        <select id="seller" class="form-control form-control-sm"
+          ng-model="search.idSeller"
+          ng-options="seller.id as seller.name + '  ' + seller.lastName for seller in allSellers | orderBy: 'name'">
+          <option value="">Selecciona un vendedor</option>
+        </select>
+      </div>
+      <!--Clientes-->
+      <div class="form-group col-lg-4">
+        <label for="client">Cliente:</label>
+        <select  id="client" class="form-control form-control-sm"
+          ng-model="search.idClient"
+          ng-options="client.id as client.name  for client in allClients | orderBy: 'name'">
+          <option value="">Selecciona un cliente</option>
+        </select>
+      </div>
+    </div><!--/.row-->
+    <div class="text-right">
+      <button type="submit" id="btn_show" class="btn btn-primary btn-sm">
+        Generar reporte
+        <span class="fas fa-download"></span>
+      </button>
+    </div>
+  </form>
+</div>
+<!--Boton fantasma-->

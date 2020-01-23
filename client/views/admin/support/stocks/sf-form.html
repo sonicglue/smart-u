@@ -1,0 +1,102 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-9">
+    <h4>Búsqueda de producto por número de serie/IMEI</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-danger btn-sm"
+      ng-click="initForm()">
+      <span class="fa fa-close"></span>
+      Borrar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Contenido-->
+<div ng-hide="busy">
+  <!--Formulario de búsqueda-->
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <form name="formImei" autocomplete="off"
+        ng-submit="search()" class="justify-content-center" novalidate>
+        <!--Campos de busqueda por IMEI -->
+        <div class="form-group">
+          <label for="imei" class="col-form-label">
+            Número de serie/IMEI:
+          </label>
+          <div>
+            <input type="text" id="imei" class="form-control text-center search"
+              placeholder="000000000000000" autofocus
+              ng-model="input.IMEI">
+          </div>
+        </div>
+      </form>
+    </div><!--/.col-md-4-->
+  </div><!--/.row-->
+  <!--Datos del equipo-->
+  <div class="row justify-content-around mt-3" ng-show="stock.id">
+    <div class="col-md-6">
+      <div class="card">
+        <h5 class="card-header"
+          ng-bind-html="setProductName(stock.product.name)"></h5>
+        <!--Datos del lote-->
+        <div class="card-body">
+          <dl class="row mb-0">
+            <!--IMEI-->
+            <dt class="col-sm-5 text-sm-right">IMEI</dt>
+            <dd class="col-sm-7">{{stock.IMEI}}</dd>
+            <!--Almacén-->
+            <dt class="col-sm-5 text-sm-right">Almacén</dt>
+            <dd class="col-sm-7">{{stock.warehouse.name}}</dd>
+            <!--Status-->
+            <dt class="col-sm-5 text-sm-right">Estado actual</dt>
+            <dd class="col-sm-7">{{stockStatus(stock.status)}}</dd>
+            <!--Cliente-->
+            <dt class="col-sm-5 text-sm-right">Cliente</dt>
+            <dd class="col-sm-7">{{stock.client ? stock.client.name : '-'}}</dd>
+            <!--Proveedor-->
+            <dt class="col-sm-5 text-sm-right">Fecha de venta</dt>
+            <dd class="col-sm-7">
+              {{getDateFormat(stock.saleDate, 'L')}}
+              ({{getDaysFrom(stock.saleDate)}})
+            </dd>
+            <!--Orden de compra-->
+            <dt class="col-sm-5 text-sm-right">Orden de compra</dt>
+            <dd class="col-sm-7">{{stock.purchaseOrder.number}}</dd>
+            <!--Fecha de compra-->
+            <dt class="col-sm-5 text-sm-right">Fecha de compra</dt>
+            <dd class="col-sm-7">
+              {{getDateFormat(stock.purchaseOrder.purchaseDate, 'LLL')}}
+              ({{getDaysFrom(stock.purchaseOrder.purchaseDate)}})
+            </dd>
+            <!--Proveedor-->
+            <dt class="col-sm-5 text-sm-right">Proveedor</dt>
+            <dd class="col-sm-7">{{stock.purchaseOrder.provider.name}}</dd>
+          </dl>
+        </div>
+      </div><!--/.card-->
+    </div><!--/.col-md-6-->
+    <!--Eventos de la garantía-->
+    <div class="col-md-4"  >
+      <div class="card mb-3">
+        <h5 class="card-header">Historial</h5>
+        <div class="card-body">
+          <div class="mt-0 mb-3 border-bottom" ng-repeat="log in stock.logs">
+            <strong>{{stockStatus(log.event)}}:</strong>
+            <em><small>{{getDateFormat(log.date, 'LLL')}}</small></em>
+            <br/>
+            {{log.description}}
+          </div>
+        </div>
+      </div><!--/.card-->
+    </div><!--/.col-md-4-->
+  </div><!--/.row-->
+</div>

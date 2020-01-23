@@ -1,0 +1,52 @@
+
+<div class="row page-titles" style="margin: 0 -25px 5px !important;">
+        <div class="col-md-5 align-self-right"> 
+            <h4 class="text-themecolor">Garantias Cliente </h4>
+        </div>
+        <div class="container col-lg-4">
+            <form action="/action_page.php">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" minlength="15" maxlength="15" name="search">
+                <div class="input-group-btn">
+                  <button class="btn btn-default pull-right" type="submit"><i class="fa fa-search"></i></button>
+                  <span class="validity"></span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+         <div class="col-lg-12">
+              <div class="table-responsive">
+              <table class="table table table-striped table-condensed">
+                <thead class="thead-light">
+                <tr>
+                <th scope="col" class="thead-one">Cliente</th>
+                <th scope="col" class="thead-one">Orden</th>
+                <th scope="col" class="thead-one">IMEI</th>
+                <th scope="col" class="thead-one" colspan="3"></th>
+                </tr>
+                <tr>
+                        <tr ng-repeat="billing in billings ">
+                                <td>{{billing.name}}</td>
+                                <td>1254</td>
+                                <td>15488405978431</td>
+                      <td><div class=" pull-right">
+                            <button type="button" class="btn btn-info"
+                            ui-sref="admin.guaranty">
+                            <span class="fa fa-eye"></span>
+                            Garantia
+                          </button>
+                        </div> </td>
+                      </td>
+                      </tr>
+                    </tr>
+                </tbody>
+              </table>
+              </div>
+        
+            
+        
+        </div>
+        
+        

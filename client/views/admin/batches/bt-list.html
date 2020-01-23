@@ -1,0 +1,60 @@
+<!--Subtitulo-->
+<div class="row mb-3">
+  <!--Sección-->
+  <div class="col-sm-9">
+    <h4>Productos para captura</h4>
+  </div><!--/.col-sm-9-->
+</div><!--/.row-->
+<!--Ordendes de compras-->
+<div
+  ng-show="orders.length"
+  ng-repeat="order in orders" ng-init="$idx = $index">
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <h5>Orden de compra: {{order.number}}</h5>
+    </div><!--/.col-md-6-->
+    <div class="col-md-6 text-right">
+      <button type="button" class="btn btn-primary btn-sm"
+        ng-click="$state.go('admin.batch.add', {purchaseOrderId: order.id})">
+        <span class="fa fa-plus"></span>
+        Agregar un producto a la orden
+      </button>
+    </div><!--/.col-md-6-->
+  </div><!--/.row-->
+  <!--Lotes-->
+  <div class="row card-columns mt-3">
+    <div class="col-sm-3"
+      ng-repeat="batch in order.batches">
+      <div class="card border-{{styles[$idx % 7]}}">
+        <h5 class="card-header bg-{{styles[$idx % 7]}} text-white"
+          ng-bind-html="setProductName(batch.product.name)"></h5>
+        <!--Card Header-->
+        <div class="card-body py-2">
+          <p class="text-muted mb-0">
+            <span>Registrados:</span>
+          </p>
+          <h2 class="card-title text-right mb-1">{{batch.stockCount | number}}</h2>
+          <h5 class="text-right mb-3">
+              de {{batch.stockSize | number}}
+            <span class="fa fa-cubes"></span>
+          </h5>
+          <p class="text-muted text-right mb-0"
+            ng-bind-html="setBoxCount(batch.stockSize, batch.boxSize)">
+          </p>
+        </div>
+        <!--Card Footer-->
+        <div class="card-footer text-right">
+          <a ui-sref="admin.batch.imei({batchId: batch.id})">
+            Registrar IMEIs
+            <span class="fa fa-arrow-right"></span>
+          </a>
+        </div>
+      </div>
+    </div><!--/.col-sm-3-->
+  </div>
+</div>
+<div class="alert alert-warning text-center" role="alert"
+  ng-hide="orders.length">
+  <strong>¡Esto no es un error!</strong>
+  No se han encontrado ordenes de compra para registrar números de serie.
+</div>

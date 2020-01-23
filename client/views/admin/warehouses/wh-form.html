@@ -1,0 +1,102 @@
+<div class="row mb-3">
+  <!--Filtros-->
+  <div class="col-sm-9">
+    <h4>Registro de almacenes</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go(return.to, return.paramsTo)">
+      <span class="fa fa-arrow-left"></span>
+      Regresar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Formulario-->
+<div class="row justify-content-center"
+  ng-hide="busy">
+  <div class="col-md-8">
+    <form name="formWarehouse" autocomplete="off"
+      ng-submit="save()" class="needs-validation" novalidate>
+      <!--Almacén padre-->
+      <div class="form-group form-row">
+        <label for="name" class="col-sm-2 col-md-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Depende de:
+        </label>
+        <div class="col-sm-10 col-md-7">
+          <select class="form-control form-control-sm" required
+            ng-model="warehouse.idParent"
+            ng-options="warehouse.id as warehouse.name for warehouse in warehouses">
+            <option value="">Seleccione una opción</option>
+          </select>
+        </div>
+      </div><!--/.form-row-->
+      <!--Nombre-->
+      <div class="form-group form-row">
+        <label for="name" class="col-sm-2 col-md-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Nombre:
+        </label>
+        <div class="col-sm-10 col-md-7">
+          <div class="input-group input-group-sm">
+            <input type="text" id="name" class="form-control form-control-sm"
+              required placeholder="Escriba el nombre del almacén"
+              ng-model="warehouse.name">
+            <div class="invalid-feedback">
+              Debe un nombre para el almacén.
+            </div>
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Tipo de almacén-->
+      <div class="form-group form-row">
+        <label for="type" class="col-sm-2 col-md-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Tipo de almacén:
+        </label>
+        <div class="col-sm-10 col-md-7">
+          <select id="type" class="form-control form-control-sm" required
+            ng-disabled="checkAccess('wama')"
+            ng-model="warehouse.type">
+            <option value="">Seleccione el tipo de almacén</option>
+            <option value="place">Lugar o edificio</option>
+            <option value="seller">Ruta de venta</option>
+          </select>
+          <div class="invalid-feedback">
+            Debe seleccionar un tipo de almacén.
+          </div>
+        </div>
+      </div><!--/.row-->
+      <!--Dirección-->
+      <div class="form-group form-row">
+        <label for="name" class="col-sm-2 col-md-3 col-form-label col-form-label-sm text-sm-right">
+          Dirección
+        </label>
+        <div class="col-sm-10 col-md-7">
+          <input type="text" id="name" class="form-control form-control-sm"
+            placeholder="Escriba la ubicación del almacén"
+            ng-model="warehouse.address">
+        </div>
+      </div><!--/.form-row-->
+
+      <!--Botones-->
+      <div class="form-group form-row justify-content-end">
+        <div class="col-sm-10 col-md-9">
+          <button type="submit" class="btn btn-success btn-sm">
+            Guardar
+            <span class="fa fa-arrow-right"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

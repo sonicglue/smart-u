@@ -1,0 +1,248 @@
+<div class="row mb-3">
+  <!--Filtros-->
+  <div class="col-sm-9">
+    <h4>Registro de ordenes de compra</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go(return.to, return.paramsTo)">
+      <span class="fa fa-arrow-left"></span>
+      Cancelar
+  </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Formulario-->
+<div class="row justify-content-center"
+  ng-hide="busy">
+  <div class="col-md-8 col-lg-12">
+    <form name="formPurchase" autocomplete="off"
+      ng-submit="save()" class="needs-validation" novalidate>
+      <div class="row">
+        <!--Columna 1-->
+        <div class="col-md-6">
+          <!--Empresa-->
+          <div class="form-group form-row">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Empresa:
+            </label>
+            <div class="col-sm-8 col-md-7">
+              <div class="input-group input-group-sm">
+                <select class="form-control form-control-sm" required
+                  ng-model="purchaseOrder.idCompany"
+                  ng-options="company.id as company.name for company in companies">
+                  <option value="">Selecciona una opción</option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary" type="button"
+                    ng-click="$state.go('admin.company.add')">
+                    <span class="fa fa-plus"></span>
+                      Agregar
+                  </button>
+                </div>
+                <div class="invalid-feedback">
+                  Debe seleccionar una empresa de la lista.
+                </div>
+              </div>
+            </div>
+          </div><!--/.row-->
+          <!--Proveedor-->
+          <div class="form-group form-row">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Proveedor:
+            </label>
+            <div class="col-sm-8 col-md-7">
+              <div class="input-group input-group-sm">
+                <select class="form-control form-control-sm" required
+                  ng-model="purchaseOrder.idProvider"
+                  ng-options="provider.id as provider.name for provider in providers">
+                  <option value="">Selecciona una opción</option>
+                </select>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-primary"
+                    ng-click="$state.go('admin.provider.add')">
+                    <span class="fa fa-plus"></span>
+                    Agregar
+                  </button>
+                </div>
+                <div class="invalid-feedback">
+                  Debe seleccionar un proveedor de la lista.
+                </div>
+              </div>
+            </div><!--col-sm-9-->
+          </div><!--form-group-->
+          <!--Forma de pago-->
+          <div class="form-group form-row">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Formas de pago:
+            </label>
+            <div class="col-sm-8 col-md-7">
+              <select class="form-control form-control-sm" required
+                ng-model="purchaseOrder.paymentMethod"
+                ng-options="paymentMethod.tag as paymentMethod.name for paymentMethod in paymentMethods">
+                <option value="">Selecciona una opción</option>
+              </select>
+              <div class="invalid-feedback">
+                Debe seleccionar una forma de pago.
+              </div>
+            </div>
+          </div>
+          <!--Condiciones de pago-->
+          <div class="form-group form-row">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Condiciones:
+            </label>
+            <div class="col-sm-8 col-md-7">
+              <select class="form-control form-control-sm" required
+                ng-model="purchaseOrder.paymentRule"
+                ng-options="rule.tag as rule.name for rule in paymentRules">
+                <option value="">Selecciona una opción</option>
+              </select>
+              <div class="invalid-feedback">
+                Debe seleccionar una condición de pago.
+              </div>
+            </div>
+          </div>
+          <!---->
+          <div class="form-group form-row" ng-show="purchaseOrder.file">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Archivo:
+            </label>
+            <div class="col-sm-8 col-md-7">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control-sm"
+                  ng-model="purchaseOrder.file" disabled>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-danger"
+                    ng-click="unsetFile()">
+                    <span class="fa fa-close"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--TODO: Archivo de PDF-->
+          <div class="form-group form-row" ng-hide="uploader.queue.length || purchaseOrder.file">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Archivo:
+            </label>
+            <div class="col-sm-8 col-md-7">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupFileAddon01">
+                    <span class="fa fa-upload"></span>
+                  </span>
+                </div>
+                <div class="custom-file custom-file-sm">
+                  <input type="file" id="archiv" class="custom-file-input" nv-file-select uploader="uploader">
+                  <label for="archiv" class="custom-file-label">Elige un archivo PDF.</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Datos del archivo-->
+          <div class="form-group form-row" ng-show="uploader.queue.length">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Archivo:
+            </label>
+            <div class="col-sm-8 col-md-7">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control-sm" value="{{uploader.queue[0].file.name}}" disabled>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-danger"
+                    ng-click="unsetFile()">
+                    <span class="fa fa-close"></span>
+                    Quitar
+                  </button>
+                </div>
+              </div>
+            </div><!--col-sm-9-->
+          </div><!--form-group-->
+        </div><!--/.col-md-6-->
+        <!--Columna 2-->
+        <div class="col-md-6">
+          <!--Número de orden-->
+          <div class="form-group form-row">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Número de orden:
+            </label>
+            <div class="col-sm-4 col-md-5">
+              <input type="text" class="form-control form-control-sm" disabled
+                ng-model="purchaseOrder.number">
+            </div>
+          </div>
+          <!--Fecha de compra-->
+          <div class="form-group form-row">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Fecha de compra:
+            </label>
+            <div class="col-sm-4 col-md-5">
+              <div class="input-group">
+                <input type="text" id="datepicker" class="form-control form-control-sm"
+                  placeholder="mm/dd/aaaa" aria-label="Fecha de compra" required
+                  ng-model="purchaseOrder.purchaseDate">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <span class="fa fa-calendar"></span>
+                  </span>
+                </div>
+                <div class="invalid-feedback">
+                  Debe seleccionar una fecha del calendario.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Moneda-->
+          <div class="form-group form-row">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Moneda:
+            </label>
+            <div class="col-sm-4 col-md-5">
+              <select class="form-control form-control-sm"
+                ng-model="purchaseOrder.currency">
+                <option value="pesos">Pesos</option>
+                <option value="dolares">Dolares americanos</option>
+              </select>
+            </div>
+          </div>
+          <!--Subtotal-->
+          <div class="form-group form-row">
+            <label class="col-sm-4 col-md-5 col-form-label col-form-label-sm text-right">
+              Tipo de cambio:
+            </label>
+            <div class="col-sm-4 col-md-5">
+              <input type="number" class="form-control form-control-sm"
+                min="0" max="50" step="0.01"
+                ng-disabled="purchaseOrder.currency === 'pesos'"
+                ng-model="purchaseOrder.currencyExchange">
+            </div>
+          </div>
+          <!--Botones-->
+          <div class="form-row justify-content-end">
+            <div class="col-sm-8 col-md-7">
+              <button type="submit" class="btn btn-success btn-sm">
+                Continuar
+                <span class="fa fa-arrow-right"></span>
+              </button>
+            </div>
+          </div>
+        </div><!--/.col-sm-6-->
+      </div>
+    </form>
+  </div>
+</div>
+<!--Script del datepicker-->
+<script>
+  $(function() {
+    $("#datepicker").datepicker({
+      dateFormat: 'dd/mm/yy'});
+  });
+</script>

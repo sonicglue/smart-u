@@ -1,0 +1,434 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-9">
+    <h4>Hoja de cambaceo</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go('admin.stock.list')">
+      <span class="fa fa-arrow-left"></span>
+      Cancelar
+  </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<div ng-hide="busy">
+  <!--Tablero de control-->
+  <div class="card card-statistics mb-4">
+    <div class="row">
+      <!--Ejectutivo de ventas-->
+      <div class="card-col col-sm-3">
+        <div class="card-body text-center">
+          <p class="card-text mb-0">Ejecutivo</p>
+          <h3>{{seller.name + ' ' + seller.lastName}} </h3>
+        </div><!--/.card-body-->
+      </div><!--/.card-col-->
+      <!--Fecha actual-->
+      <div class="card-col col-sm-3">
+        <div class="card-body text-center">
+          <p class="card-text mb-0">Fecha</p>
+          <h3>{{getToday().format('L')}}</h3>
+        </div><!--/.card-body-->
+      </div><!--/.card-col-->
+      <!--Total de equipos-->
+      <div class="card-col col-sm-3">
+        <div class="card-body row">
+          <div class="col-sm-6">
+            <p class="card-text text-center mb-0">Total de equipos</p>
+            <h3 class="text-center">{{stocks.total}}</h3>
+          </div>
+          <div class="col-sm-6">
+            <p class="card-text text-center mb-0">Equipos escaneados</p>
+            <h3 class="text-center">{{stocks.scanned}}</h3>
+          </div>
+        </div><!--/.card-body-->
+      </div><!--/.card-col-->
+      <!--Total de equipos-->
+      <div class="card-col col-sm-3">
+        <div class="card-body text-center">
+          <p class="card-text mb-1">Nombrar a marcados como:</p>
+          <form name="assignment" ng-submit="multipleAssignment()" novalidate>
+            <div class="input-group input-group-sm">
+              <select id="client" class="form-control form-control-sm"
+                ng-model="selectAllClient.idClient"
+                ng-options="seller.id as seller.name for seller in seller.clients">
+              </select>
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">
+                  <span class="fa fa-location-arrow"></span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div><!--/.card-body-->
+      </div><!--/.card-col-->
+    </div><!--/.row-->
+  </div><!--/.card-->
+  <!--Captura de IMEI-->
+  <div class="row align-items-center justify-content-center">
+    <div class="col-md-5">
+      <form name="formImei" autocomplete="off"
+        ng-submit="save()" class="needs-validation" novalidate>
+        <div class="form-group">
+          <label for="" class="col-form-label">
+            Número de serie/IMEI:
+          </label>
+          <input type="text" id="imei" class="form-control text-center"
+            placeholder="000000000000000" autofocus
+            ng-model="input.serie">
+          <div class="form-text text-muted text-right">
+            Último número de serie registrado:
+            <span class="text-danger" ng-bind-html="makeSerial(input.lastSerie)"></span>
+          </div>
+        </div>
+      </form>
+    </div><!--/.col-sm-4-->
+    <div class="col-md-1">
+      <button type="button" class="btn btn-primary btn-sm"
+        data-toggle="modal" data-target="#removeModal">
+        Quitar
+      </button>
+    </div>
+  </div><!--End row-->
+  <!--Productos-->
+  <!--Lista de modelos-->
+  <div class="table-responsive-lg">
+    <table class="table table-sm table-striped table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th colspan="6">Resumen por marca y modelo</th>
+        </tr>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Marca</th>
+          <th scope="col">Modelo</th>
+          <th scope="col">Escaneados</th>
+          <th scope="col">Vendidos</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-show="!products.length">
+          <td colspan="6" class="text-center">
+            No tiene equipos asignados
+          </td>
+        </tr>
+        <tr ng-repeat="product in products">
+          <td class="text-center">{{$index + 1}}</td>
+          <td class="text-left">{{product.brandName}}</td>
+          <td class="text-left">{{product.modelName}}</td>
+          <td class="text-center"><strong>{{product.scanned}}</strong></td>
+          <td class="text-center"><strong>{{product.sold}}</strong></td>
+          <td class="text-center"><strong>{{product.total}}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Lista de equipos-->
+  <div class="table-responsive-lg">
+    <table class="table table-sm table-striped table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">
+            <div class="custom-control custom-checkbox d-inline ml-2">
+              <input type="checkbox" class="custom-control-input" id="selectAll"
+                ng-model="selectAll"
+                ng-click="addAll()">
+              <label class="custom-control-label" for="selectAll">&nbsp;</label>
+            </div>
+          </th>
+          <th colspan="5" scope="col">Lista de equipos asignados</th>
+        </tr>
+        <tr>
+          <th scope="col" style="width: 16%">IMEI</th>
+          <th scope="col" style="width: 16%">Cliente</th>
+          <th scope="col" style="width: 16%">IMEI</th>
+          <th scope="col" style="width: 16%">Cliente</th>
+          <th scope="col" style="width: 16%">IMEI</th>
+          <th scope="col" style="width: 16%">Cliente</th>
+        </tr>
+      </thead>
+      <tbody ng-show="!products.length">
+        <tr>
+          <td colspan="6" class="text-center">No tiene productos registrados.</td>
+        </tr>
+      </tbody>
+      <tbody ng-repeat="product in products">
+        <!--Productos-->
+        <tr ng-if="product.stocks.length">
+          <td colspan="6" class="pl-3 py-2">
+            <div class="custom-control custom-checkbox d-inline">
+              <input type="checkbox" class="custom-control-input" id="{{product.id}}"
+                ng-model="product.check"
+                ng-click="addProduct(product)">
+              <label class="custom-control-label" for="{{product.id}}">
+                <b>{{product.brandName + ' ' + product.modelName}}</b>
+              </label>
+            </div>
+            <div class="number text-primary pull-right">{{product.stocks.length}} Pzas.</div>
+          </td>
+        </tr>
+        <!--Equipos-->
+        <tr ng-if="product.stocks.length"
+          ng-repeat="stock in product.stocks | limitTo: Math.ceil(product.stocks.length / 3)">
+          <td class="text-center">
+            <!--Primer grupo-->
+            <div class="custom-control custom-checkbox d-inline">
+              <input type="checkbox" class="custom-control-input" id="{{product.stocks[$index * 3].id}}"
+                ng-click="addCheck(product.stocks[($index * 3)])"
+                ng-disabled="product.stocks[$index * 3].idClient"
+                ng-model="product.stocks[$index * 3].confirmSale">
+              <label class="custom-control-label double" for="{{product.stocks[$index * 3].id}}"
+                ng-bind-html="makeSerial(product.stocks[$index * 3].IMEI)"></label>
+            </div>
+            <button type="button" class="btn btn-sm text-white"
+              ng-class="statusDays(product.stocks[$index * 3].logs[0].date)">
+              <span class="far fa-clock"></span>
+              {{getDaysFrom(product.stocks[$index * 3].logs[0].date)}}
+            </button>
+          </td>
+          <td>
+            <div class="input-group input-group-sm"
+              ng-hide="product.stocks[$index * 3].scanByAvailable">
+              <select class="form-control form-control-sm"
+                ng-model="product.stocks[$index * 3].idClient"
+                ng-options="seller.id as seller.name for seller in seller.clients"
+                ng-change="setClient(product.stocks[$index * 3])">
+                <option value="">Clientes</option>
+              </select>
+              <div class="input-group-append">
+                <button type="submit" class="btn"
+                  ng-class="product.stocks[$index * 3].idClient !== null ? 'btn-success' : 'btn-danger'">
+                  <span class="fa"
+                    ng-class="product.stocks[$index * 3].idClient !== null ? 'fa-check' : 'fa-close'"></span>
+                </button>
+              </div>
+            </div>
+          </td>
+          <!--Segundo grupo-->
+          <td class="text-center">
+            <div class="custom-control custom-checkbox d-inline"
+              ng-if="($index * 3) + 1 < product.stocks.length">
+              <input type="checkbox" class="custom-control-input" id="{{product.stocks[$index * 3 + 1].id}}"
+                ng-click="addCheck(product.stocks[($index * 3) + 1])"
+                ng-disabled="product.stocks[($index * 3) + 1].idClient"
+                ng-model="product.stocks[($index * 3) + 1].confirmSale">
+              <label class="custom-control-label double" for="{{product.stocks[$index * 3 + 1].id}}"
+                ng-bind-html="makeSerial(product.stocks[$index * 3 + 1].IMEI)"></label>
+            </div>
+            <button type="button" class="btn btn-sm text-white"
+              ng-if="($index * 3) + 1 < product.stocks.length"
+              ng-class="statusDays(product.stocks[$index * 3].logs[0].date)">
+              <span class="far fa-clock"></span>
+              {{getDaysFrom(product.stocks[$index * 3 + 1].logs[0].date)}}
+            </button>
+          </td>
+          <td>
+            <div class="input-group input-group-sm"
+              ng-if="($index * 3) + 1 < product.stocks.length"
+              ng-hide="product.stocks[$index * 3 + 1].scanByAvailable">
+              <select class="form-control form-control-sm"
+                ng-model="product.stocks[$index * 3 + 1].idClient"
+                ng-options="seller.id as seller.name for seller in seller.clients"
+                ng-change="setClient(product.stocks[$index * 3 + 1])">
+                <option value="">Clientes</option>
+              </select>
+              <div class="input-group-append">
+                <button type="submit" class="btn"
+                  ng-class="product.stocks[$index * 3 + 1].idClient !== null ? 'btn-success' : 'btn-danger'">
+                  <span class="fa"
+                    ng-class="product.stocks[$index * 3 + 1].idClient !== null ? 'fa-check' : 'fa-close'"></span>
+                </button>
+              </div>
+            </div>
+          </td>
+          <!--Tercer grupo-->
+          <td class="text-center">
+            <div class="custom-control custom-checkbox d-inline"
+              ng-if="($index * 3) + 2 < product.stocks.length">
+              <input type="checkbox" class="custom-control-input" id="{{product.stocks[$index * 3 + 2].id}}"
+                ng-click="addCheck(product.stocks[($index * 3) + 2])"
+                ng-disabled="product.stocks[($index * 3) + 2].idClient"
+                ng-model="product.stocks[($index * 3) + 2].confirmSale">
+              <label class="custom-control-label double" for="{{product.stocks[$index * 3 + 2].id}}"
+                ng-bind-html="makeSerial(product.stocks[$index * 3 + 2].IMEI)"></label>
+            </div>
+            <button type="button" class="btn btn-sm text-white"
+              ng-if="($index * 3) + 2 < product.stocks.length"
+              ng-class="statusDays(product.stocks[$index * 3].logs[0].date)">
+              <span class="far fa-clock"></span>
+              {{getDaysFrom(product.stocks[$index * 3 + 2].logs[0].date)}}
+            </button>
+          </td>
+          <td>
+            <div class="input-group input-group-sm"
+              ng-if="($index * 3) + 2 < product.stocks.length"
+              ng-hide="product.stocks[$index * 3 + 2].scanByAvailable">
+              <select class="form-control form-control-sm"
+                ng-model="product.stocks[$index * 3 + 2].idClient"
+                ng-options="seller.id as seller.name for seller in seller.clients"
+                ng-change="setClient(product.stocks[$index * 3 + 2])">
+                <option value="">Clientes</option>
+              </select>
+              <div class="input-group-append">
+                <button type="submit" class="btn"
+                  ng-class="product.stocks[$index * 3 + 2].idClient !== null ? 'btn-success' : 'btn-danger'">
+                  <span class="fa"
+                    ng-class="product.stocks[$index * 3 + 2].idClient !== null ? 'fa-check' : 'fa-close'"></span>
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Equipos en garantía-->
+  <div class="table-responsive-lg">
+    <table class="table table-sm table-striped table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th colspan="6" scope="col">Lista de devolución de garantías</th>
+        </tr>
+        <tr>
+          <th scope="col" style="width: 16%">IMEI</th>
+          <th scope="col" style="width: 17%">Cliente</th>
+          <th scope="col" style="width: 16%">IMEI</th>
+          <th scope="col" style="width: 17%">Cliente</th>
+          <th scope="col" style="width: 16%">IMEI</th>
+          <th scope="col" style="width: 17%">Cliente</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="product in products">
+        <!--Productos-->
+        <tr ng-if="product.guarantees.length">
+          <td colspan="6" class="pl-3 py-2">
+            <span><b>{{product.brandName + ' ' +product.modelName}}</b></span>
+            <span class="number text-primary pull-right">{{product.guarantees.length}} Pzas.</span>
+          </td>
+        </tr>
+        <!--Equipos-->
+        <tr ng-if="product.guarantees.length"
+          ng-repeat="stock in product.guarantees | limitTo: Math.ceil(product.guarantees.length / 3)">
+          <td class="text-center">
+            <!--Primer grupo-->
+            <div class="custom-control custom-checkbox d-inline">
+              <input type="checkbox" class="custom-control-input" id="{{product.guarantees[$index * 3].id}}"
+                ng-click="addCheck(product.guarantees[($index * 3)])"
+                ng-disabled="product.guarantees[$index * 3].idClient"
+                ng-model="product.guarantees[$index * 3].confirmSale">
+              <label class="custom-control-label double" for="{{product.guarantees[$index * 3].id}}"
+                ng-bind-html="makeSerial(product.guarantees[$index * 3].IMEI)"></label>
+            </div>
+            <button type="button" class="btn btn-sm text-white"
+              ng-class="statusDays(product.guarantees[$index * 3].logs[0].date)">
+              <span class="far fa-clock"></span>
+              {{getDaysFrom(product.guarantees[$index * 3].logs[0].date)}}
+            </button>
+          </td>
+          <td>
+            <div class="input-group input-group-sm"
+              ng-hide="product.guarantees[$index * 3].scanByAvailable">
+              <select class="form-control form-control-sm" disabled
+                ng-model="product.guarantees[$index * 3].idClient"
+                ng-options="seller.id as seller.name for seller in seller.clients">
+              </select>
+              <div class="input-group-append">
+                <button type="submit" class="btn"
+                  ng-class="product.guarantees[$index * 3].idClient !== null ? 'btn-success' : 'btn-danger'">
+                  <span class="fa"
+                    ng-class="product.guarantees[$index * 3].idClient !== null ? 'fa-check' : 'fa-close'"></span>
+                </button>
+              </div>
+            </div>
+          </td>
+          <!--Segundo grupo-->
+          <td class="text-center">
+            <div class="custom-control custom-checkbox d-inline"
+              ng-if="($index * 3) + 1 < product.guarantees.length">
+              <input type="checkbox" class="custom-control-input" id="{{product.guarantees[$index * 3 + 1].id}}"
+                ng-click="addCheck(product.guarantees[($index * 3) + 1])"
+                ng-disabled="product.guarantees[($index * 3) + 1].idClient"
+                ng-model="product.guarantees[($index * 3) + 1].confirmSale">
+              <label class="custom-control-label double" for="{{product.guarantees[$index * 3 + 1].id}}"
+                ng-bind-html="makeSerial(product.guarantees[$index * 3 + 1].IMEI)"></label>
+            </div>
+            <button type="button" class="btn btn-sm text-white"
+              ng-if="($index * 3) + 1 < product.guarantees.length"
+              ng-class="statusDays(product.guarantees[$index * 3].logs[0].date)">
+              <span class="far fa-clock"></span>
+              {{getDaysFrom(product.guarantees[$index * 3 + 1].logs[0].date)}}
+            </button>
+          </td>
+          <td>
+            <div class="input-group input-group-sm"
+              ng-if="($index * 3) + 1 < product.guarantees.length"
+              ng-hide="product.guarantees[$index * 3 + 1].scanByAvailable">
+              <select class="form-control form-control-sm" disabled
+                ng-model="product.guarantees[$index * 3 + 1].idClient"
+                ng-options="seller.id as seller.name for seller in seller.clients">
+              </select>
+              <div class="input-group-append">
+                <button type="submit" class="btn"
+                  ng-class="product.guarantees[$index * 3 + 1].idClient !== null ? 'btn-success' : 'btn-danger'">
+                  <span class="fa"
+                    ng-class="product.guarantees[$index * 3 + 1].idClient !== null ? 'fa-check' : 'fa-close'"></span>
+                </button>
+              </div>
+            </div>
+          </td>
+          <!--Tercer grupo-->
+          <td class="text-center">
+            <div class="custom-control custom-checkbox d-inline"
+              ng-if="($index * 3) + 2 < product.guarantees.length">
+              <input type="checkbox" class="custom-control-input" id="{{product.guarantees[$index * 3 + 2].id}}"
+                ng-click="addCheck(product.guarantees[($index * 3) + 2])"
+                ng-disabled="product.guarantees[($index * 3) + 2].idClient"
+                ng-model="product.guarantees[($index * 3) + 2].confirmSale">
+              <label class="custom-control-label double" for="{{product.guarantees[$index * 3 + 2].id}}"
+                ng-bind-html="makeSerial(product.guarantees[$index * 3 + 2].IMEI)"></label>
+            </div>
+            <button type="button" class="btn btn-sm text-white"
+              ng-if="($index * 3) + 2 < product.guarantees.length"
+              ng-class="statusDays(product.guarantees[$index * 3].logs[0].date)">
+              <span class="far fa-clock"></span>
+              {{getDaysFrom(product.guarantees[$index * 3 + 2].logs[0].date)}}
+            </button>
+          </td>
+          <td>
+            <div class="input-group input-group-sm"
+              ng-if="($index * 3) + 2 < product.guarantees.length"
+              ng-hide="product.guarantees[$index * 3 + 2].scanByAvailable">
+              <select class="form-control form-control-sm" disabled
+                ng-model="product.guarantees[$index * 3 + 2].idClient"
+                ng-options="seller.id as seller.name for seller in seller.clients">
+              </select>
+              <div class="input-group-append">
+                <button type="submit" class="btn"
+                  ng-class="product.guarantees[$index * 3 + 2].idClient !== null ? 'btn-success' : 'btn-danger'">
+                  <span class="fa"
+                    ng-class="product.guarantees[$index * 3 + 2].idClient !== null ? 'fa-check' : 'fa-close'"></span>
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--Audio-->
+<audio id="positive" preload="auto">
+  <source src="assets/sfx/342749__rhodesmas__notification-01.mp3" type="audio/mpeg">
+</audio>
+<audio id="negative" preload="auto">
+  <source src="assets/sfx/142608__autistic-lucario__error.mp3" type="audio/mpeg">
+</audio>

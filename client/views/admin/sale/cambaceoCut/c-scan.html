@@ -1,0 +1,429 @@
+<!---->
+<div class="table">
+  <div class="row">
+    <div class="col-12 grid-margin">
+      <div class="card card-statistics">
+        <div class="row">
+          <!--Grid nombre del ejecutivo-->
+          <div class="card-col col-xl-3 col-lg-3 col-md-3 col-6">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-center flex-column flex-sm-row">
+                <i class="mdi mdi-account-multiple-outline text-primary mr-0 mr-sm-4 icon-lg"></i>
+                <div class="wrapper text-center text-sm-left">
+                  <p class="card-text mb-0">Ejecutivo</p>
+                  <div class="fluid-container">
+                    <h3 class="card-title mb-0">{{seller}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Grid fecha actual-->
+          <div class="card-col col-xl-3 col-lg-3 col-md-3 col-6">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-center flex-column flex-sm-row">
+                <i class="mdi mdi-checkbox-marked-circle-outline text-primary mr-0 mr-sm-4 icon-lg"></i>
+                <div class="wrapper text-center text-sm-left">
+                  <p class="card-text mb-0">Fecha</p>
+                  <div class="fluid-container">
+                    <h3 class="card-title mb-0">{{dateNow}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Grid total de equipos-->
+          <div class="card-col col-xl-2 col-lg-2 col-md-2 col-6">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-center flex-column flex-sm-row">
+                <i class="mdi mdi-trophy-outline text-primary mr-0 mr-sm-4 icon-lg"></i>
+                <div class="wrapper text-center text-sm-left">
+                  <p class="card-text mb-0">Total equipos</p>
+                  <div class="fluid-container">
+                    <h3 class="card-title mb-0">{{totalEquipment}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Grid lista de clientes-->
+          <div class="card-col col-xl-4 col-lg-4 col-md-4 col-6">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-center flex-column flex-sm-row">
+                <i class="mdi mdi-target text-primary mr-0 mr-sm-4 icon-lg"></i>
+                <div class="wrapper text-center text-sm-left">
+                  <p class="card-text mb-0">Nombrar a marcados como:</p>
+                  <div class="fluid-container">
+                    <form name="assignment" ng-submit="multipleAssignment()" novalidate>
+                      <div class="form-row form-group">
+                        <div class="btn-group">
+                          <select id="idClient" class="form-control" ng-model="selectAllClient.idClient"
+                            ng-options="item.id as item.tag for item in myClients">
+                          </select>
+                          <span class="input-group-btn" style="height:50px;">
+                            <button class="btn btn-primary" type="submit"
+                              style="height:auto;">
+                              <span class="fa fa-location-arrow"></span>
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!--End row-->
+      </div><!--End card-statistics-->
+    </div><!--End grid-margin-->
+  </div><!--End row-->
+  <!--Captura de IMEI-->
+  <div class="row align-items-center justify-content-center">
+    <div class="col-md-5">
+      <form name="formImei" autocomplete="off"
+        ng-submit="save()" class="needs-validation" novalidate>
+        <div class="form-group">
+          <label for="" class="col-form-label">
+            Número de serie/IMEI:
+          </label>
+          <input type="text" id="imei" class="form-control text-center"
+            placeholder="000000000000000" autofocus
+            ng-model="input.serie">
+          <div class="form-text text-muted text-right">
+            Último número de serie registrado:
+            <span class="text-danger" ng-bind-html="makeSerial(input.lastSerie)"></span>
+          </div>
+        </div>
+      </form>
+    </div><!--/.col-sm-4-->
+    <div class="col-md-1">
+      <button type="button" class="btn btn-primary btn-sm"
+        data-toggle="modal" data-target="#removeModal">
+        Quitar
+      </button>
+    </div>
+  </div><!--End row-->
+  <!---->
+  <div class="row">
+    <div class="col-md-12">
+      <!--Lista de marcas-->
+      <table class="table table-sm table-striped table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th colspan="6">Resumen por marca y modelo</th>
+          </tr>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Escaneados</th>
+            <th scope="col">Vendidos</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="stock in stocks">
+          <tr ng-hide="stocks.length">
+            <td colspan="6" class="text-center">
+              No tiene equipos asignados
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">{{$index + 1}}</td>
+            <td class="text-left">{{stock.brand}}</td>
+            <td class="text-left">{{stock.model}}</td>
+            <td class="text-center"><strong>{{stock.scanned}}</strong></td>
+            <td class="text-center"><strong>{{stock.sold}}</strong></td>
+            <td class="text-center"><strong>{{stock.total}}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!--/.col-md-12-->
+  </div><!--End row-->
+  <!---->
+  <div class="row">
+    <div class="col-md-12">
+      <!--App loading-->
+      <div class="wrapper" ng-show="loading">
+        <div class="overlay">
+          <div class="spinner-wrapper">
+            <div id="loader">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="loading"> <p class="text-center spinner-message">Registrando equipos!!!</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <table class="table table-sm table-striped table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th colspan="9">Lista de equipos asignados</th>
+          </tr>
+          <tr>
+            <th scope="col">
+              <input type="checkbox" ng-model="IsAllChecked" ng-change="selectAll()"/>
+            </th>
+            <th scope="col" class="text-center" tyle="min-width: 115px;">IMEI</th>
+            <th scope="col">Cliente</th>
+            <th></th>
+            <th scope="col" style="min-width: 115px;">IMEI</th>
+            <th scope="col">Cliente</th>
+            <th></th>
+            <th scope="col" style="min-width: 115px;">IMEI</th>
+            <th scope="col">Cliente</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="product in stocks">
+          <tr>
+            <td class="text-center">
+              <div class="custom-control custom-checkbox d-inline">
+                <input type="checkbox" class="form-check-input" id="{{stock.id}}"
+                  ng-model="product.selected"
+                  ng-change="selectAllStock(product)">
+              </div>
+            </td>
+            <td colspan="8" class="text-left" style="padding: 8px 12px;">
+              <strong class="">{{product.model}}</strong>
+              <span class="pull-right"><strong class="">{{product.stocks.length}} Pza(s).</strong></span>
+            </td>
+          </tr>
+          <tr ng-repeat="stock in product.stocks | limitTo: Math.ceil(product.stocks.length / 3)">
+            <!--Primer columna-->
+            <td class="text-center" ng-if="$index * 3 < product.stocks.length">
+              <div class="custom-control custom-checkbox d-inline">
+               <input type="checkbox"
+                class="form-check-input"
+                id="imei_{{product.stocks[$index * 3].imei}}"
+                ng-model="product.stocks[$index * 3].selected"
+                ng-change="selectEntity(product.stocks[$index * 3].id)"
+                ng-disabled="(product.stocks[$index * 3].idClient) || (product.stocks[$index * 3].scanByAvailable === true)"/>
+              </div>
+            </td>
+            <td class="text-left" ng-if="$index * 3 < product.stocks.length">
+              <span class="text-center double" ng-bind-html="makeSerial(product.stocks[$index * 3].imei)"></span>
+              <div class="tag">
+                <i class="far fa-clock"></i>
+                <label for="" ng-class="[statusDays(product.stocks[$index * 3].days), 'b']">
+                  <span style="padding-left:5px; font-weight: bold; font-size: 12px;">{{product.stocks[$index * 3].days}}</span>
+                </label>
+              </div>
+            </td>
+            <td ng-if="$index * 3 < product.stocks.length">
+              <div class="input-group my-group" ng-class="product.stocks[$index * 3].scanByAvailable === true ? 'hideSelectListClient' : ''">
+                <select id="idClient"
+                        class="form-control"
+                        ng-model="product.stocks[$index * 3].idClient"
+                        ng-change="changedValue(product.stocks[$index * 3])"
+                        ng-options="item.id as item.tag for item in myClients">
+                </select>
+                <span class="input-group-btn" style="height:auto">
+                  <button class="btn btn-default"
+                    style="height:auto;"
+                    ng-class="product.stocks[$index * 3].idClient === '-new-' || product.stocks[$index * 3].idClient === null || product.stocks[$index * 3].idClient === ''  ? 'btn-danger-c' : 'btn-success-c'"
+                    ng-click="toggleAssignClient(product.stocks[$index * 3])">
+                    <span class="fa" ng-class="product.stocks[$index * 3].idClient === '-new-' || product.stocks[$index * 3].idClient === null  || product.stocks[$index * 3].idClient === ''? 'fa-close' : 'fa-check'"></span>
+                  </button>
+                </span>
+              </div>
+            </td>
+            <!--Segunda columna-->
+            <td class="text-center" ng-if="$index * 3 + 1 < product.stocks.length">
+              <div class="custom-control custom-checkbox d-inline">
+               <input type="checkbox"
+                class="form-check-input"
+                id="imei_{{product.stocks[$index * 3 + 1].imei}}"
+                ng-model="product.stocks[$index * 3 + 1].selected"
+                ng-change="selectEntity(product.stocks[$index * 3 + 1].id)"
+                ng-disabled="(product.stocks[$index * 3 + 1].idClient) || (product.stocks[$index * 3 + 1].scanByAvailable === true)"/>
+              </div>
+            </td>
+            <td class="text-left" ng-if="$index * 3 + 1 < product.stocks.length">
+              <span class="text-center double" ng-bind-html="makeSerial(product.stocks[$index * 3 + 1].imei)"></span>
+              <div class="tag">
+                <i class="far fa-clock"></i>
+                <label for="" ng-class="[statusDays(product.stocks[$index * 3 + 1].days), 'b']">
+                  <span style="padding-left:5px; font-weight: bold; font-size: 12px;">{{product.stocks[$index * 3 + 1].days}}</span>
+                </label>
+              </div>
+            </td>
+            <td ng-if="$index * 3 + 1 < product.stocks.length">
+              <div class="input-group my-group" ng-class="product.stocks[$index * 3 + 1].scanByAvailable === true ? 'hideSelectListClient' : ''">
+                <select id="idClient"
+                        class="form-control"
+                        ng-model="product.stocks[$index * 3 + 1].idClient"
+                        ng-change="changedValue(product.stocks[$index * 3 + 1])"
+                        ng-options="item.id as item.tag for item in myClients">
+                </select>
+                <span class="input-group-btn" style="height:auto">
+                  <button class="btn btn-default"
+                    style="height:auto;"
+                    ng-class="product.stocks[$index * 3 + 1].idClient === '-new-' || product.stocks[$index * 3 + 1].idClient === null || product.stocks[$index * 3 + 1].idClient === ''  ? 'btn-danger-c' : 'btn-success-c'"
+                    ng-click="toggleAssignClient(product.stocks[$index * 3 + 1])">
+                    <span class="fa" ng-class="product.stocks[$index * 3 + 1].idClient === '-new-' || product.stocks[$index * 3 + 1].idClient === null  || product.stocks[$index * 3 + 1].idClient === ''? 'fa-close' : 'fa-check'"></span>
+                  </button>
+                </span>
+              </div>
+            </td>
+            <!--Tercer columna-->
+            <td class="text-center" ng-if="$index * 3 + 2 < product.stocks.length">
+              <div class="custom-control custom-checkbox d-inline">
+                <input type="checkbox"
+                  class="form-check-input"
+                  id="imei_{{product.stocks[$index * 3 + 2].imei}}"
+                  ng-model="product.stocks[$index * 3 + 2].selected"
+                  ng-change="selectEntity(product.stocks[$index * 3 + 2].id)"
+                  ng-disabled="(product.stocks[$index * 3 + 2].idClient) || (product.stocks[$index * 3 + 2].scanByAvailable === true)"/>
+              </div>
+            </td>
+            <td class="text-left" ng-if="$index * 3 + 2 < product.stocks.length">
+              <span class="text-center double" ng-bind-html="makeSerial(product.stocks[$index * 3 + 2].imei)"></span>
+              <div class="tag">
+                <i class="far fa-clock"></i>
+                <label for="" ng-class="[statusDays(product.stocks[$index * 3 + 2].days), 'b']">
+                  <span style="padding-left:5px; font-weight: bold; font-size: 12px;">{{product.stocks[$index * 3 + 2].days}}</span>
+                </label>
+              </div>
+            </td>
+            <td ng-if="$index * 3 + 2 < product.stocks.length">
+              <div class="input-group my-group" ng-class="product.stocks[$index * 3 + 2].scanByAvailable === true ? 'hideSelectListClient' : ''">
+                <select id="idClient"
+                        class="form-control"
+                        ng-model="product.stocks[$index * 3 + 2].idClient"
+                        ng-change="changedValue(product.stocks[$index * 3 + 2])"
+                        ng-options="item.id as item.tag for item in myClients">
+                </select>
+                <span class="input-group-btn" style="height:auto">
+                  <button class="btn btn-default"
+                    style="height:auto;"
+                    ng-class="product.stocks[$index * 3 + 2].idClient === '-new-' || product.stocks[$index * 3 + 2].idClient === null || product.stocks[$index * 3 + 2].idClient === ''  ? 'btn-danger-c' : 'btn-success-c'"
+                    ng-click="toggleAssignClient(product.stocks[$index * 3 + 2])">
+                    <span class="fa" ng-class="product.stocks[$index * 3 + 2].idClient === '-new-' || product.stocks[$index * 3 + 2].idClient === null  || product.stocks[$index * 3 + 2].idClient === ''? 'fa-close' : 'fa-check'"></span>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!--/.col-md-12-->
+  </div><!--End row-->
+  <!---->
+  <div class="form-group form-row justify-content-end">
+    <div class="col-sm-9 col-md-9">
+      <button type="submit" class="btn btn-success btn-sm pull-right"
+         ng-click="setMultipleSale()">
+        Registrar
+        <span class="fa fa-arrow-right"></span>
+      </button>
+    </div>
+  </div>
+</div>
+<!--Modal-->
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true"
+  ng-controller="RemoveStockController">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content border border-primary">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="exampleModalLabel">Quitar productos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--Loading-->
+        <div class="text-center my-5 py-5"
+          ng-show="busy">
+          <h4>
+            <span class="fa fa-refresh fa-spin"></span>
+            <small>procesando datos...</small>
+          </h4>
+        </div>
+        <div ng-hide="busy">
+          <form name="formImei" autocomplete="off"
+            ng-submit="addStock()" class="form-row" novalidate>
+            <div class="col-md-4 align-self-center">
+              <div class="text-center">
+                Capturados
+              </div>
+              <h1 class="text-center">{{remove.stocks.length | number}}</h1>
+            </div><!--/.col-md-4-->
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="" class="col-form-label">
+                  Almacén destino:
+                </label>
+                <select class="form-control form-control-sm"
+                  ng-model="remove.idWarehouse"
+                  ng-options="warehouse.id as warehouse.name for warehouse in warehouses">
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-form-label">
+                  Número de serie/IMEI:
+                </label>
+                <input type="text" id="removeImei" class="form-control form-control-sm text-center"
+                  placeholder="000000000000000" autofocus
+                  ng-model="form.serie">
+                <div class="form-text text-muted text-right">
+                  Último:
+                  <span class="text-danger" ng-bind-html="makeSerial(form.lastSerie)"></span>
+                </div>
+              </div>
+            </div><!--/.col-md-8-->
+          </form>
+          <!--Tabla de IMEIs-->
+          <div>
+            <table class="table table-sm table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>IMEI</th>
+                  <th>Producto</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-hide="remove.stocks.length">
+                  <td class="text-center" colspan="3">No ha escanedo números de serie.</td>
+                </tr>
+                <tr ng-repeat="stock in remove.stocks">
+                  <td class="text-center" ng-bind-html="makeSerial(stock.IMEI)"></td>
+                  <td ng-bind-html="setProductName(stock.product.name)"></td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-danger btn-sm"
+                      ng-click="delStock(stock)">
+                      <span class="fa fa-trash"></span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!--/.modal-body-->
+      <div class="modal-footer">
+        <form name="formImei" autocomplete="off"
+          ng-submit="removeStocks()">
+          <div class="text-right mb-3">
+            <button type="submit" class="btn btn-success btn-sm"
+              ng-disabled="!remove.stocks.length || busy">
+              <span class="fa fa-reply"></span>
+              Quitar productos
+            </button>
+          </div>
+        </form>
+      </div><!---->
+    </div>
+  </div>
+</div>
+<script>
+  $('#removeModal').on('shown.bs.modal', function(e) {
+    $('#removeImei').val('').prop('disabled', false).focus();
+  });
+</script>

@@ -1,0 +1,139 @@
+<div class="card" >
+    <div class="card-body">      
+<div class="row page-titles" >
+<div class="col-lg-12 align-self-right" style="border-bottom: 0.2cm double #6b0559 ;"> 
+    <h3 class="text-themecolor">Adeudos y Abonos <span class="fas fa-hand-holding-usd"></span></h3>
+</div>&nbsp;
+</div>
+<div class="row">
+    <div class="col-lg-4">
+            <div class="input-group add-on oculto-impresion">
+              <input class="form-control" placeholder="Buscar" id="myInput"  style="border-radius:10px" name="srch-term" id="srch-term" type="text" ng-model="nav.searchTerms">
+              <div class="input-group-btn">
+                <button class="btn" type="submit">
+                        <span class="fas fa-search"></span>
+                    </button>
+              </div>
+            </div>
+    </div>
+
+<div class="col-lg-4 pull-right">
+<button type="button"  ng-hide="myVar"class="btn btn-sm btn-dark oculto-impresion" 
+onclick="imprimir()">
+<span class="fas fa-print"></span>
+Imprimir
+</button>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>&nbsp;
+<div class="card">
+    <div class="card-body">
+            <div ng-show="currentUser.id === '531b2af0-1ea4-11e9-ae3d-fdbd3ae9dac7'"    class="pages">
+                    <form>
+                            <div class="form-group">
+                                    <ul class="nav nav-tabs customtab" role="tablist">
+                                            <li class="nav-item">
+                                              <a class="nav-link active show" data-toggle="tab" ui-sref="admin.debts.list" role="tab" aria-selected="true">
+                                                <span class="hidden-sm-up"><i class="fa fa-money icon-lg"></i></span>
+                                                <span class="hidden-xs-down"><h5>Mis Adeudos</h5></span>
+                                              </a>
+                                            </li>
+                                            <li class="nav-item">
+                                              <a class="nav-link" data-toggle="tab" ui-sref="admin.historical" role="tab" aria-selected="false">
+                                                <span class="hidden-sm-up"><i class="fa fa-calendar-o"></i></span>
+                                                <span class="hidden-xs-down"><h5>Adeudos General</h5></span>
+                                              </a>
+                                            </li>
+                                                      </div>
+                          </form>
+                          </div>
+        <div class="table-responsive-lg ng-scope">
+            <table class="table  table-condensed " style="width:200px;height:70px">
+            <thead class="thead-one">
+            <tr>
+                <h4 class="totalG  " ><strong>GRAN TOTAL ADEUDO</strong>  </h4>
+            </tr>
+            </thead>
+            <tbody class="thead-one">
+            <tr align="center">
+            <th class="" style="border-radius:10px;" ><h1>$40,000</h1></th>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+<div class="container-fluid col-lg-12">
+<div class="table-responsive-lg ng-scope">
+<table class="table table-striped" id="tabla" >
+<thead class="thead-light">
+
+<tr>
+<th scope="col" class=" text-withe" ><strong>Fecha</strong></th>
+<th scope="col" class=" text-withe" ><strong>Vendedor</strong></th>
+<th scope="col" class=" text-withe" ><strong>Cliente</strong></th>
+<th scope="col" class=" text-withe" ><strong>Adeudo Anterior</strong></th>
+<th scope="col" class=" text-withe" ><strong>Abono</strong></th>
+<th scope="col" class=" text-withe" ><strong>Total Parcial</strong></th>
+<th scope="col" class=" text-withe"><strong>Credito</strong></th>
+<th scope="col" class=" text-withe"><strong>Bonificacion</strong></th>
+<th scope="col" class=" text-withe" ><strong>Total</strong></th>
+<th scope="col" class=" text-withe" ><strong>Historial</strong></th>
+
+</tr>
+</thead>
+<tbody id="myTable">
+    
+            <tr >
+
+                <td align="center">24-03-2019</td>
+                <td align="center">Octavio Puebla</td>
+                <td align="center">Josue Flores</td>
+                <td align="center">$25,000</td>
+                <td align="center">$10,000</td>
+                <td align="center">$15,000</td>
+                <td align="center">$25,000</td>
+                <td align="center" ui-sref="admin.debts.discountDet({idClient:debt.idClient})"  ><a>$0.00</a></td>
+                <td align="center">$40,000</td>
+                <td>
+<td><div class=" pull-right">
+    <button type="button" class="btn btn-info"
+    ui-sref="admin.historicc({idClient:debts.idClient})">
+    <span class="fa fa-eye"></span>
+    
+  </button>
+</div> </td> 
+</tr>
+<tr>
+    <th colspan="8"><h4>total</h4></th>
+ 
+<th class="" ><h3>$40,000</h3></th>
+<th></th>
+
+</tr>           
+</tbody><!--End tbody-->
+</table><!--End table-->
+</div>
+</div>
+<div class="center oculto-impresion" ng-include="'views/common/pagination.html'" ></div>
+
+</div>
+
+
+<script>
+function imprimir(){
+window.print();
+}
+
+//funcion para buscar
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>

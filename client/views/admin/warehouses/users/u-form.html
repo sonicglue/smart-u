@@ -1,0 +1,151 @@
+<div class="row mb-3">
+  <!--Filtros-->
+  <div class="col-sm-6">
+    <h4>Registro de usuarios</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-6 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go('admin.user.list')">
+      <span class="fa fa-arrow-left"></span>
+      Regresar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Formulario-->
+<div class="row justify-content-center"
+  ng-hide="busy">
+  <div class="col-md-8">
+    <form name="formUser" autocomplete="off"
+      ng-submit="save()" class="needs-validation" novalidate>
+      <!--Tipo de usuario-->
+      <div class="form-row form-group">
+        <label for="type" class="col-sm-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Tipo:
+        </label>
+        <div class="col-sm-7 col-md-8">
+          <select id="type" class="form-control form-control-sm" required
+            ng-disabled="busy"
+            ng-model="user.type"
+            ng-options="userType.tag as userType.label for userType in userTypes">
+            <option value="">Seleccione una opción</option>
+          </select>
+          <div class="invalid-feedback">
+            Debe seleccionar un tipo de usuario.
+          </div>
+        </div>
+      </div>
+      <!--Almacén de origen-->
+      <div class="form-row form-group">
+        <label for="warehouse" class="col-sm-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          {{user.type === 'seller' ? 'Ruta': 'Almacén'}}:
+        </label>
+        <div class="col-sm-7 col-md-8">
+          <select id="warehouse" class="form-control form-control-sm"
+            ng-disabled="busy"
+            ng-model="user.idWarehouse"
+            ng-options="warehouse.id as warehouse.name for warehouse in warehouses">
+            <option value="">Seleccione una opción</option>
+          </select>
+          <div class="invalid-feedback">
+            Debe seleccionar un{{user.type === 'seller' ? 'a ruta': ' almacén'}} para el usuario.
+          </div>
+        </div>
+      </div>
+      <!--Email-->
+      <div class="form-row form-group">
+        <label for="email" class="col-sm-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          E-mail:
+        </label>
+        <div class="col-sm-7 col-md-8">
+          <input type="email" id="email" class="form-control form-control-sm"
+            required placeholder="Escriba el correo electrónico del usuario"
+            ng-disabled="busy"
+            ng-model="user.email">
+          <div class="invalid-feedback">
+            Debe registrar un correo electrónico valido para iniciar sesión.
+          </div>
+        </div>
+      </div>
+      <!--Nombre-->
+      <div class="form-row form-group">
+        <label for="name" class="col-sm-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Nombre:
+        </label>
+        <div class="col-sm-7 col-md-8">
+          <input type="text" id="name" class="form-control form-control-sm"
+            required placeholder="Escriba el/los nombre(s) del usuario"
+            ng-disabled="busy"
+            ng-model="user.name">
+          <div class="invalid-feedback">
+            Debe registrar el/los nombre(s) del usuario.
+          </div>
+        </div>
+      </div>
+      <!--Apellidos-->
+      <div class="form-row form-group">
+        <label for="lastName" class="col-sm-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Apellidos:
+        </label>
+        <div class="col-sm-7 col-md-8">
+          <input type="text" name="lastName" class="form-control form-control-sm"
+            required placeholder="Escriba apellidos del usuario"
+            ng-disabled="busy"
+            ng-model="user.lastName">
+          <div class="invalid-feedback">
+            Debe registrar los apellidos del usuario.
+          </div>
+        </div>
+      </div>
+      <!--Contraseña-->
+      <div class="form-row form-group">
+        <label for="password" class="col-sm-3 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Contraseña:
+        </label>
+        <div class="col-sm-7 col-md-8">
+          <input type="text" id="password" name="password" class="form-control form-control-sm"
+            placeholder="Escriba la contraseña del usuario"
+            ng-disabled="busy"
+            ng-model="user.password">
+          <div class="invalid-feedback">
+            Debe registrar la contraseña del usuario.
+          </div>
+        </div>
+      </div>
+      <!--Es administrador-->
+      <div class="form-group form-row justify-content-end">
+        <div class="custom-control custom-checkbox col-sm-9 col-md-9">
+          <input type="checkbox" id="isAdmin" class="custom-control-input"
+            ng-model="user.isAdmin">
+          <label for="isAdmin" class="custom-control-label">
+            Puede editar ordenes de compra
+          </label>
+        </div>
+      </div>
+      <!--Botones-->
+      <div class="form-group form-row justify-content-end">
+        <div class="col-sm-9 col-md-9">
+          <button type="submit" class="btn btn-success btn-sm"
+            ng-disabled="busy">
+            Guardar
+            <span class="fa fa-arrow-right"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

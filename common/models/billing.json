@@ -1,0 +1,525 @@
+{
+  "name": "Billing",
+  "plural": "Billings",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "Billing"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "create",
+        "update",
+        "patchAttributes",
+        "deleteById",
+        "find",
+        "findById",
+        "findOne",
+        "getClients"
+      ],
+      "hide": [
+        "patchAttributes"
+      ]
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este registro."
+    },
+    "rfc": {
+      "type": "string",
+      "required": false,
+      "length": 13,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "rfc",
+        "dataType": "char",
+        "dataLength": 13,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Registro Federal de Contribuyente."
+    },
+    "type": {
+      "type": "string",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "default": "fisica",
+      "mysql": {
+        "columnName": "type",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Tipo de RFC (persona física o moral)."
+    },
+    "class": {
+      "type": "string",
+      "required": true,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "class",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Tipo de registro, cliente, proveedor o empresa."
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Nombre o razón social del cliente, proveedor o empresa."
+    },
+    "street": {
+      "type": "string",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "street",
+        "dataType": "varchar",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Calle del domicilio del cliente, proveedor o empresa."
+    },
+    "extNumber": {
+      "type": "string",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "extNumber",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Número exterior del domicilio del cliente, proveedor o empresa."
+    },
+    "intNumber": {
+      "type": "string",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "intNumber",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Número interior del domicilio del cliente, proveedor o empresa."
+    },
+    "zipcode": {
+      "type": "string",
+      "required": false,
+      "length": 5,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "zipcode",
+        "dataType": "char",
+        "dataLength": 5,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Código postal del domicilio del cliente, proveedor o empresa."
+    },
+    "colony": {
+      "type": "string",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "colony",
+        "dataType": "varchar",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Colonia del domicilio del cliente, proveedor o empresa."
+    },
+    "city": {
+      "type": "string",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "city",
+        "dataType": "varchar",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Ciudad del domicilio del cliente, proveedor o empresa."
+    },
+    "municipality": {
+      "type": "string",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "municipality",
+        "dataType": "varchar",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Municipio del domicilio del cliente, proveedor o empresa."
+    },
+    "state": {
+      "type": "string",
+      "required": false,
+      "length": 50,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "state",
+        "dataType": "varchar",
+        "dataLength": 50,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Entidad federativa del domicilio del cliente, proveedor o empresa."
+    },
+    "country": {
+      "type": "string",
+      "required": false,
+      "length": 50,
+      "precision": null,
+      "scale": null,
+      "default": "México",
+      "mysql": {
+        "columnName": "country",
+        "dataType": "varchar",
+        "dataLength": 50,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "País del domicilio del cliente, proveedor o empresa."
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": false,
+      "length": 13,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "phoneNumber",
+        "dataType": "char",
+        "dataLength": 13,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Número de teléfono del cliente, proveedor o empresa."
+    },
+    "mobileNumber": {
+      "type": "string",
+      "required": false,
+      "length": 13,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "mobileNumber",
+        "dataType": "char",
+        "dataLength": 13,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Número de celular del cliente, proveedor o empresa."
+    },
+    "discount": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "default": 0,
+      "mysql": {
+        "columnName": "discount",
+        "dataType": "smallint",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Descuento aplicado sobre las ordenes de compra."
+    },
+    "email": {
+      "type": "string",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "email",
+        "dataType": "varchar",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Correo electrónico del cliente, proveedor o empresa."
+    },
+    "reference": {
+      "type": "string",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "reference",
+        "dataType": "varchar",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Referencia del domicilio del cliente, proveedor o empresa."
+    },
+    "maxCredit": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "maxCredit",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Límite de crédito del cliente."
+    },
+    "debt": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "debt",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Deuda actual del cliente."
+    },
+    "accountStatus": {
+      "type": "string",
+      "required": true,
+      "length": 30,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "accountStatus",
+        "dataType": "varchar",
+        "dataLength": 30,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Estatus del usuario"
+    },
+    "customerStore": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "customerStore",
+        "dataType": "tinyint",
+        "dataLength": 1,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Bandera que indica si el cliente pertenece a una tienda."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "payments": {
+      "type": "hasMany",
+      "model": "Payment",
+      "foreignKey": "idClient"
+    },
+    "stocks": {
+      "type": "hasMany",
+      "model": "Stock",
+      "foreignKey": "idClient"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": [
+        "findOne",
+        "getClients"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": [
+        "create",
+        "deleteById",
+        "find",
+        "findById"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "warehouse-boss",
+      "permission": "ALLOW",
+      "property": [
+        "create",
+        "deleteById",
+        "find",
+        "findById"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "manager",
+      "permission": "ALLOW",
+      "property": [
+        "create",
+        "deleteById",
+        "find",
+        "findById",
+        "patchAttributes"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "seller",
+      "permission": "ALLOW",
+      "property": [
+        "create",
+        "deleteById",
+        "find",
+        "findById",
+        "patchAttributes"
+      ]
+    }
+  ],
+  "methods": {
+    "getClients": {
+      "accepts": [],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Devuelve la lista de usuarios clientes activos.",
+      "http": {
+        "path": "/getClients",
+        "verb": "GET"
+      }
+    }
+  }
+}

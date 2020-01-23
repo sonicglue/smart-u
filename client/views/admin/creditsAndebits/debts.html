@@ -1,0 +1,146 @@
+<div class="row mb-3">
+  <!--Filtros-->
+  <div class="col-sm-9">
+    <h4>Reporte general de adeudos y abonos</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-dark btn-sm d-print-none" onclick="imprimir()"
+      ng-disabled="busy">
+      <span class="fas fa-print"></span>
+      Imprimir
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5 d-print-none"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Contenido-->
+<div ng-hide="busy">
+  <!--Formulario de filtros-->
+  <div class="d-print-none">
+    <form class="form-inline justify-content-start" autocomplete="off">
+      <!--Select tipo-->
+      <div class="form-group mb-2 mr-2">
+        <label for="staticEmail2" class="col-form-label mr-2">
+          Vendedor:
+        </label>
+        <div class="input-group">
+          <input type="text" id="sellerName" class="form-control form-control-sm"
+            placeholder="Nombre del vendedor" aria-label="Nombre del vendedor"
+            ng-model="formFilters.searchTerms">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <span class="fas fa-search"></span>
+            </span>
+          </div><!--/.input-group-append-->
+        </div><!--/.input-group-->
+      </div><!--/.form-group-->
+      <div class="form-group mb-2 mr-2">
+        <label for="staticEmail2" class="col-form-label mr-2">
+          Fecha:
+        </label>
+        <div class="input-group">
+          <input type="text" id="datepicker" class="form-control form-control-sm"
+            placeholder="mm/dd/aaaa" aria-label="Fecha de compra"
+            ng-model="formFilters.date">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <span class="fa fa-calendar"></span>
+            </span>
+          </div><!--/.input-group-append-->
+        </div><!--/.input-group-->
+      </div><!--/.form-group-->
+    </form>
+  </div>
+  <!--Tarjeta de adeudos-->
+  <div class="row my-4">
+    <div class=" col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="text-themecolor" style="border-bottom: 0.2cm double #6b0559;">
+            Total adeudo gerente
+          </h3>
+          <h2 class="text-right">{{total | currency}}</h2>
+        </div><!--/.card-body-->
+      </div><!--/.card-->
+    </div><!--/.col-sm-3-->
+  </div><!--/.row-->
+  <!---->
+  <ul class="nav nav-tabs mb-2" ng-show="currentUser.isAdmin">
+    <li class="nav-item">
+      <a class="nav-link" href="#"
+        ng-click="toggleData()"
+        ng-class="!all ? 'active' : ''">
+        Mis adeudos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#"
+        ng-click="toggleData()"
+        ng-class="all ? 'active' : ''">
+        Adeudos general</a>
+    </li>
+  </ul>
+  <!--Tabla de adeudos-->
+  <div class="table-responsive-lg">
+    <table class="table table-sm table-striped">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Historial</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Vendedor</th>
+          <th scope="col">Adeudo anterior</th>
+          <th scope="col">Abonos</th>
+          <th scope="col">Crédito</th>
+          <th scope="col">Bonificaciones</th>
+          <th scope="col">Adeudo actual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-hide="sellers.length">
+          <td scope="row" colspan="8" class="text-center">
+            No se han registrado abonos.
+          </td>
+        </tr>
+        <tr ng-repeat="seller in sellers">
+          <td class="text-center">
+            <button class="btn btn-sm btn-info">
+              <span class="fa fa-eye"></span>
+            </button>
+          </td>
+          <td>{{seller.client.name}}</td>
+          <td>{{seller.name}} {{seller.lastName}}</td>
+          <td class="text-right">{{seller.client.previousDebt | currency}}</td>
+          <td class="text-right">{{seller.client.payment | currency}}</td>
+          <td class="text-right">{{seller.client.credit | currency}}</td>
+          <td class="text-right">{{seller.client.refund | currency}}</td>
+          <td class="text-right">{{seller.client.currentDebt | currency}}</td>
+        </tr>
+        <tr>
+          <td colspan="7"><h4 class="text-right">Total</h4></td>
+          <td><h3 class="text-right">{{total | currency}}</h3></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Paginación-->
+  <div ng-include="'views/common/pagination.html'"></div>
+</div>
+<!--Script del datepicker-->
+<script>
+  $(function() {
+    $('#datepicker').datepicker({
+      dateFormat: 'dd/mm/yy'});
+    $('#myInput').on('keyup', function() {
+      var value = $(this).val().toLowerCase();
+      $('#myTable tr').filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+  });
+</script>

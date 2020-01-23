@@ -1,0 +1,91 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-9">
+    <h4>{{guarantee.id ? 'Registro exitoso' : 'Reimpresión de acuse'}}.</h4>
+  </div><!--/.col-sm-9-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go('client')">
+      <span class="fa fa-arrow-left"></span>
+      Cancelar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Formulario-->
+<div class="row justify-content-center" ng-hide="guarantee.id">
+  <div class="col-md-8">
+    <form class="form-inline justify-content-center" autocomplete="off"
+      ng-submit="search()">
+      <!--Select tipo-->
+      <div class="form-group mb-2 mr-2">
+        <label for="staticEmail2" class="col-form-label mr-2">
+          Tipo:
+        </label>
+        <select class="form-control"
+          ng-model="input.type">
+          <option value="imei">Serie o IMEI</option>
+          <option value="ticket">Número de garantía</option>
+        </select>
+      </div>
+      <!--Caja de texto-->
+      <div class="form-group mb-2 ml-2">
+        <label class="col-form-label mr-2">
+          Buscar:
+        </label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="0000000000000000"
+            ng-model="input.serie">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-primary">
+              <span class="fa fa-search"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!--Alerta-->
+<div class="row justify-content-center" ng-show="guarantee.id">
+  <div class="col-md-8 alert alert-info" role="alert">
+    <h4 class="alert-heading">Acuse de registro de garantía</h4>
+    <hr>
+    <p>La garantía se registro con el número <b>{{guarantee.guideNumber}}</b>,
+      imprima y entregue una copia impresa de este documento a su ejectutivo de
+      ventas al momento de entregar el equipo en garatía.</p>
+    <p>Datos de la garantía:</p>
+    <ul>
+      <li>Producto: <b>{{guarantee.stock.product.name}}</b></li>
+      <li>Número de serie: <b>{{guarantee.stock.IMEI}}</b></li>
+      <li>Fecha de captura: <b>{{getDateFormat(guarantee.created, 'L')}}</b></li>
+      <li ng-show="guarantee.hasCost"><b>Reparación con costo</b></li>
+      <li>Fallas reportadas:
+        <ul>
+          <li ng-repeat="item in guarantee.failures">
+            <b>{{item.failure.name}}</b></li>
+        </ul>
+      </li>
+      <li>Accesorios reportados:
+        <ul>
+          <li ng-repeat="item in guarantee.accessories">
+            <b>{{item.accessory.name}}</b></li>
+        </ul>
+      </li>
+      <li>Observaciones:<br/> <b>{{guarantee.logs[0].description}}</b></li>
+    </ul>
+    <p class="text-justify mb-5">
+      <em>Aviso: El presente documento y el producto que lo acompaña será
+        revisado y validado por el personal encargado de garantías. Cualquier
+        omisión o alteración puede conducir a la cancelación de la solicitud de
+        la garantía.</em>
+    </p>
+    <div class="row my-5 pt-5 justify-content-center">
+      <div class="col-md-4 text-center border-top border-dark">
+        <small>Nombre y firma del cliente</small>
+      </div>
+    </div>
+    <p class="d-print-none">Si desea registrar otra garantía
+      <a href="#" ui-sref="client.guarantee-add">haga clic aquí</a>
+    </p>
+  </div>
+</div>

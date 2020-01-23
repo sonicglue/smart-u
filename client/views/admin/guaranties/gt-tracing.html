@@ -1,0 +1,59 @@
+<h1 class="page-header">
+  <span class="fa fa-certificate"></span>
+  Seguimiento a garantías
+</h1>
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-6">
+    <h4>Gráfica semanal.</h4>
+  </div><!--/.col-sm-9-->
+  <div class="col-sm-6 align-self-end">
+    <form name="formFilter" class="form-inline" autocomplete="off"
+      ng-submit="searchGuarantee()">
+      <!--Buscador-->
+      <div class="form-group">
+        <label class="col-form-label mr-2">
+          Buscar:
+        </label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" placeholder="Número de serie"
+            ng-model="formFilter.input">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-primary">
+              <span class="fa fa-search"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!--Date picker-->
+      <div class="form-group ml-2">
+        <label class="col-form-label mr-2">
+          Fecha:
+        </label>
+        <div class="input-group">
+          <input type="text" id="datepicker" class="form-control form-control-sm"
+            placeholder="mm/dd/aaaa" aria-label="Fecha de compra"
+            ng-model="formFilters.date">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <span class="fa fa-calendar"></span>
+            </span>
+          </div><!--/.input-group-append-->
+        </div><!--/.input-group-->
+      </div><!--/.form-group-->
+    </form>
+  </div><!--/.col-sm-6-->
+</div><!--/.row-->
+<!--Gráfica-->
+<div class="row">
+  <div class="col">
+    <canvas id="myChart" height="130"></canvas>
+  </div>
+</div>
+<!--Script del datepicker-->
+<script>
+  $(function() {
+    $("#datepicker").datepicker({
+      dateFormat: 'dd/mm/yy'});
+  });
+</script>

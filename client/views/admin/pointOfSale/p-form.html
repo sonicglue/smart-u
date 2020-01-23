@@ -1,0 +1,670 @@
+<!-- ============================================================== -->
+<!-- Vista para imprimir la nota de venta/abono -->
+<!-- ============================================================== -->
+<div class="" ng-show="printView">
+  <div class="row mb-3">
+    <!--Sección-->
+    <div class="col-sm-9"></div>
+    <!--Botones-->
+    <div class="col-sm-3 text-right">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary btn-sm noprint" ng-disabled="busy" ng-click="setEmpty()">
+          <span class="fa fa-arrow-left"></span>
+          Regresar
+        </button>
+        <button class="btn btn-primary pull-right noprint" style="height:auto;" onclick="imprimir()">
+          <i class="fas fa-print"></i> Imprimir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-sm table-striped table-bordered" id="printTable">
+          <thead class="thead-light">
+            <tr>
+              <th colspan="6" class="titleWhite">Nota de remisión</th>
+            </tr>
+            <tr>
+              <th colspan="3" class="texth">Cliente: {{selectClient}}</th>
+              <th colspan="3" class="texth">Fecha: {{dateToday}}</th>
+            </tr>
+            <tr>
+              <th class="th-table-cart text-center" width="15%">Cantidad</th>
+              <th class="th-table-cart text-left" width="45%">Modelo</th>
+              <th class="th-table-cart text-center" width="20%">Precio</th>
+              <th class="th-table-cart text-center" width="15%">Sub total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-hide="note.length">
+              <td class="text-center" colspan="5">No se han registrado productos.</td>
+            </tr>
+            <tr ng-repeat="product in note">
+              <td class="text-center">
+                {{product.totalItems}}
+              </td>
+              <td class="text-left">
+                <div class="product-title">{{product.name}}</div>
+                <div class="product-color">{{product.stocks.join(', ')}}</div>
+              </td>
+              <td class="text-center">
+                {{product.salesPrice | currency}}
+              </td>
+              <td class="text-center">
+                {{product.total | currency}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row" ng-show="printView">
+          <div class="col-md-7 col-sm-12 text-center text-md-left">
+            <p class="lead"></p>
+            <div class="row">
+              <div class="col-md-8">
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-12">
+            <p class="lead"></p>
+            <div class="table-responsive">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="text-bold">Total</td>
+                    <td class="text-bold text-right"> {{order.total | currency}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-bold">Deuda anterior</td>
+                    <td class="text-bold text-right"> {{currentDebt | currency}}</td>
+                  </tr>
+                  <tr>
+                    <td ng-class="payment > 0 ? 'green text-bold' : 'pink text-bold'">Abono</td>
+                    <td ng-class="payment > 0 ? 'green text-bold text-right' : 'pink text-bold text-right'">{{payment | currency}}</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td class="text-bold">Deuda final</td>
+                    <td class="text-bold text-right">{{newDebt + order.payment.credit | currency}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/.col-md-12-->
+    </div>
+    <!--End row-->
+  </div>
+</div>
+
+
+
+
+<!-- ============================================================== -->
+<!-- Vista para imprimir la nota de abono -->
+<!-- ============================================================== -->
+<div class="row" ng-show="printPaymentView">
+  <div class="col-lg-3 col-md-3"></div>
+  <div class="col-lg-6 col-md-6">
+    <div class="card-custom bg-pattern-3-dark mb-4">
+      <div class="card-body-custom text-center">
+        <i class="fas fa-check-double text-success d-block display-3"></i>
+        <h4 class="mt-2">¡¡¡Gracias por abonar su deuda!!!</h4>
+        <p>Cliente: {{selectClient}}</p>
+        <p class="mb-3">Fecha: {{dateToday}}</p>
+        <br>
+        <br>
+        <br>
+        <div class="row mb-4 d-flex justify-content-center">
+          <div class="col">
+            <h6 class="mb-1">Deuda anterior: <span class="text-muted float-right small"> {{currentDebt | currency}}</span></h6>
+          </div>
+        </div>
+        <div class="row mb-4 d-flex justify-content-center">
+          <div class="col">
+            <h6 class="mb-1">Abono: <span class="text-muted float-right small"> {{payment | currency}}</span></h6>
+          </div>
+        </div>
+        <hr>
+        <div class="row mb-4 d-flex justify-content-center">
+          <div class="col">
+            <h6 class="mb-1">Deuda actual: <span class="text-muted float-right small"> {{newDebt + order.payment.credit | currency}} </span></h6>
+          </div>
+        </div>
+        <hr>
+
+        <div class="d-flex justify-content-end bd-highlight mb-3">
+          <div class="p-2 bd-highlight">
+            <button class="btn btn-primary pull-right noprint" style="height:auto;" onclick="imprimir()">
+              <i class="fas fa-print"></i> Imprimir
+            </button>
+          </div>
+          <div class="p-2 bd-highlight">
+            <button class="btn btn-success btn-round noprint" ng-click="setEmpty()">Cerrar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3"></div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- Vista para generar una nota de venta/abono -->
+<!-- ============================================================== -->
+<div class="noprint" ng-hide="printView || printPaymentView">
+  <div class="card-footer">
+    <div class="row mt-1">
+      <div class="col-6 text-center">
+        <h2 class="block font-weight-normal">{{currentUser.name}} {{currentUser.lastName}}</h2>
+        <span class="font-medium">{{foundWarehouse.name}} <span class="font-14 font-normal text-muted"><small>({{foundWarehouse.address}})</small> </span></span>
+      </div>
+      <div class="col-3 text-center">
+        <a ng-click="stockView = !stockView">
+          <h6 class="text-muted">Equipos disponibles</h6>
+          <h2 class="block font-weight-normal">{{foundWarehouse.stocks.length}}</h2>
+        </a>
+      </div>
+      <div class="col-3 text-center">
+        <a ng-click="saleView = !saleView">
+          <h6 class="text-muted">Ventas del día</h6>
+          <h2 class="block font-weight-normal">{{ totalSaleToday | currency}}</h2>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Vista para las ventas del día -->
+  <!-- ============================================================== -->
+  <div class="row animation-one" style="padding-top:10px;" ng-show="saleView">
+    <div class="col-md-12">
+      <div class="card-custom">
+        <div class="card-body">
+          <!--<h4 class="card-title">VENTAS DEL DÍA</h4>-->
+          <div class="bootstrap-table">
+              <table class="table table-striped table-bordered"
+                  datatable="ng"
+                  dt-options="vm.dtOptions"
+                  dt-instance="vm.dtInstance"
+                  style="width:100%"
+                  dt-column-defs="vm.dtColumnDefs">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>ORDEN</th>
+                      <th>CLIENTE</th>
+                      <th>FECHA</th>
+                      <th>TOTAL</th>
+                      <th class="text-center">TIPO</th>
+                      <!--<th class="text-center">TIPO PAGO</th>-->
+                      <!--<th class="text-center">ESTATUS</th>-->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="itemSale in listOrders">
+                      <td class="text-center"><strong>{{$index+1}}</strong></td>
+                      <td><a ng-click="searchOrder(itemSale.id)" class="text-primary"><strong>{{itemSale.orderNumber}}</strong></a></td>
+                      <td style="">{{itemSale.client}}</td>
+                      <td style="">{{itemSale.date}} </td>
+                      <td style="">{{itemSale.total | currency}}</td>
+                      <td class="text-center">{{typeSale(itemSale.type)}}</td>
+                      <!--<td class="text-center"><i class="fas" ng-class="(itemSale.typePayment === 'credit') ? 'fa-credit-card' : 'fa-exchange-alt'"></i> {{typePayment(itemSale.typePayment)}}</td>-->
+                      <!--<td class="text-center"><strong ng-class="(itemSale.status === 'pending') ? 'text-danger' : 'text-success'">{{statusPayment(itemSale.status)}}</strong></td>-->
+                    </tr>
+                  </tbody>
+                </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- ============================================================== -->
+  <!-- Information sale -->
+  <!-- ============================================================== -->
+  <div ng-show="soldView" class="animation-one">
+    <div class="row">
+      <div class="col-sm-6 mb-4 mb-xl-0">
+      </div>
+      <div class="col-sm-6">
+        <div class="d-flex align-items-center justify-content-md-end">
+          <div class="pr-1 mb-3 mb-xl-0 noprint">
+            <button class="btn btn-primary btn-icon mr-2 noprint" onclick="imprimir()">
+              <i class="fas fa-print"></i> Imprimir
+            </button>
+            <button type="button" class="btn btn-success btn-icon mr-2 noprint" ng-click="soldView = !soldView">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Información de la orden de venta-->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card-custom px-2">
+          <div class="card-body-custom">
+            <div class="container-fluid">
+              <h3 class="text-right my-5">Orden&nbsp;&nbsp;{{sale.orderNumber}}</h3>
+              <hr>
+            </div>
+            <div class="container-fluid d-flex justify-content-between">
+              <div class="col-lg-8 pl-0">
+
+                <ul class="hours-ul text-muted">
+                  <li>
+                    <div class="d-flex no-block">
+                      <div class="mr-auto">
+                        Nombre del cliente
+                      </div>
+                      <div class="ml-auto font-bold font-16"> {{sale.client.name}} </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="d-flex no-block">
+                      <div class="mr-auto">
+                        Fecha de venta
+                      </div>
+                      <div class="ml-auto font-bold font-16"> {{getDateFormat(sale.created, 'L')}} </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="d-flex no-block">
+                      <div class="mr-auto">
+                        Forma de pago
+                      </div>
+                      <div class="ml-auto font-bold font-16">
+                        <div class="row no-gutters row-bordered row-border-light h-100">
+                          <div class="d-flex col-sm-3 col-md-3 col-lg-3 align-items-center" ng-repeat="order in sale.client.payments">
+                            <div class="card-body media align-items-center text-dark">
+                              <div class=" media align-items-center text-dark" style="line-height: 24px !important;">
+                                <i class="lnr lnr-clock display-4 d-block text-primary"></i>
+                                <span class="media-body d-block ml-3">
+                                  <span class="text-big mr-1 text-primary">{{order.amount | currency }}</span>
+                                  <small class="text-muted">{{typePayment(order.type)}}</small>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-4 pl-0">
+                <ul class="hours-ul text-muted">
+                  <li>
+                    <div class="d-flex no-block">
+                      <div class="mr-auto">
+                        Deuda actual
+                      </div>
+                      <div class="ml-auto font-bold font-16"> {{sale.client.debt | currency}} </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="d-flex no-block">
+                      <div class="mr-auto">
+                        Estatus de pago
+                      </div>
+                      <div class="ml-auto font-bold font-16"> {{statusPayment(sale.client.payments[0].status)}} </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="container-fluid mt-5 d-flex justify-content-center w-100" ng-show="sale.orderhasproduct.length">
+              <div class="table-responsive w-100">
+                <table id="subtable" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>DESCRIPCIÓN</th>
+                      <th class="text-right">CANTIDAD</th>
+                      <th class="text-right">COSTO UNITARIO</th>
+                      <th class="text-right">TOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="text-right" ng-repeat="order in sale.orderhasproduct">
+                      <td class="text-left">{{$index+1}}</td>
+                      <td class="text-left">{{order.product.name}}</td>
+                      <td>{{order.totalItems}}</td>
+                      <td>{{order.subtotal | currency }}</td>
+                      <td>{{order.total | currency}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="container-fluid mt-5 w-100" ng-show="sale.orderhasproduct.length">
+              <p class="text-right mb-2">Sub - Total: {{sale.total | currency}}</p>
+              <!--<p class="text-right">vat (10%) : $138</p>-->
+              <h4 class="text-right mb-5">Total : {{sale.total | currency}}</h4>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ============================================================== -->
+  <!-- Vista para mostrar el inventario del vendedor                  -->
+  <!-- ============================================================== -->
+  <div class="row animation-one" style="padding-top:10px;" ng-show="stockView">
+    <div class="col-md-12">
+      <div class="card-custom">
+        <div class="card-body">
+          <!--<h4 class="card-title">INVENTARIO</h4>-->
+          <div class="bootstrap-table">
+            <table class="table table-striped table-bordered"
+                datatable="ng"
+                dt-options="vm.dtOptions"
+                dt-instance="vm.dtInstance"
+                style="width:100%">
+                <thead>
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th>MODELO</th>
+                    <!--<th>PRECIO</th>-->
+                    <th class="text-center">PIEZAS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="itemSale in arrayStock">
+                    <td class="text-center"><strong>{{$index+1}}</strong></td>
+                    <td>{{itemSale.model}}</td>
+                    <!--<td>{{itemSale.price | currency}} </td>-->
+                    <td class="text-center">{{itemSale.pieces}}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="2" class="text-right"><strong>Total</strong></td>
+                    <td class="text-center"><strong>{{totalStockSeller}}</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row align-items-center justify-content-center animation-one" ng-hide="saleView || stockView || soldView">
+    <!--Formulario para la búsqueda del IMEI-->
+    <div class="col-md-5">
+      <form name="formImei" autocomplete="off" ng-submit="search()" class="needs-validation" novalidate>
+        <div class="form-group">
+          <label for="" class="col-form-label">
+            Número de serie/IMEI:
+          </label>
+          <input type="text" id="imei" class="form-control text-center" placeholder="000000000000000" autofocus ng-model="input.serie">
+
+          <div class="custom-control form-text text-muted text-right">
+            Último número de serie registrado:
+            <span class="text-danger" ng-bind-html="makeSerial(input.lastSerie)"></span>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <!--/.col-sm-4-->
+
+    <!--Checkbox para eliminar productos-->
+    <div class="col-md-3">
+      <div class="custom-control custom-checkbox text-left" ng-show="order.products.length > 0">
+        <input type="checkbox" class="custom-control-input" id="customSwitch1" ng-model="input.toggleSave">
+        <label class="custom-control-label" for="customSwitch1">Escanear para eliminar</label>
+      </div>
+    </div>
+
+
+
+    <div class="col-md-4">
+      <div class="callout-border-right p-1">
+        <div class="dropdown dropdown-scroll">
+          <button class="btn btn-default dropdown-toggle"
+          type="button" id="dropdownMenu1"
+          data-toggle="dropdown">{{order.tag}} <span class="caret"></span>
+        </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation">
+          <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
+              <span class="glyphicon glyphicon-search"></span>
+            </span>
+            <input type="text" class="form-control" placeholder="Buscar cliente" ng-model="query"></input>
+          </div>
+        </li>
+        <li class="list" ng-repeat='item in myClients | filter:query'>
+          <a ng-click="itemClient(item)"> {{item.tag}} </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card-footer">
+      <div class="row mt-1">
+        <div class="col-12 text-center">
+          <h6 class="text-muted">Deuda actual</h6>
+          <h2 class="block font-weight-normal">{{currentDebt | currency}}</h2>
+        </div>
+      </div>
+    </div>
+
+    </div>
+    </div>
+  </div>
+  <!--End row-->
+
+    <!--Seleccionar cliente--
+    <div class="col-md-4">
+      <div class="callout-border-right p-1">
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <span class="fas fa-users"></span>
+            </span>
+          </div>
+          <select id="idClient" class="form-control form-control-sm" ng-model="order.idClient" ng-options="item.id as item.tag for item in myClients">
+          </select>
+        </div>
+        <div class="invalid-feedback">
+          Debe seleccionar un cliente de la lista.
+        </div>
+        <!--Deuda actual del cliente--
+        <div class="card-footer">
+          <div class="row mt-1">
+            <div class="col-12 text-center">
+              <h6 class="text-muted">Deuda actual</h6>
+              <h2 class="block font-weight-normal">{{currentDebt | currency}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  --End row-->
+
+
+  <!--Formulario para mandar la lista de productos-->
+  <div class="card-custom animation-one" style="margin-bottom: 20px;" ng-hide="saleView || stockView || soldView">
+    <div class="card-content">
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-borderless mb-0">
+            <thead>
+              <tr>
+                <th class="th-table-cart text-center" width="15%">Cantidad</th>
+                <th class="th-table-cart text-left" width="45%">Modelo</th>
+                <th class="th-table-cart text-center" width="20%">Precio</th>
+                <th class="th-table-cart text-center" width="15%">Sub total</th>
+                <th class="th-table-cart text-center" width="5%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-hide="order.products.length">
+                <td class="text-center" colspan="5">No se han registrado productos.</td>
+              </tr>
+              <tr ng-repeat="product in order.products" class="animate-tr">
+                <td class="text-center">
+                  {{product.totalItems}}
+                </td>
+                <td class="text-left">
+                  {{product.name}}
+                  <!--<div class="product-title">Fitbit Alta HR Special Edition</div>
+									<div class="product-color"><strong>Color : </strong> Pink</div>
+									<div class="product-size"><strong>Size : </strong> Medium</div>-->
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm text-right money custom-input" format="currency" ng-change="recalculate(product)" ng-model="product.salesPrice" enter>
+                </td>
+                <td class="text-center">
+                  {{product.total | currency}}
+                </td>
+                <td>
+                  <button class="btn btn-danger btn-sm" ng-click="deleteModalProduct(product, $index)">
+                    <span class="far fa-trash-alt"></span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <!--End tbody-->
+          </table>
+          <!--End table-->
+        </div>
+        <!--End table-responsive-->
+      </div>
+      <!--End card-body-->
+    </div>
+    <!--End card-content-->
+  </div>
+  <!--End card-->
+
+
+
+
+  <div class="row animation-one" ng-hide="saleView || stockView || soldView">
+    <!--ng-show="order.products.length"-->
+    <div class="col-md-7 col-sm-12 text-center text-md-left">
+      <p class="lead">Método de pago:</p>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="table-responsive">
+            <table class="table table-borderless table-sm">
+              <tbody>
+                <tr>
+                  <td class="text-right">
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <span class="fas fa-hand-holding-usd mr-1"></span>
+                          Efectivo
+                        </span>
+                      </div>
+                      <input type="text" class="form-control form-control-sm text-right money" format="currency" ng-model="order.payment.cash" enter>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right">
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <span class="fas fa-money-check mr-1"></span>
+                          Cheque
+                        </span>
+                      </div>
+                      <input type="text" class="form-control form-control-sm text-right money" format="currency" ng-model="order.payment.check" enter>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right">
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <span class="fas fa-exchange-alt mr-1"></span>
+                          Deposito
+                        </span>
+                      </div>
+                      <input type="text" class="form-control form-control-sm-sm text-right money" format="currency" ng-model="order.payment.deposit">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right">
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <span class="fas fa-credit-card mr-1"></span>
+                          Crédito
+                        </span>
+                      </div>
+                      <input type="text" class="form-control form-control-sm-sm text-right" format="currency" disabled ng-model="order.payment.credit">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 col-sm-12">
+      <p class="lead"></p>
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="text-bold">Sub Total</td>
+              <td class="text-right text-bold">{{order.total | currency}}</td>
+            </tr>
+            <tr>
+              <td class="text-bold">Total</td>
+              <td class="text-bold text-right"> {{order.total | currency}}</td>
+            </tr>
+            <tr>
+              <td ng-class="payment > 0 ? 'green text-bold' : 'pink text-bold'">Abono</td>
+              <td ng-class="payment > 0 ? 'green text-bold text-right' : 'pink text-bold text-right'">{{payment | currency}}</td>
+            </tr>
+            <tr class="table-info">
+              <td class="text-bold">Deuda final</td>
+              <td class="text-bold text-right">{{newDebt + order.payment.credit | currency}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="invoice-footer" ng-hide="saleView || stockView || soldView">
+    <div class="row">
+      <div class="col-md-7 col-sm-12">
+      </div>
+      <div class="col-md-5 col-sm-12 text-center">
+        <button type="button" class="btn btn-success btn-lg my-1 pull-right" ng-click="save()">
+          <!--ng-disabled="!order.total"-->
+          <i class="fa fa-save"></i> {{order.products.length? 'Registrar venta' : 'Registrar abono'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="mb-3">
+  <!--Título-->
+  <h4>Inroduce los números de serie.</h4>
+</div>
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-if="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Buscador-->
+<div class="row justify-content-center mb-5"
+  ng-if="!busy">
+  <div class="col-md-6">
+    <!--Tarjeta-->
+    <div class="card">
+      <h5 class="card-header bg-primary text-white">
+        Buscador de productos
+      </h5>
+      <div class="card-body">
+        <!--Formulario de búsqueda-->
+        <form name="formLogin" autocomplete="off" class="needs-validation" novalidate
+          ng-submit="searchImei()">
+          <!--Caja de texto-->
+          <div class="form-group">
+            <label for="series" class="col-form-label">IMEI</label>
+            <textarea id="series" name="series" class="form-control text-center"
+              autofocus placeholder="00000088000000&#10;88888800888888"
+              ng-model="input.serie"></textarea>
+          </div>
+          <!--Botones-->
+          <div class="form-group form-row justify-content-end">
+            <div class="col-sm-9 col-md-9">
+              <button type="submit" id="btn_show" class="btn btn-primary btn-sm pull-right">
+                Generar reporte
+                <span class="fas fa-download"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div><!--/.card-body-->
+    </div><!--/.card-->
+  </div><!--/.col-md-4-->
+</div><!--/.row-->

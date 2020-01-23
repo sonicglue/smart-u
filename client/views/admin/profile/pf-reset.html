@@ -1,0 +1,102 @@
+<div class="row mb-3">
+  <!--Filtros-->
+  <div class="col-sm-9">
+    <h4>Cambio de contraseña</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go(return.to, return.paramsTo)">
+      <span class="fa fa-arrow-left"></span>
+      Regresar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<div class="row justify-content-center" ng-hide="currentUser.status === 'active'">
+  <div class="col-md-8">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <h4 class="alert-heading">¡Bienvenido!</h4>
+      <p>Antes de comenzar es necesario que personalices tu cuenta cambiando la contraseña.</p>
+      <hr>
+      <p class="mb-0">Por su seguridad al cambiar la contraseña se cerrará la sesión actual.</p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>
+<!--Formulario-->
+<div class="row justify-content-center"
+  ng-hide="busy">
+  <div class="col-md-10 col-lg-8">
+    <form name="formModel" autocomplete="off"
+      ng-submit="save()" class="needs-validation" novalidate>
+      <!--Contraseña anterior-->
+      <div class="form-group form-row">
+        <label for="oldPass" class="col-sm-4 col-md-3 col-lg-4 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Contraseña anterior:
+        </label>
+        <div class="col-sm-8 col-md-7">
+          <input type="password" id="oldPass" class="form-control form-control-sm"
+            required placeholder="Contraseña que desea cambiar"
+            ng-disabled="busy"
+            ng-model="user.oldPass">
+            <div class="invalid-feedback">
+              Debe escribir su contraseña actual.
+            </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Contraseña nueva-->
+      <div class="form-group form-row">
+        <label for="newPass1" class="col-sm-4 col-md-3 col-lg-4 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Nueva contraseña:
+        </label>
+        <div class="col-sm-8 col-md-7">
+          <input type="password" id="newPass1" class="form-control form-control-sm"
+            required placeholder="Escriba su nueva contraseña"
+            ng-disabled="busy"
+            ng-model="user.newPass1">
+            <div class="invalid-feedback">
+              Debe escribir su nueva contraseña.
+            </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Contraseña nueva-->
+      <div class="form-group form-row">
+        <label for="newPass2" class="col-sm-4 col-md-3 col-lg-4 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Repetir contraseña:
+        </label>
+        <div class="col-sm-8 col-md-7">
+          <input type="password" id="newPass2" class="form-control form-control-sm"
+            required placeholder="Para confirmar, repita su nueva contraseña"
+            ng-disabled="busy"
+            ng-model="user.newPass2">
+            <div class="invalid-feedback">
+              {{user.newPass1 !== user.newPass2 ? 'La contraseñas no coinciden.' : 'Debe reescribir su nueva contraseña.'}}
+            </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Botones-->
+      <div class="form-group form-row justify-content-end">
+        <div class="col-sm-8 col-md-9 col-lg-8">
+          <button type="submit" class="btn btn-success btn-sm"
+            ng-disabled="busy">
+            Guardar
+            <span class="fa fa-arrow-right"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

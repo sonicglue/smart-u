@@ -1,0 +1,252 @@
+{
+  "name": "Warehouse",
+  "plural": "Warehouses",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "Warehouse"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "count",
+        "create",
+        "deleteById",
+        "find",
+        "findById",
+        "inStock",
+        "prototype.delUser"
+      ],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este almacén."
+    },
+    "idParent": {
+      "type": "string",
+      "required": false,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idParent",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del almacén padre."
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Nombre del almacén."
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "type",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Tipo de almacén: 'place' o 'seller'."
+    },
+    "address": {
+      "type": "string",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "address",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Dirección del almacén."
+    },
+    "isMain": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "isMain",
+        "dataType": "tinyint",
+        "dataLength": 1,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Bandera que indica que es el almacén principal del sistema."
+    },
+    "date": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Fecha de registro del almacén."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "children": {
+      "type": "hasMany",
+      "model": "Warehouse",
+      "foreignKey": "idParent"
+    },
+    "guaranties": {
+      "type": "hasMany",
+      "model": "Guarantee",
+      "foreignKey": "idWarehouse"
+    },
+    "parent": {
+      "type": "belongsTo",
+      "model": "Warehouse",
+      "foreignKey": "idParent"
+    },
+    "products": {
+      "type": "hasMany",
+      "model": "Product",
+      "foreignKey": "idWarehouse",
+      "through": "Stock",
+      "keyThrough": "idProduct"
+    },
+    "stocks": {
+      "type": "hasMany",
+      "model": "Stock",
+      "foreignKey": "idWarehouse"
+    },
+    "users": {
+      "type": "hasMany",
+      "model": "SysUser",
+      "foreignKey": "idWarehouse",
+      "through": "WarehouseACL",
+      "keyThrough": "idUser"
+    },
+    "warehouseACL": {
+      "type": "hasMany",
+      "model": "WarehouseACL",
+      "foreignKey": "idWarehouse"
+    }
+  },
+  "acls": [],
+  "methods": {
+    "inStock": {
+      "accepts": [
+        {
+          "arg": "id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "array",
+        "root": true
+      },
+      "description": "Ejemplo.",
+      "http": {
+        "verb": "GET"
+      }
+    },
+    "prototype.addUser": {
+      "accepts": [
+        {
+          "arg": "idUser",
+          "type": "string",
+          "description": "User id",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "boolean",
+        "root": true
+      },
+      "description": "Agrega al usuario al acceso del almacén.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "prototype.delUser": {
+      "accepts": [
+        {
+          "arg": "idUser",
+          "type": "string",
+          "description": "User id",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "boolean",
+        "root": true
+      },
+      "description": "Elimina el acceso del usuario al almacén.",
+      "http": {
+        "verb": "POST"
+      }
+    }
+  }
+}

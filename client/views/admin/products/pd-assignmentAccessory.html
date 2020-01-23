@@ -1,0 +1,104 @@
+
+<div class="mb-3">
+  <!--Título-->
+</div>
+<div class="col-lg-12">
+  <!--Accesorios-->
+  <div class="row">
+    <div class="col" id="accessories">
+      <h4>Agregar Accesorios </h4>
+      <!--Botones-->
+      <div class="col-sm-3 text-right pull-right">
+        <button type="button" class="btn btn-secondary btn-sm"
+          ng-click="$state.go(return.to, return.paramsTo)">
+          <span class="fa fa-arrow-left"></span>
+          Regresar
+        </button>
+      </div>
+      <!--Datos del lote-->
+      <div class="col-md-5" style="margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;">
+      <div class="card ">
+          <div class="card-header bg-info mb-0">
+          </div>
+
+      <div class="card-body">
+        <dl class="row mb-0">
+          <!--IMEI-->
+          <!--Marca-->
+          <dt class="col-sm-5 text-sm-right">Marca</dt>
+          <dd class="col-sm-7">{{brand}}</dd>
+          <!--Modelo-->
+          <dt class="col-sm-5 text-sm-right">Modelo</dt>
+          <dd class="col-sm-7">{{modelo}}</dd>
+          <!--Color-->
+          <dt class="col-sm-5 text-sm-right">Color</dt>
+          <dd class="col-sm-7">{{color}}</dd>
+          <!--Producto-->
+          <dt class="col-sm-5 text-sm-right">Producto</dt>
+          <dd class="col-sm-7">{{nameP}}</dd>
+        </div><!--/.card-body-->
+    </div><!--/.card-body-->
+  </div><!--/.col-->&nbsp;
+
+      <div class="form-group form-row px-5"  style="padding-left:2cm;" >
+        <!--Accesorios-->
+        <div class="custom-control custom-checkbox col-sm-3  "
+          ng-repeat="products in allAccessories">
+
+          <input type="checkbox"
+          ng-model="products.select"
+          ng-change="selectEntity(products)"
+          name="products">
+          <label >
+            {{products.name}}
+          </label>
+        </div>
+      </div>
+  </div><!--/.col-->
+  </div><!--/.row-->
+
+
+
+<!--<div class="table-responsive col-lg-8">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th class="text-left" scope="col">
+        </th>
+        <th scope="col" colspan="7" class="text-center">
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+<tr ng-repeat="products in allAccessories" ng-if="$index%3==0" >
+  <td ng-if="$index < allAccessories.length">
+    <input type="checkbox"
+    ng-model="allAccessories[$index].select"
+    ng-change="selectEntity(allAccessories[$index])"
+    name="accessories">
+    <label>{{allAccessories[$index].name}}</label>
+
+
+
+      <td  ng-if="$index + 1 < allAccessories.length" >
+        <input type="checkbox"
+        ng-model="allAccessories[$index +1].select"
+        ng-change="selectEntity(allAccessories[$index +1])"
+        name="accessories">
+        <label>{{allAccessories[$index + 1].name}}</label>
+      </td>
+
+      <td  ng-if="$index + 2 < allAccessories.length" >
+        <input type="checkbox"
+        ng-model="allAccessories[$index +2].select"
+        ng-change="selectEntity(allAccessories[$index +2])"
+        name="accessories">
+        <label>{{allAccessories[$index + 2].name}}</label>
+      </td>
+</tr>
+    </tbody>
+</table>
+</div>-->
+</div>

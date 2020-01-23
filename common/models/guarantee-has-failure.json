@@ -1,0 +1,104 @@
+{
+  "name": "GuaranteeHasFailure",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "GuaranteeHasFailure"
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para la garantía."
+    },
+    "idGuarantee": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idGuarantee",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del garantía."
+    },
+    "idProduct": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idProduct",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del producto."
+    },
+    "idFailure": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idFailure",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador de la falla."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "failure": {
+      "type": "belongsTo",
+      "model": "Failure",
+      "foreignKey": "idFailure"
+    },
+    "guarantee": {
+      "type": "belongsTo",
+      "model": "Guarantee",
+      "foreignKey": "idGuarantee"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "idProduct"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

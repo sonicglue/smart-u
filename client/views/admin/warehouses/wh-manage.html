@@ -1,0 +1,81 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-12 col-md-8">
+    <h4>Control de acceso al almacén.</h4>
+  </div><!--/.col-sm-6-->
+  <!--Botones-->
+  <div class="col-sm-12 col-md-4 text-right">
+    <a class="btn btn-secondary btn-sm" ui-sref="admin.warehouse.list">
+      <span class="fa fa-arrow-left"></span>
+      Regresar
+    </a>
+  </div><!--/.col-sm-6-->
+</div><!--/.row-->
+<!--Tarjeta-->
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-6">
+    <div class="card">
+      <h5 class="card-header">
+        {{warehouse.name}}
+      </h5><!--card-header-->
+      <div class="card-body p-3">
+        <dl class="row mb-0">
+          <!--Tipo de almacén-->
+          <dt class="col-sm-4 col-md-5 text-sm-right">Tipo de almacén:</dt>
+          <dd class="col-sm-8 col-md-7">{{warehouse.type === 'place' ? 'Lugar o edificio' : 'Ruta de venta'}}</dd>
+          <!--Dirección-->
+          <dt class="col-sm-4 col-md-5 text-sm-right">Dirección:</dt>
+          <dd class="col-sm-8 col-md-7">{{warehouse.address}}</dd>
+        </dl>
+      </div><!--/.card-body-->
+    </div>
+  </div>
+</div><!--/.row-->
+<div class="row mt-4">
+  <!--Usuarios con acceso-->
+  <div class="col-md-6">
+    <table class="table table table-striped table-condensed" >
+      <thead class="thead-light">
+        <tr>
+          <th scope="col text-center" colspan="2">Usuarios con acceso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-if="user.type === 'warehouse-boss' || user.type === 'storer'" ng-repeat="user in warehouse.users">
+          <td class="text-left" scope="row">
+            {{user.name}} {{user.lastName}}
+          </td>
+          <td class="text-right">
+            <button type="button" class="btn btn-danger btn-sm"
+              ng-click="removeUser(user)">
+              <span class="fa fa-close"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Usuarios sin acceso-->
+  <div class="col-md-6">
+    <table class="table table table-striped table-condensed" >
+      <thead class="thead-light">
+        <tr>
+          <th scope="col text-center" colspan="2">Usuarios sin acceso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users">
+          <td class="text-left" scope="row">
+            {{user.name}} {{user.lastName}}
+          </td>
+          <td class="text-right">
+            <button type="button" class="btn btn-outline-primary btn-sm"
+              ng-click="addUser(user)">
+              <span class="fa fa-plus"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><!--/.row-->

@@ -1,0 +1,105 @@
+{
+  "name": "Failure",
+  "plural": "Failures",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "Failure"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "create",
+        "find",
+        "findById"
+      ],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para esta falla."
+    },
+    "idProductType": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idProductType",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del tipo de producto para esta falla."
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Nombre de la falla."
+    },
+    "tag": {
+      "type": "string",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "tag",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Etiqueta corta de la falla."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "productType": {
+      "type": "belongsTo",
+      "model": "ProductType",
+      "foreignKey": "idProductType"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

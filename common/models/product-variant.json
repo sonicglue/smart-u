@@ -1,0 +1,92 @@
+{
+  "name": "ProductVariant",
+  "plural": "ProductVariants",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "ProductVariant"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "create",
+        "find"
+      ],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para esta variante de producto."
+    },
+    "idProductType": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idProductType",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Nombre de la variante."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "options": {
+      "type": "hasMany",
+      "model": "ProductVariantOption",
+      "foreignKey": "idProductVariant",
+      "description-es": "Opciones que pertecen a esta variante."
+    },
+    "type": {
+      "type": "belongsTo",
+      "model": "ProductType",
+      "foreignKey": "idProductType",
+      "description-es": "Tipo de producto de la variante."
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,746 @@
+
+<!--Lista de ejecutivos que tiene a cargo el gerente-->
+<div class="d-flex justify-content-end bd-highlight" style="position: absolute; z-index: 1; margin-top: -60px; margin-left: 910px;">
+  <div class="p-2 bd-highlight noprint">
+    <select  class="place form-control noprint" id="idSeller" ng-model="seller.idSeller"
+      ng-options="seller.id  as seller.name +'  ' + seller.lastName for seller in mysellers">
+    </select>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card-custom">
+      <div class="card-body-custom">
+        <div class="row mb-0">
+          <!-- Ventas del día -->
+          <div class="col-lg-3 col-md-6">
+            <a ng-click="boxCutView = !boxCutView" class="d-flex align-items-center">
+              <div class="mr-2">
+                <span class="text-cyan display-5 noprint">
+                  <i class="fas fa-dollar-sign icon-dashboard noprint"></i>
+                </span>
+              </div>
+              <div><span class="text-muted noprint">Ventas del día</span>
+                <h2 class="font-medium text-info noprint">{{totalSaleToday | currency}}</h2>
+              </div>
+            </a>
+          </div>
+          <!-- Pagos pendientes -->
+          <div class="col-lg-3 col-md-6">
+            <a ng-click="pendingPaymentView = !pendingPaymentView" class="d-flex align-items-center">
+              <div class="mr-2">
+                <span class="text-cyan display-5 noprint">
+                  <i class="fas fa-file-invoice-dollar icon-dashboard noprint"></i>
+                </span>
+              </div>
+              <div><span class="text-muted noprint">Pagos pendientes</span>
+                <h2 class="font-medium text-info noprint">{{amountPendingPayment | currency }}</h2>
+              </div>
+            </a>
+          </div>
+          <!-- Ordenes generadas -->
+          <div class="col-lg-3 col-md-6">
+            <div class="d-flex align-items-center">
+              <div class="mr-2">
+                <span class="text-cyan display-5 noprint">
+                  <i class="fas fa-shopping-cart icon-dashboard noprint"></i>
+                </span>
+              </div>
+              <div><span class="text-muted noprint">Ordenes generadas</span>
+                <h2 class="font-medium text-info noprint">{{listOrders.length}}</h2>
+              </div>
+            </div>
+          </div>
+          <!-- Equipos disponibles -->
+          <div class="col-lg-3 col-md-6">
+            <a ng-click="stockView = !stockView" class="d-flex align-items-center">
+              <div class="mr-2">
+                <span class="text-cyan display-5 noprint">
+                  <i class="fas fa-wallet icon-dashboard noprint"></i>
+                </span>
+              </div>
+              <div><span class="text-muted noprint">Equipos disponibles</span>
+                <h2 class="font-medium text-info noprint">{{stock}}</h2>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="animation-one" ng-hide="soldView || stockView || boxCutView || pendingPaymentView">
+  <div class="row">
+    <div class="col-lg-12 ">
+      <nav>
+        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+          <a class="nav-item nav-link active" id="nav-cut-tab" data-toggle="tab" data-target="#nav-cut" role="tab" aria-selected="true">CORTE DE VENTA</a>
+          <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" data-target="#nav-sale" role="tab" aria-selected="false">VENTAS DEL DÍA</a>
+          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#nav-historic-sale" role="tab" aria-selected="false">HISTORIAL</a>
+        </div>
+      </nav>
+      <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+
+        <div class="tab-pane fade show active" id="nav-cut" role="tabpanel" aria-labelledby="nav-cut-tab">
+          <div class="row" style="padding-top:10px;">
+            <div class="col-md-12">
+              <div class="card-custom">
+                <div class="card-body">
+
+                  <!--<table class="table table-striped table-bordered table-example"
+                      style="width:100%"
+                      datatable="ng"
+                      dt-options="vm.dtOptions"
+                      dt-instance="vm.dtInstance">
+                      <thead>
+                        <tr>
+                          <th rowspan="2" style="vertical-align: middle;">EJECUTIVO</th>
+                          <th rowspan="2" style="vertical-align: middle;">CUENTA</th>
+                          <th rowspan="2" style="vertical-align: middle;">DEUDA INICIAL</th>
+                          <th rowspan="2" style="vertical-align: middle;">MODELO</th>
+                          <th rowspan="2" style="vertical-align: middle;">CANT.</th>
+                          <th rowspan="2" style="vertical-align: middle;">PRECIO</th>
+                          <th rowspan="2" style="vertical-align: middle;">TOTAL</th>
+                          <th colspan="4" style="vertical-align: middle;" class="text-center">FORMA DE PAGO</th>
+                          <th rowspan="2" style="vertical-align: middle;">MONTO PAGADO</th>
+                          <th rowspan="2" style="vertical-align: middle;">MONTO PENDIENTE</th>
+                          <th rowspan="2" style="vertical-align: middle;">DEUDA FINAL</th>
+                        </tr>
+                        <tr>
+                          <th class="text-success">EFECTIVO</th>
+                          <th class="text-danger">CRÉDITO</th>
+                          <th class="text-primary">DEPOSITO</th>
+                          <th class="text-info">CHEQUE</th>
+                        </tr>
+                      </thead>
+                      <tbody ng-repeat="x in formatConciliation">
+                        <tr>
+                          <td  class="td"><span>{{ x.nameSeller }}</span></td>
+                          <td  class="td"><span>{{ x.nameClient }}</span></td>
+                          <td  class="td"><span>{{x.previousDebt | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].model}}</span></td>
+                          <td class="text-center td"><span>{{x.products[0].quantity}}</span></td>
+                          <td class="td"><span>{{x.products[0].cost | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].total | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].typePayment.cash | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].typePayment.credit | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].typePayment.deposit | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].typePayment.check | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].amountPaid | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].amountPending | currency}}</span></td>
+                          <td class="td"><span>{{x.currentDebt | currency}}</span></td>
+                        </tr>
+                        <tr ng-repeat="item in x.products" ng-if="$index > 0">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td class="td"><span>{{item.model}}</span></td>
+                          <td class="text-center td"><span>{{item.quantity}}</span></td>
+                          <td class="td"><span>{{item.cost | currency}}</span></td>
+                          <td class="td"><span>{{item.total | currency}}</span></td>
+                          <td class="td"><span>{{item.typePayment.cash | currency}}</span></td>
+                          <td class="td"><span>{{item.typePayment.credit | currency}}</span></td>
+                          <td class="td"><span>{{item.typePayment.deposit | currency}}</span></td>
+                          <td class="td"><span>{{item.typePayment.check | currency}}</span></td>
+                          <td class="td"><span>{{item.amountPaid | currency}}</span></td>
+                          <td class="td"><span>{{item.amountPending | currency}}</span></td>
+                          <td style="display: none;"></td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="7" class="text-right display-6">Total: </td>
+                          <td><span class="text-success display-6">{{totalCash | currency}}</span></td>
+                          <td><span class="text-danger display-6">{{totalCredit | currency}}</span></td>
+                          <td><span class="text-primary display-6">{{totalDeposit | currency}}</span></td>
+                          <td><span class="text-info display-6">{{totalCheck | currency}}</span></td>
+                          <td><span class="display-6">{{amountPayment | currency}}</span></td>
+                          <td><span class="display-6">{{amountPending | currency}}</span></td>
+                          <td></td>
+                        </tr>
+                      </tfoot>
+                    </table>-->
+
+
+                  <!--<h4 class="card-title">FORMATO DE CONCILIACIÓN</h4>-->
+                  <div class="table-responsive">
+                    <table  class="table-example table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th rowspan="2" style="vertical-align: middle;">EJECUTIVO</th>
+                          <th rowspan="2" style="vertical-align: middle;">CUENTA</th>
+                          <th rowspan="2" style="vertical-align: middle;">DEUDA INICIAL</th>
+                          <th rowspan="2" style="vertical-align: middle;">MODELO</th>
+                          <th rowspan="2" style="vertical-align: middle;">CANT.</th>
+                          <th rowspan="2" style="vertical-align: middle;">PRECIO</th>
+                          <th rowspan="2" style="vertical-align: middle;">TOTAL</th>
+                          <th colspan="4" style="vertical-align: middle;" class="text-center">FORMA DE PAGO</th>
+                          <th rowspan="2" style="vertical-align: middle;">MONTO PAGADO</th>
+                          <th rowspan="2" style="vertical-align: middle;">MONTO PENDIENTE</th>
+                          <th rowspan="2" style="vertical-align: middle;">DEUDA FINAL</th>
+                        </tr>
+                        <tr>
+                          <th class="text-success">EFECTIVO</th>
+                          <th class="text-danger">CRÉDITO</th>
+                          <th class="text-primary">DEPOSITO</th>
+                          <th class="text-info">CHEQUE</th>
+                        </tr>
+                      </thead>
+                      <tbody ng-repeat="x in formatConciliation">
+                        <tr>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{ x.nameSeller }}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{ x.nameClient }}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{x.previousDebt | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].model}}</span></td>
+                          <td class="text-center td"><span>{{x.products[0].quantity}}</span></td>
+                          <td class="td"><span>{{x.products[0].cost | currency}}</span></td>
+                          <td class="td"><span>{{x.products[0].total | currency}}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{x.cash | currency}}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{x.credit | currency}}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{x.deposit | currency}}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{x.check | currency}}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{x.amountPaid | currency}}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{x.amountPending | currency}}</span></td>
+                          <td rowspan="{{x.products.length}}" class="td"><span>{{x.currentDebt | currency}}</span></td>
+                        </tr>
+                        <tr ng-repeat="item in x.products" ng-if="$index > 0">
+                          <td class="td"><span>{{item.model}}</span></td>
+                          <td class="text-center td"><span>{{item.quantity}}</span></td>
+                          <td class="td"><span>{{item.cost | currency}}</span></td>
+                          <td class="td"><span>{{item.total | currency}}</span></td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="7" class="text-right display-6">Total: </td>
+                          <td><span class="text-success display-6">{{totalCash | currency}}</span></td>
+                          <td><span class="text-danger display-6">{{totalCredit | currency}}</span></td>
+                          <td><span class="text-primary display-6">{{totalDeposit | currency}}</span></td>
+                          <td><span class="text-info display-6">{{totalCheck | currency}}</span></td>
+                          <td><span class="display-6">{{amountPayment | currency}}</span></td>
+                          <td><span class="display-6">{{amountPending | currency}}</span></td>
+                          <td></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="nav-sale" role="tabpanel" aria-labelledby="nav-home-tab">
+          <div class="row animation-show-hide" style="padding-top:10px;">
+            <div class="col-md-12">
+              <div class="card-custom">
+                <div class="card-body">
+                  <!--<h4 class="card-title">VENTAS DEL DÍA</h4>-->
+                  <div class="bootstrap-table">
+                    <table class="table table-striped table-bordered table-example" style="width:100%"
+                        datatable="ng"
+                        dt-options="vm.dtOptions"
+                        dt-instance="vm.dtInstance"
+                        dt-column-defs="vm.dtColumnDefs">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>ORDEN</th>
+                              <th>VENDEDOR(A)</th>
+                              <th>CLIENTE</th>
+                              <th>FECHA</th>
+                              <th>TOTAL</th>
+                              <th class="text-center">TIPO</th>
+                              <!--<th class="text-center">TIPO PAGO</th>-->
+                              <!--<th class="text-center">ESTATUS</th>-->
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="itemSale in listOrders">
+                              <td class="text-center"><strong>{{$index+1}}</strong></td>
+                              <td><a ng-click="searchOrder(itemSale.id)" class="text-primary"><strong>{{itemSale.orderNumber}}</strong></a></td>
+                              <td style="">{{itemSale.seller}}</td>
+                              <td style="">{{itemSale.client}}</td>
+                              <td style="">{{itemSale.date}}</td>
+                              <td style="">{{itemSale.total | currency}}</td>
+                              <td class="text-center">{{typeSale(itemSale.type)}}</td>
+                              <!--<td class="text-center"><i class="fas" ng-class="(itemSale.typePayment === 'credit') ? 'fa-credit-card' : 'fa-exchange-alt'"></i> {{typePayment(itemSale.typePayment)}}</td>-->
+                              <!--<td class="text-center"><strong ng-class="(itemSale.status === 'pending') ? 'text-danger' : 'text-success'">{{statusPayment(itemSale.status)}}</strong></td>-->
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="nav-historic-sale" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+          <!-- ============================================================== -->
+          <!-- All sale -->
+          <!-- ============================================================== -->
+          <div class="row animation-show-hide" style="padding-top:10px;">
+            <div class="col-md-12">
+              <div class="card-custom">
+                <div class="card-body">
+                  <!--<h4 class="card-title">TODAS LAS VENTAS</h4>-->
+
+                  <div class="d-flex justify-content-around bd-highlight">
+                    <!--Select lista de ejecutivos-->
+                    <div class="p-2 bd-highlight">
+                      <select  class="place form-control noprint" id="idSeller" ng-model="seller.idSeller"
+                        ng-options="seller.id  as seller.name +'  ' + seller.lastName for seller in mysellers">
+                      </select>
+                    </div>
+                    <!--Fecha inicio-->
+                    <div class="p-2 bd-highlight">
+
+                      <div class="form-group row">
+                        <label for="staticdateStart" class="col-sm-4 col-form-label">Fecha inicio</label>
+                        <div class="col-sm-8">
+                          <div class="input-group">
+                            <input type="text" id="datepicker1" class="form-control form-control-sm"
+                              placeholder="mm/dd/aaaa" aria-label="Fecha de inicio"
+                              ng-model="searchHistory.dateStart">
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <span class="fa fa-calendar"></span>
+                              </span>
+                            </div><!--/.input-group-append-->
+                          </div><!--/.input-group-->
+                        </div>
+                      </div>
+
+                    </div>
+                    <!--Fecha fin-->
+                    <div class="p-2 bd-highlight">
+                      <div class="form-group row">
+                        <label for="staticdateStart" class="col-sm-4 col-form-label">Fecha fin</label>
+                        <div class="col-sm-8">
+                          <div class="input-group">
+                            <input type="text" id="datepicker2" class="form-control form-control-sm"
+                              placeholder="mm/dd/aaaa" aria-label="Fecha fin"
+                              ng-model="searchHistory.dateEnd">
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <span class="fa fa-calendar"></span>
+                              </span>
+                            </div><!--/.input-group-append-->
+                          </div><!--/.input-group-->
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  <div class="bootstrap-table">
+                    <table class="table table-striped table-bordered table-example" style="width:100%"
+                        datatable="ng"
+                        dt-options="vm.dtOptions"
+                        dt-instance="vm.dtInstance">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>ORDEN</th>
+                              <th>CLIENTE</th>
+                              <th>FECHA</th>
+                              <th>TOTAL</th>
+                              <th class="text-center">TIPO</th>
+                              <!--<th class="text-center">TIPO PAGO</th>-->
+                              <th class="text-center">ESTATUS</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="itemSale in listAllOrders">
+                              <td class="text-center"><strong>{{$index+1}}</strong></td>
+                              <td><a ng-click="searchOrder(itemSale.id)" class="text-primary"><strong>{{itemSale.orderNumber}}</strong></a></td>
+                              <td style="">{{itemSale.client}}</td>
+                              <td style="">{{itemSale.date}} </td>
+                              <td style="">{{itemSale.total | currency}}</td>
+                              <td class="text-center">{{typeSale(itemSale.type)}}</td>
+                              <!--<td class="text-center"><i class="fas" ng-class="(itemSale.typePayment === 'credit') ? 'fa-credit-card' : 'fa-exchange-alt'"></i> {{typePayment(itemSale.typePayment)}}</td>-->
+                              <td class="text-center"><strong ng-class="(itemSale.status === 'pending') ? 'text-danger' : 'text-success'">{{statusPayment(itemSale.status)}}</strong></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ============================================================== -->
+<!-- Pending payment -->
+<!-- ============================================================== -->
+<div class="row animation-one" ng-show="pendingPaymentView">
+  <div class="col-md-12">
+    <div class="card-custom">
+      <div class="card-body">
+        <h4 class="card-title">PAGOS PENDIENTES</h4>
+        <div class="bootstrap-table">
+          <table class="table table-striped table-bordered table-example"
+            style="width:100%"
+            datatable="ng"
+            dt-options="vm.dtOptions"
+            dt-instance="vm.dtInstance">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ORDEN</th>
+                <th>CLIENTE</th>
+                <th>FECHA</th>
+                <th>TOTAL</th>
+                <!--<th class="text-center">TIPO</th>-->
+                <th class="text-center">TIPO PAGO</th>
+                <th class="text-center">ESTATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="itemSale in listPendingPayment">
+                <td class="text-center"><strong>{{$index+1}}</strong></td>
+                <td><strong class="text-primary">{{itemSale.orderNumber}}</strong></td>
+                <td style="">{{itemSale.client}}</td>
+                <td style="">{{itemSale.date}} </td>
+                <td style="">{{itemSale.total | currency}}</td>
+                <!--<td class="text-center">{{typeSale(itemSale.type)}}</td>-->
+                <td class="text-center"><i class="fas" ng-class="(itemSale.typePayment === 'check') ? 'fa-credit-card' : 'fa-exchange-alt'"></i> {{typePayment(itemSale.typePayment)}}</td>
+                <td class="text-center"><strong ng-class="(itemSale.status === 'pending') ? 'text-danger' : 'text-success'">{{statusPayment(itemSale.status)}}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- Information sale -->
+<!-- ============================================================== -->
+<div ng-show="soldView" class="animation-show-hide">
+  <div class="row">
+    <div class="col-sm-6 mb-4 mb-xl-0">
+    </div>
+    <div class="col-sm-6">
+      <div class="d-flex align-items-center justify-content-md-end">
+        <div class="pr-1 mb-3 mb-xl-0 noprint">
+          <button class="btn btn-primary btn-icon mr-2 noprint" onclick="imprimir()">
+            <i class="fas fa-print"></i> Imprimir
+          </button>
+          <button type="button" class="btn btn-success btn-icon mr-2 noprint" ng-click="soldView = !soldView">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Información de la orden de venta-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-custom px-2">
+        <div class="card-body-custom">
+          <div class="container-fluid">
+            <h3 class="text-right my-5">Orden&nbsp;&nbsp;{{sale.orderNumber}}</h3>
+            <hr>
+          </div>
+          <div class="container-fluid d-flex justify-content-between">
+            <div class="col-lg-8 pl-0">
+
+              <ul class="hours-ul text-muted">
+                <li>
+                  <div class="d-flex no-block">
+                    <div class="mr-auto">
+                      Nombre del cliente
+                    </div>
+                    <div class="ml-auto font-bold font-16"> {{sale.client.name}} </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="d-flex no-block">
+                    <div class="mr-auto">
+                      Fecha de venta
+                    </div>
+                    <div class="ml-auto font-bold font-16"> {{getDateFormat(sale.created, 'L')}} </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="d-flex no-block">
+                    <div class="mr-auto">
+                      Forma de pago
+                    </div>
+                    <div class="ml-auto font-bold font-16">
+                      <div class="row no-gutters row-bordered row-border-light h-100">
+                        <div class="d-flex col-sm-3 col-md-3 col-lg-3 align-items-center" ng-repeat="order in sale.client.payments">
+                          <div class="card-body media align-items-center text-dark">
+                            <div class=" media align-items-center text-dark" style="line-height: 24px !important;">
+                              <i class="lnr lnr-clock display-4 d-block text-primary"></i>
+                              <span class="media-body d-block ml-3">
+                                <span class="text-big mr-1 text-primary">{{order.amount | currency }}</span>
+                                <small class="text-muted">{{typePayment(order.type)}}</small>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-4 pl-0">
+              <ul class="hours-ul text-muted">
+                <li>
+                  <div class="d-flex no-block">
+                    <div class="mr-auto">
+                      Deuda actual
+                    </div>
+                    <div class="ml-auto font-bold font-16"> {{sale.client.debt | currency}} </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="d-flex no-block">
+                    <div class="mr-auto">
+                      Estatus de pago
+                    </div>
+                    <div class="ml-auto font-bold font-16"> {{statusPayment(sale.client.payments[0].status)}} </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="container-fluid mt-5 d-flex justify-content-center w-100" ng-show="sale.orderhasproduct.length">
+            <div class="table-responsive w-100">
+              <table id="subtable" class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th class="text-right">CANTIDAD</th>
+                    <th class="text-right">COSTO UNITARIO</th>
+                    <th class="text-right">TOTAL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-right" ng-repeat="order in sale.orderhasproduct">
+                    <td class="text-left">{{$index+1}}</td>
+                    <td class="text-left">{{order.product.name}}</td>
+                    <td>{{order.totalItems}}</td>
+                    <td>{{order.subtotal | currency }}</td>
+                    <td>{{order.total | currency}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="container-fluid mt-5 w-100" ng-show="sale.orderhasproduct.length">
+            <p class="text-right mb-2">Sub - Total: {{sale.total | currency}}</p>
+            <!--<p class="text-right">vat (10%) : $138</p>-->
+            <h4 class="text-right mb-5">Total : {{sale.total | currency}}</h4>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- Stock warehouse -->
+<!-- ============================================================== -->
+<div class="col-md-12" ng-show="stockView">
+  <div class="card-custom">
+    <div class="card-body">
+      <h4 class="card-title">Productos disponibles en {{store.name}}.</h4>
+      <!--Lista de ejecutivos que tiene a cargo el gerente-->
+      <div class="d-flex justify-content-end bd-highlight" style="position: absolute; z-index: 1; margin-top: -60px; margin-left: 910px;">
+        <div class="p-2 bd-highlight noprint">
+          <select  class="place form-control noprint" id="idSeller" ng-model="store.idWarehouse"
+            ng-options="warehouse.id  as warehouse.name for warehouse in warehouses">
+          </select>
+        </div>
+      </div>
+
+      <div class="bootstrap-table">
+        <table class="table table-striped table-bordered table-example"
+                style="width:100%"
+                datatable="ng"
+                dt-options="vm.dtOptions"
+                dt-instance="vm.dtInstance"
+                dt-column-defs="vm.dtColumnDefs">
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">TIPO DE PRODUCTO</th>
+              <th class="text-center">MARCA</th>
+              <th class="text-center">MODELO</th>
+              <th class="text-center">COLOR</th>
+              <th class="text-center">VARIANTE</th>
+              <th class="text-center">EXISTENCIAS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="product in productsWarehouse">
+              <td class="text-center">
+                {{$index+1}}
+              </td>
+              <td class="text-center" scope="row">
+                {{product.typeName}}
+              </td>
+              <td class="text-center">
+                {{product.brandName}}
+              </td>
+              <td class="text-center">
+                {{product.modelName}}
+              </td>
+              <td class="text-center">
+                {{product.colorName}}
+              </td>
+              <td class="text-center">
+                {{product.variantOption}}
+              </td>
+              <td class="text-center">
+                <h4>{{product.stockSize | number}}</h4>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ============================================================== -->
+<!-- Corte de caja -->
+<!-- ============================================================== -->
+<div class="row" ng-show="boxCutView">
+  <div class="col-lg-5 col-md-6 pr">
+    <div class="card-custom">
+      <div class="card-body-custom">
+        <div class="profile-img">
+          <img src="assets/img/store.png">
+          <div class="online"></div>
+        </div>
+        <h5 class="card-title text-center font-20 mt-20 mb-5"> {{seller.name}} </h5>
+        <br>
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><span class="text-muted font-16"> Crédito </span>
+                <h5 class="card-title font-semibold">{{totalCreditCut | currency}}</h5>
+              </td>
+              <td>
+                <h5>Cheque</h5>
+                <hr>
+                <div class="row">
+                  <div class="col-md-6">
+                    <span class="text-muted font-16">Pendiente</span>
+                    <h5 class="card-title font-semibold">{{totalPendingCheck | currency}}</h5>
+                  </div>
+                  <div class="col-md-6">
+                    <span class="text-muted font-16">Real</span>
+                    <h5 class="card-title font-semibold">{{totalCheckCut | currency}}</h5>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="text-muted font-16">Efectivo</span>
+                <h5 class="card-title font-semibold">{{totalCashCut | currency}}</h5>
+              </td>
+              <td>
+                <h5>Deposito</h5>
+                <hr>
+                <div class="row">
+                  <div class="col-md-6">
+                    <span class="text-muted font-16">Pendiente</span>
+                    <h5 class="card-title font-semibold">{{totalPendingDeposit | currency}}</h5>
+                  </div>
+                  <div class="col-md-6">
+                    <span class="text-muted font-16">Real</span>
+                    <h5 class="card-title font-semibold">{{totalDepositCut | currency}}</h5>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr class="table-primary">
+              <td>
+                <h5 class="card-title font-semibold text-right">Total corte</h5>
+              </td>
+              <td>
+                <h5 class="card-title font-semibold">{{amountCutBox | currency}}</h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-7 col-md-7">
+    <div class="card-custom">
+      <div class="card-body-custom">
+        <h5 class="card-title font-21 font-semibold text-muted">Equipos vendidos</h5>
+        <div class="table-responsive">
+          <table class="table font-13 mb-0 display nowrap">
+            <thead>
+              <tr>
+                <th class="text-center">#</th>
+                <th class="text-left">NOMBRE</th>
+                <th class="text-left">MARCA</th>
+                <th class="text-left">MODELO</th>
+                <th class="text-left">COLOR</th>
+                <th class="text-center">VENDIDOS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-hide="soldProducts.length">
+                <td colspan="5" class="text-center">
+                  No hay equipos vendidos
+                </td>
+              </tr>
+              <tr ng-repeat="itemProduct in soldProducts">
+                <td class="text-center text-muted"><strong>{{$index+1}}</strong></td>
+                <td class="text-left text-primary">{{itemProduct.name}}</td>
+                <td class="text-muted">{{itemProduct.brand}}</td>
+                <td class="text-muted">{{itemProduct.model}}</td>
+                <td class="text-muted">{{itemProduct.color}}</td>
+                <td class="text-center">
+                  <a href="" class="soldCount"><strong>{{itemProduct.totalSold}}</strong></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(function() {
+    $("#datepicker1").datepicker({
+      dateFormat: 'dd/mm/yy'});
+    $("#datepicker2").datepicker({
+      dateFormat: 'dd/mm/yy'});
+  });
+</script>

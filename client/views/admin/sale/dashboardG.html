@@ -1,0 +1,379 @@
+<div class="row" style="margin-top:30px;">
+        <!-- Column 1: ventas totales -->
+        <div class="col-lg-3 col-md-6">
+            <div class="box card">
+                <div class="card-body">
+                    <h5 class="card-title">VENTAS TOTALES</h5>
+                    <div class="d-flex no-block align-items-center m-t-20 m-b-20">
+                        <div id="sparklinedash"><i class="fa fa-money icon-lg" style="font-size: 40PX; color:#00c292;"></i></div>
+                        <div class="ml-auto">
+                            <h2 class="text-success"><i class="ti-arrow-up"></i> <span class="counter">$10,000000</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div id="sparkline8" class="sparkchart"></div>
+            </div>
+        </div><!--End column 1-->
+      
+        <!-- Column 2: Total de vendedores -->
+        <div class="col-lg-3 col-md-6">
+            <div class="box card">
+                <div class="card-body">
+                    <h5 class="card-title">VENDEDORES</h5>
+                    <div class="d-flex no-block align-items-center m-t-20 m-b-20">
+                        <div id="sparklinedash2"><i class="fa fa-users icon-lg text-purple" style="font-size: 40PX;"></i></div>
+                        <div class="ml-auto">
+                            <h2 class="text-purple"><i class="ti-arrow-up"></i> <span class="counter">7469</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div id="sparkline8" class="sparkchart"></div>
+            </div>
+        </div><!--End column 2-->
+      
+        <!-- Column 3: Devoluciones -->
+        <div class="col-lg-3 col-md-6">
+            <div class="box card">
+                <div class="card-body">
+                    <h5 class="card-title">GARANTÍAS</h5>
+                    <div class="d-flex no-block align-items-center m-t-20 m-b-20">
+                        <div id="sparklinedash3"><i class="fa fa-thumbs-down icon-lg text-info" style="font-size: 40PX;"></i></div>
+                        <div class="ml-auto">
+                            <h2 class="text-info"><i class="ti-arrow-up"></i> <span class="counter">6011</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div id="sparkline8" class="sparkchart"></div>
+            </div>
+        </div><!--End column 3-->
+      
+        <!-- Column 4: Nota de remisión-->
+        <div class="col-lg-3 col-md-6">
+            <div class="box card">
+                <div class="card-body">
+                    <h5 class="card-title">NOTAS DE REMISIÓN</h5>
+                    <div class="d-flex no-block align-items-center m-t-20 m-b-20">
+                        <div id="sparklinedash4"><i class="fa fa-clone icon-lg text-danger" style="font-size: 40PX;"></i></div>
+                        <div class="ml-auto">
+                            <h2 class="text-danger"><i class="ti-arrow-down"></i> <span class="counter">10,000</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div id="sparkline8" class="sparkchart"></div>
+            </div>
+        </div><!-- End column 4 -->
+      </div>
+      &nbsp;
+      
+      <div class="col-md-12">
+        <div class="card">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs customtab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active show" data-toggle="tab" href="#sale" role="tab" aria-selected="true">
+                <span class="hidden-sm-up"><i class="fa fa-money icon-lg"></i></span>
+                <span class="hidden-xs-down">Ventas realizadas</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#profile2" role="tab" aria-selected="false">
+                <span class="hidden-sm-up"><i class="fa fa-calendar-o"></i></span>
+                <span class="hidden-xs-down">Formato de conciliación</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#messages2" role="tab" aria-selected="false">
+                <span class="hidden-sm-up"><i class="fa fa-square-o"></i></span>
+                <span class="hidden-xs-down">Balance general</span>
+              </a>
+            </li>
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active show" id="sale" role="tabpanel">
+              <div class="p-20">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead class="thead-light">
+                      <tr>
+                        <th class="thead-one">Folio</th>
+                        <th class="thead-one">Cliente</th>
+                        <th class="thead-one">Fecha</th>
+                        <th class="thead-one">Total</th>
+                        <th class="thead-one">Estatus</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="billing in billings ">
+                        <td><a href="javascript:void(0)" class="link"> Orden #53431</a></td>
+                        <td>{{billing.name}}</td>
+                        <td><span class="text-muted"><i class="fa fa-clock-o"></i> Sept 17, 2018</span></td>
+                        <td>$45.00</td>
+                        <td class="text-center"><div class="label label-table label-success">Pagado</div></td>
+                      </tr>
+                      
+                    </tbody>
+                    <div class="center" ng-include="'views/common/pagination.html'" ></div>
+
+                  </table>
+                </div>
+              </div>
+            </div><!--End tab-pane 1-->&nbsp;
+
+            <div class="tab-pane p-20" id="profile2" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-4" style="margin-left:1cm;" >
+                    <form action="/action_page.php">
+                          <h6 for="sel1">Selecciona Vendedor</h6>
+                          <select class="form-control"  id="sel1" name="sellist1">
+                            <option>Jesus DF</option>
+                            <option>Charles S Boyle	</option>
+                            <option>Lucy Doe	</option>
+                            <option>Teresa L. Doe	</option>
+                            <option>Charles S Boyle		</option>
+                            <option>Scott S. Calabrese		</option>
+                          </select>
+                        
+                        </form>
+                    </div>
+                                <div class="col-lg-6">
+                                  <button class="btn btn-md btn btn-info pull-right" style="margin-right:1cm;" data-toggle="modal" data-target="#modalID">Depósitos <span class="fa fa-plus"></span></button>
+                                </div>
+                              </div>
+                              <div  class="modal fade " id="modalID">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modhedfut modal-header">
+                                          <h2 class="modal-title">Depósitos Recibidos</h2>
+      
+                                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>                                </div>
+                                      <div class="modal-body">
+                                          <div class="table-responsive">
+                                         <table class="table table-condensed">
+                                             <thead class="thead-light">
+                                                    <tr>
+                                                            <th class="thead-one">Vendedor</th>
+                                                            <th class="thead-one">Cliente</th>
+                                                            <th class="thead-one">Cantidad</th>
+                                                            <th class="thead-one">Fecha</th>
+                                                        </tr>
+                                                 <tbody>
+                                                     <tr>
+                                                        <td>JESUS DF</td>
+                                                        <td>ALEJANDRO HERNANDEZ</td>
+                                                        <td>$10000</td>
+                                                        <td>17-sep-2018</td> 
+                                                     </tr>
+                                                   
+                                                 </tbody>
+                                             </thead>
+                                         </table>
+                                        </div>
+                                      <div class=" modhedfut modal-footer">
+                                        <div class="col-6">
+                                          <!-- Buttons here -->
+                                          <button type="button" class="btn btn-primary pull-right btn-md" id="myBtn">Aceptar</button>                                      </div>
+                                    </div>
+                                  </div>
+                                </div> 
+                      </div>
+                      </div>&nbsp;
+                    <div class="table-responsive">
+                            <table class="table table-striped">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th class="thead-one">Cuenta</th>
+                                  <th class="thead-one">Modelo</th>
+                                  <th class="thead-one">Cantidad</th>
+                                  <th class="thead-one">Costo</th>
+                                  <th class="thead-one">Credito</th>
+                                  <th class="thead-one">Contado</th>
+                                  <th class="thead-one">Monto Total</th>
+                                  <th class="thead-one">Monto Pagado </th>
+                                  <th class="thead-one">Monto Pendiente</th>
+                                  <th class="thead-one">Fecha</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <tr ng-repeat="billing in billings ">
+                               <td>{{billing.name}}</td>
+                               <td><span class="text-muted"><i class=""></i> Prime plus</span></td>
+                               <td>20</td>
+                               <td class="text-center"><div class="label label-table label-success">$2.00</div></td>
+                               <td class="text-center"><div class="label label-table label-success">$400</div></td>
+                               <td class="text-center"><div class="label label-table label-success">$0</div></td>
+                               <td class="text-center"><div class="label label-table label-success">$400</div></td>
+                               <td class="text-center"><div class="label label-table label-success">$0</div></td>
+                               <td class="text-center"><div class="label label-table label-success">$400</div></td>
+                               <td class="text-center"><div class="label label-table label-success"> Sept 17, 2018</div></td>
+                            </tr>  
+                             <tr>
+                              <td colspan="7" class="text-center"><h2>Gran Total:</h2></td>
+                              <td class="total text-md-left"><h5>$520000</h5></td>
+                              <td class="total text-md-left"><h5>$520000</h5></td>
+                              <td class="total text-md-left"><h5>$520000</h5></td>
+                              <td></td>
+                            </tr>
+                              </tbody>
+                            </table>
+                    </div>
+            </div>
+            <div class="tab-pane p-20" id="messages2" role="tabpanel">
+                    <div class="  container ">
+                        
+                            <h2>Balance</h2>
+                            <div class="row col-lg-12">
+                            <div id="reportrange" class="col-lg-4 "style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span> <i class="fa fa-caret-down pull-right"></i>
+                            </div>&nbsp;
+                            <div class="box card col-lg-4 pull-right">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Gran Total</h5>
+                                        <div class="d-flex no-block align-items-center m-t-20 m-b-20">
+                                            <div id="sparklinedash"><i class="fa fa-money icon-lg" style="font-size: 40PX; color:#00c292;"></i></div>
+                                            <div class="ml-auto">
+                                                <h2 class="text-success"><i class="ti-arrow-up"></i> <span class="counter">$520,000</span></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="sparkline8" class="sparkchart"></div>
+                                </div>
+                            </div>
+                           
+                            <div class="container">
+                                <table class="table table-striped">
+                                  <thead class="thead-light">
+                                    <tr>
+                                      <th  class="thead-one">Ejecutivo</th>
+                                      <th  class="thead-one">Total Equipos</th>
+                                      <th  class="thead-one">Contado</th>                          
+                                      <th  class="thead-one">Total</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr ng-repeat="billing in billings " >
+                                    <td>{{billing.name}}</td>
+                                      <td>5</td>
+                                      <td>10000</td>
+                                      <td>$10000</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Samsung</td>
+                                      <td>5</td>
+                                      <td>50000</td>
+                                      <td>$50000</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Huawei</td>
+                                      <td>20</td>
+                                      <td>260000</td>
+                                      <td>$260000</td>
+                                    </tr>
+                                    <tr >
+                                        <td>Motorola</td>
+                                  <td>5</td>
+                                  <td>10000</td>
+                                  <td>$10000</td>
+                                </tr>
+                                <tr>
+                                  <td>Samsung</td>
+                                  <td>5</td>
+                                  <td>50000</td>
+                                  <td>$50000</td>
+                                </tr>
+                                <tr>
+                                  <td>Huawei</td>
+                                  <td>20</td>
+                                  <td>260000</td>
+                                  <td>$260000</td>
+                                </tr>
+                                <tr >
+                                    <td>Motorola</td>
+                              <td>5</td>
+                              <td>10000</td>
+                              <td>$10000</td>
+                            </tr>
+                            <tr>
+                              <td>Xiahomi</td>
+                              <td>5</td>
+                              <td>50000</td>
+                              <td>$50000</td>
+                            </tr>
+                            <tr>
+                              <td>Huawei</td>
+                              <td>20</td>
+                              <td>260000</td>
+                              <td>$260000</td>
+                            </tr>
+                            <tr >
+                                <td>Iphone x</td>
+                          <td>5</td>
+                          <td>10000</td>
+                          <td>$100000</td>
+                        </tr>
+                        <tr>
+                          <td>Samsung</td>
+                          <td>5</td>
+                          <td>50000</td>
+                          <td>$50000</td>
+                        </tr>
+                        <tr>
+                          <td>Huawei</td>
+                          <td>20</td>
+                          <td>260000</td>
+                          <td>$260000</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-center"><h2> Total:</h2></td>
+                            <td class="total text-md-left"><h5>$520000</h5></td>
+                            <td class="total text-md-left"><h5>$520000</h5></td>
+                          </tr>
+                                  </tbody>
+                                </table>
+                        </div>
+            </div>
+          </div><!--End tab-content-->
+        </div><!--End card-->
+      </div><!--End col-md-12-->
+      <script>$(document).ready(function(){
+    
+            $("#myModal").modal("show");
+            
+            
+            $("#myBtn").click(function(){
+                $("#myModal").modal("hide");
+            });
+            $("#myModal").on('hidden.bs.modal', function () {
+                    alert("Esta accion se ejecuta al cerrar el modal")
+            });
+        
+        });</script>
+        <script type="text/javascript">
+            $(function() {
+            
+                var start = moment().subtract(29, 'days');
+                var end = moment();
+            
+                function cb(start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+            
+                $('#reportrange').daterangepicker({
+                    startDate: start,
+                    endDate: end,
+                    ranges: {
+                       'Hoy': [moment(), moment()],
+                       'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                       'Ultimos 7 Dias': [moment().subtract(6, 'days'), moment()],
+                       'Ultomos 30 Dias': [moment().subtract(29, 'days'), moment()],
+                       'Este Mes': [moment().startOf('month'), moment().endOf('month')],
+                       'Mes Pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    }
+                }, cb);
+            
+                cb(start, end);
+            
+            });
+            </script>
+      

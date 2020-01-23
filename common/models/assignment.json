@@ -1,0 +1,328 @@
+{
+  "name": "Assignment",
+  "plural": "Assignments",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "Assignment"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "count",
+        "create",
+        "deleteById",
+        "find",
+        "findById",
+        "prototype.addStock",
+        "prototype.delStock",
+        "prototype.valStock"
+      ],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este lote."
+    },
+    "idOrigin": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idOrigin",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del almacén de origen del traspaso."
+    },
+    "idDestiny": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idDestiny",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del almacén destino del traspaso."
+    },
+    "number": {
+      "type": "string",
+      "required": true,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "number",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Número de transferencia."
+    },
+    "idSender": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idSender",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del usuario que envía el traspaso."
+    },
+    "idReceiver": {
+      "type": "string",
+      "required": false,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "default": null,
+      "mysql": {
+        "columnName": "idReceiver",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del usuario que recibe el traspaso."
+    },
+    "status": {
+      "type": "string",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "default": "open",
+      "mysql": {
+        "columnName": "status",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Estado de la transferencia."
+    },
+    "created": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "now",
+      "mysql": {
+        "columnName": "created",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Fecha de registro del lote."
+    },
+    "received": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": null,
+      "mysql": {
+        "columnName": "received",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Fecha de recepción del lote."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "destiny": {
+      "type": "belongsTo",
+      "model": "Warehouse",
+      "foreignKey": "idDestiny"
+    },
+    "origin": {
+      "type": "belongsTo",
+      "model": "Warehouse",
+      "foreignKey": "idOrigin"
+    },
+    "sender": {
+      "type": "belongsTo",
+      "model": "SysUser",
+      "foreignKey": "idSender"
+    },
+    "receiver": {
+      "type": "belongsTo",
+      "model": "SysUser",
+      "foreignKey": "idReceiver"
+    },
+    "stocks": {
+      "type": "hasMany",
+      "model": "Stock",
+      "foreignKey": "idAssignment",
+      "through": "AssignmentHasStock",
+      "keyThrough": "idStock"
+    },
+    "stockValidate": {
+      "type": "hasMany",
+      "model": "AssignmentHasStock",
+      "foreignKey": "idAssignment"
+    }
+  },
+  "acls": [],
+  "methods": {
+    "prototype.addStock": {
+      "accepts": [
+        {
+          "arg": "idStock",
+          "type": "string",
+          "required": true,
+          "description": "Identificador del equipo."
+        },
+        {
+          "arg": "index",
+          "type": "number",
+          "required": false,
+          "description": "Indice de asignación."
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Agrega un equipo al traspaso.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "prototype.cancel": {
+      "accepts": [
+        {
+          "arg": "idReceiver",
+          "type": "string",
+          "required": true,
+          "description": "Identificador del usuario que recibe el traspaso."
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Cancela el traspaso recibido.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "prototype.delStock": {
+      "accepts": [
+        {
+          "arg": "idStock",
+          "type": "string",
+          "required": true,
+          "description": "Identificador del equipo."
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Retira un equipo al traspaso.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "prototype.receive": {
+      "accepts": [
+        {
+          "arg": "idReceiver",
+          "type": "string",
+          "required": true,
+          "description": "Identificador del usuario que recibe el traspaso."
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Acepta el traspaso recibido.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "prototype.valStock": {
+      "accepts": [
+        {
+          "arg": "idStock",
+          "type": "string",
+          "required": true,
+          "description": "Identificador del equipo."
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": ".",
+      "http": {
+        "verb": "POST"
+      }
+    }
+  }
+}

@@ -1,0 +1,374 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-9">
+    <h4>Registro o ingreso a garantía.</h4>
+  </div><!--/.col-sm-9-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go(return.to, return.paramsTo)">
+      <span class="fa fa-arrow-left"></span>
+      Cancelar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Formulario-->
+<div ng-hide="busy">
+  <!--Busqueda de IMEI-->
+  <div class="row justify-content-center"
+    ng-hide="guarantee.id || stock.id">
+    <div class="col-md-4">
+      <form name="formImei" autocomplete="off"
+        ng-submit="searchProduct()" class="justify-content-center" novalidate>
+        <div class="custom-control custom-checkbox text-right">
+          <input type="checkbox" class="custom-control-input" id="customSwitch1"
+            ng-model="input.toggleSave">
+          <label class="custom-control-label" for="customSwitch1">Registrar sin IMEI</label>
+        </div>
+        <!--Campos de busqueda por IMEI -->
+        <div class="form-group">
+          <label for="imei" class="col-form-label">
+            Número de serie/IMEI:
+          </label>
+          <div>
+            <input type="text" id="imei" class="form-control text-center search"
+              placeholder="000000000000000" autofocus
+              ng-disabled="input.toggleSave"
+              ng-model="input.IMEI">
+          </div>
+        </div>
+      </form>
+    </div><!--/.col-md-4-->
+
+  </div><!--/.row-->
+  <!--Alerta-->
+  <div class="row justify-content-center"
+    ng-show="stock.id && !stock.inTime">
+    <div class="col-md-6 alert alert-danger" role="alert">
+      <h4 class="alert-heading">¡Atención!</h4>
+      <hr>
+      <p>La vigencia de garantía para este equipo ha vencido, podrá ingresar el
+        equipo para su reparación asumiendo el costo de la misma.</p>
+    </div>
+  </div>
+  <!--Formuario-->
+  <form name="formGuarantee" autocomplete="off" class="needs-validation" novalidate
+    ng-submit="savee()">
+    <!--Datos del equipo 1 (sin IMEI)-->
+    <div class="row justify-content-center" ng-show="input.toggleSave && !stock.id">
+      <div class="col-md-5">
+        <h5>Datos del equipo</h5>
+        <!--Tipo de producto-->
+        <div class="form-row form-group">
+          <label for="type"
+            class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Producto:
+          </label>
+          <div class="col-sm-9">
+            <select id="type" class="form-control form-control-sm"
+              ng-model="product.idProductType"
+              ng-options="productType.id as productType.name for productType in productTypes">
+              <option value="">Selecciona una opción</option>
+            </select>
+            <div class="invalid-feedback">
+              Debe seleccionar un tipo de producto de la lista.
+            </div>
+          </div>
+        </div>
+        <!--Marca-->
+        <div class="form-row form-group">
+          <label for="brand"
+            class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Marca:
+          </label>
+          <div class="col-sm-9">
+            <select id="brand" class="form-control form-control-sm"
+              ng-model="product.idBrand"
+              ng-options="brand.id as brand.name for brand in brands">
+              <option value="">Selecciona una opción</option>
+            </select>
+            <div class="invalid-feedback">
+              Debe seleccionar una marca de la lista.
+            </div>
+          </div>
+        </div>
+        <!--Modelo-->
+        <div class="form-row form-group">
+          <label for="model"
+            class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Modelo:
+          </label>
+          <div class="col-sm-9">
+            <select id="model" class="form-control form-control-sm"
+              ng-model="product.idProductModel"
+              ng-options="model.id as model.name for model in models">
+              <option value="">Selecciona una opción</option>
+            </select>
+            <div class="invalid-feedback">
+              Debe seleccionar un modelo de la lista.
+            </div>
+          </div>
+        </div>
+        <!--Color-->
+        <div class="form-row form-group">
+          <label for="color"
+            class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Color:
+          </label>
+          <div class="col-sm-9">
+            <select id="color" class="form-control form-control-sm"
+              ng-model="product.idColor"
+              ng-options="color.id as color.name for color in colors">
+              <option value="">Selecciona una opción</option>
+            </select>
+            <div class="invalid-feedback">
+              Debe seleccionar un color de la lista.
+            </div>
+          </div>
+        </div>
+      </div><!--/.col-md-5-->
+      <div class="col-md-5">
+        <h5>Datos de la venta del equipo</h5>
+        <!--Vendedor-->
+        <div class="form-row form-group">
+          <label for="seller"
+            class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Vendedor:
+          </label>
+          <div class="col-sm-9">
+            <select id="seller" class="form-control form-control-sm"
+              ng-model="guarantee.idSeller"
+              ng-options="seller.id as (seller.name +'  ' + seller.lastName) for seller in sellers">
+              <option value="">Selecciona una opción</option>
+            </select>
+            <div class="invalid-feedback">
+              Debe seleccionar un vendedor de la lista.
+            </div>
+          </div>
+        </div>
+        <!--Cliente-->
+        <div class="form-row form-group">
+          <label for="client"
+            class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Cliente:
+          </label>
+          <div class="col-sm-9">
+            <select id="client" class="form-control form-control-sm"
+              ng-model="guarantee.idClient"
+              ng-options="client.id as client.name for client in clients">
+              <option value="">Selecciona una opción</option>
+            </select>
+            <div class="invalid-feedback">
+              Debe seleccionar un cliente de la lista.
+            </div>
+          </div>
+        </div>
+        <!--Tiene costo-->
+        <div class="form-group form-row justify-content-end">
+          <div class="custom-control custom-checkbox col-sm-9">
+            <input type="checkbox" id="hasCost1" class="custom-control-input"
+              disabled
+              ng-model="guarantee.hasCost">
+            <label for="hasCost1" class="custom-control-label">
+              La reparación tiene costo
+            </label>
+          </div>
+        </div>
+      </div><!--/.col-md-5-->
+    </div><!--/.row-->
+    <!--Datos del equipo 2 (con stock.id)-->
+    <div class="row mb-3" ng-show="stock.id">
+      <!--Tarjeta del producto-->
+      <div class="col-md-4">
+        <div class="card">
+          <h5 class="card-header">Datos del equipo</h5>
+          <!--Datos del lote-->
+          <div class="card-body">
+            <dl class="row mb-0">
+              <!--IMEI-->
+              <dt class="col-sm-5 text-sm-right">IMEI</dt>
+              <dd class="col-sm-7">{{stock.IMEI}}</dd>
+              <!--Marca-->
+              <dt class="col-sm-5 text-sm-right">Marca</dt>
+              <dd class="col-sm-7">{{stock.product.model.brand.name}}</dd>
+              <!--Modelo-->
+              <dt class="col-sm-5 text-sm-right">Modelo</dt>
+              <dd class="col-sm-7">{{stock.product.model.name}}</dd>
+              <!--Color-->
+              <dt class="col-sm-5 text-sm-right">Color</dt>
+              <dd class="col-sm-7">{{stock.product.color.name}}</dd>
+              <!--Estatus del producto-->
+              <dt class="col-sm-5 text-sm-right">Estatus actual</dt>
+              <dd class="col-sm-7">{{stockStatus(stock.status)}}</dd>
+              <!--Fecha de compra-->
+              <dt class="col-sm-5 text-sm-right">Fecha de compra</dt>
+              <dd class="col-sm-7">{{getDateFormat(stock.date, 'L')}}</dd>
+              <!--Vendedor-->
+              <dt class="col-sm-5 text-sm-right">Vendedor</dt>
+              <dd class="col-sm-7">{{stock.seller.name}}</dd>
+              <!--Almacen-->
+              <dt class="col-sm-5 text-sm-right">Almacen</dt>
+              <dd class="col-sm-7">{{stock.warehouse.name}}</dd>
+
+
+            </dl>
+          </div>
+        </div><!--/.card-->
+      </div><!--/.col-sm-4-->
+      <!--Stock del lote-->
+      <div class="col-md-8">
+        <h5>Datos de la venta del equipo</h5>
+        <!--Almacén-->
+        <div class="form-row form-group">
+          <label for="warehouse" class="col-sm-2 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Almacén:
+          </label>
+          <div class="col-sm-6">
+            <select id="seller" class="form-control form-control-sm"
+              ng-model="guarantee.idWarehouse"
+              ng-options="warehouse.id as warehouse.name for warehouse in warehouse">
+              <option value="">Selecciona una opción</option>
+            </select>
+        </div>
+      </div>
+        <!--Vendedor-->
+      <!--  <div class="form-row form-group">
+          <label for="seller" class="col-sm-2 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Vendedor:
+          </label>
+          <div class="col-sm-6">
+            <select id="seller" class="form-control form-control-sm"
+              ng-model="guarantee.idSeller"
+              ng-options="seller.id as (seller.name +'  ' + seller.lastName) for seller in sellers">
+              <option value="">Selecciona una opción</option>
+            </select>
+            <div class="invalid-feedback">
+              Debe seleccionar un vendedor de la lista.
+            </div>
+          </div>
+        </div>-->
+        <!--Cliente-->
+        <div class="form-row form-group">
+          <label for="client" class="col-sm-2 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Cliente:
+          </label>
+          <div class="col-sm-9">
+            <input type="text" id="client" class="form-control form-control-sm" readonly
+              ng-model="stock.client.name">
+          </div>
+        </div>
+        <!--Fecha de venta-->
+        <div class="form-row form-group">
+          <label for="saleDate" class="col-sm-2 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Fecha de venta:
+          </label>
+          <div class="col-sm-5">
+            <input type="text" id="saleDate" class="form-control form-control-sm" readonly
+              value="{{getDateFormat(stock.saleDate, 'L')}}">
+          </div>
+        </div>
+        <!--Procede la garantía-->
+        <div class="form-row form-group"
+          ng-show="guarantee.id">
+          <label for="status" class="col-sm-2 col-form-label col-form-label-sm text-md-right">
+          <span>*</span>
+            La garantía:
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control form-control-sm" required
+              ng-model="guarantee.status">
+              <option value="canceled">No procede. Cancelar garantía</option>
+              <option value="check-in">Procede. Recibir garantía</option>
+            </select>
+            <div class="invalid-feedback">
+              Debe seleccionar el estado de la garantía de la lista.
+            </div>
+          </div>
+        </div>
+        <!--Tiene costo-->
+        <div class="form-group form-row justify-content-end">
+          <div class="custom-control custom-checkbox col-sm-10">
+            <input type="checkbox" id="hasCost2" class="custom-control-input"
+              ng-model="guarantee.hasCost"
+              ng-disabled="!stock.inTime">
+            <label for="hasCost2" class="custom-control-label">
+              La reparación tiene costo
+            </label>
+          </div>
+        </div>
+      </div><!--/.col-sm-8-->
+    </div><!--/.row-->
+    <!--Accesorios-->
+    <div class="row">
+      <div class="col" id="accessories">
+        <h5>Accesorios con los que se recibe:</h5>
+        <hr>
+        <div class="form-group form-row px-5">
+          <!--Accesorios-->
+          <div class="custom-control custom-checkbox col-sm-4"
+            ng-repeat="accessory in stock.product.accessories">
+            <input type="checkbox" id="{{accessory.id}}" class="custom-control-input"
+              ng-model="accessory.value"
+              ng-click="addAccessory(accessory)">
+            <label for="{{accessory.id}}" class="custom-control-label">
+              {{accessory.name}}
+            </label>
+          </div>
+        </div>
+      </div><!--/.col-->
+    </div><!--/.row-->
+    <!--Fallas-->
+    <div class="row" ng-show="stock.id || input.toggleSave">
+      <div class="col">
+        <h5>Fallas que presenta el equipo:</h5>
+        <hr>
+        <div class="form-group form-row px-5">
+          <!--Accesorios-->
+          <div class="custom-control custom-checkbox col-sm-4"
+            ng-repeat="failure in stock.product.type.failures">
+            <input type="checkbox" id="{{failure.id}}" class="custom-control-input"
+              ng-model="failure.value"
+              ng-click="addFailure(failure)">
+            <label for="{{failure.id}}" class="custom-control-label">
+              {{failure.name}}
+            </label>
+          </div>
+        </div>
+      </div><!--/.col-->
+    </div><!--/.row-->
+    <!--Observaciones-->
+    <div class="row" ng-show="stock.id || input.toggleSave">
+      <div class="col">
+        <label>Observaciones adicionales</label>
+        <textarea class="form-control"
+          ng-model="guarantee.description"></textarea>
+      </div>
+    </div>
+    <!--Botón-->
+    <div ng-show="stock.id || input.toggleSave">
+      <div class="text-center my-3">
+        <button type="submit" class="btn btn-success btn-sm">
+          <span class="fa fa-save"></span>
+          Registrar la garantía
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

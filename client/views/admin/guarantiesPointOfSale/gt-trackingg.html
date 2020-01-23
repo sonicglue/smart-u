@@ -1,0 +1,374 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-9">
+    <h4>Lista de Garantías.</h4>
+  </div><!--/.col-sm-9-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go(return.to, return.paramsTo)">
+      <span class="fa fa-arrow-left"></span>
+      Cancelar
+    </button>
+  </div>
+</div><!--/.row-->
+
+<!--Formulario-->
+<div >
+  <!--Alerta---->
+  <div class="row justify-content-center"
+    ng-show="stock && !stock.inTime">
+    <div class="col-md-6 alert alert-danger" role="alert">
+      <h4 class="alert-heading">¡Atención!</h4>
+      <hr>
+      <p>La vigencia de garantía para este equipo ha vencido, podrá ingresar el
+        equipo para su reparación asumiendo el costo de operación.</p>
+    </div>
+  </div>
+  <div class="row mb-3" >
+    <!--Tarjeta del producto-->
+    <div class="col-md-4" ng-show="guarantee.idStock.length">
+      <div class="card">
+        <h5 class="card-header">Datos de la garantía</h5>
+        <!--Datos del lote-->
+        <div class="card-body">
+          <dl class="row mb-0">
+            <!--Ticket-->
+            <dt class="col-sm-6 text-sm-right">Número de servicio</dt>
+            <dd class="col-sm-6">{{guarantee.guideNumber}}</dd>
+            <!--Estatus de la garantía-->
+            <dt class="col-sm-6 text-sm-right">Estatus actual</dt>
+            <dd class="col-sm-6">{{guaranteeStatus(guarantee.status)}}</dd>
+            <!--Fecha de compra-->
+            <dt class="col-sm-6 text-sm-right">Fecha de recepción</dt>
+            <dd class="col-sm-6">{{getDateFormat(stock.dateCheckIn, 'L')}}</dd>
+            <!--Marca-->
+            <dt class="col-sm-6 text-sm-right">Días desde el ingreso</dt>
+            <dd class="col-sm-6">{{getDaysFrom(stock.dateCheckIn)}}</dd>
+          </dl>
+        </div>
+        <div class="card-footer bg-danger mb-0"
+          ng-show="guarantee.hasCost">
+          <!--Garantía con costo-->
+          <h5 class="text-center text-white">Garantía con costo</h5>
+        </div><!--/.card-footer-->
+      </div><!--/.card-->
+    </div><!--/.col-sm-4-->
+
+
+    <div class="col-md-4" ng-hide="guarantees.idStock !== null" >
+        <div class="card">
+          <h5 class="card-header">Datos de la garantía</h5>
+          <!--Datos del lote-->
+          <div class="card-body">
+            <dl class="row mb-0">
+              <!--Estatus de la garantía-->
+              <dt class="col-sm-6 text-sm-right">Estatus actual</dt>
+              <dd class="col-sm-6">{{guarantee.status}}</dd>
+              <!--Fecha de compra-->
+              <dt class="col-sm-6 text-sm-right">Fecha de recepción</dt>
+              <dd class="col-sm-6">{{getDateFormat(guarantee.created, 'L')}}</dd>
+              <!--Marca-->
+            </dl>
+          </div>
+          <div class="card-footer bg-danger mb-0"
+            ng-show="guarantee.hasCost">
+            <!--Garantía con costo-->
+            <h5 class="text-center text-white">Garantía con costo</h5>
+          </div><!--/.card-footer-->
+        </div><!--/.card-->
+      </div><!--/.col-sm-4-->
+    <!--Datos del stock-->
+    <div class="col-md-4" ng-show="guarantee.idStock.length">
+        <div class="card">
+            <div class="card-header bg-warning mb-0"
+            ng-show="stock.forRefund">
+            <!--Garantía con costo-->
+            <h5 class="text-center text-white">
+              Equipo Bonificado
+            </h5>
+          </div><!--/.card-footer-->
+          <h5  ng-hide="stock.forRefund" class="card-header">Datos del equipo</h5>
+          <!--Datos del lote-->
+          <div class="card-body">
+            <dl class="row mb-0">
+              <!--IMEI-->
+              <dt class="col-sm-5 text-sm-right">IMEI</dt>
+              <dd class="col-sm-7">{{stock.IMEI}}</dd>
+              <!--Marca-->
+              <dt class="col-sm-5 text-sm-right">Marca</dt>
+              <dd class="col-sm-7">{{stock.product.model.brand.name}}</dd>
+              <!--Modelo-->
+              <dt class="col-sm-5 text-sm-right">Modelo</dt>
+              <dd class="col-sm-7">{{stock.product.model.name}}</dd>
+              <!--Color-->
+              <dt class="col-sm-5 text-sm-right">Color</dt>
+              <dd class="col-sm-7">{{stock.product.color.name}}</dd>
+              <!--Producto-->
+              <dt class="col-sm-5 text-sm-right">Producto</dt>
+              <dd class="col-sm-7">{{stock.product.name}}</dd>
+              <!--Estatus del producto-->
+              <dt class="col-sm-5 text-sm-right">Estatus actual</dt>
+              <dd class="col-sm-7">{{stockStatus(stock.status)}}</dd>
+              <!--Fecha de compra-->
+              <dt class="col-sm-5 text-sm-right">Fecha de compra</dt>
+              <dd class="col-sm-7">
+                {{getDateFormat(stock.date, 'L')}}
+                ({{getDaysFrom(stock.date)}})</dd>
+            </dl>
+          </div><!--/.card-body-->
+          <div class="card-footer bg-secondary mb-0"
+            ng-show="stock.isRefurb">
+            <!--Garantía con costo-->
+            <h5 class="text-center text-white">
+              Equipo Re-Acondicionado
+            </h5>
+          </div><!--/.card-footer-->
+        </div><!--/.card-->
+      </div><!--/.col-sm-4-->
+<!--Tarjeta del producto-->
+<div class="col-md-4" ng-hide="guarantees.idStock !== null">
+    <div class="card" >
+      <h5 class="card-header">Datos del equipo</h5>
+      <!--Datos del lote-->
+      <div class="card-body" >
+        <dl class="row mb-0"  >
+            <dt class="col-sm-5 text-sm-right">No.Folio</dt>
+            <dd class="col-sm-7" >{{guarantees.guideNumber}}</dd>
+            <!--Marca-->
+            <dt class="col-sm-5 text-sm-right">Marca</dt>
+            <dd class="col-sm-7" >{{guarantees.failures[0].product.model.brand.name}}</dd>
+            <!--Modelo-->
+            <dt class="col-sm-5 text-sm-right">Modelo</dt>
+            <dd class="col-sm-7">{{guarantees.failures[0].product.model.name}}</dd>
+            <!--Color-->
+            <dt class="col-sm-5 text-sm-right">Color</dt>
+            <dd class="col-sm-7">{{guarantees.failures[0].product.color.name}}</dd>
+
+        </dl>
+      </div>
+    </div><!--/.card-->
+    <div class="card-footer bg-warning mb-0"
+    ng-show="stock.forRefund">
+    <!--Garantía con costo-->
+    <h5 class="text-center text-white">
+      Equipo Bonificado
+    </h5>
+  </div><!--/.card-footer-->
+  </div><!--/.col-sm-4-->
+
+      <!--Tarjeta del producto-->
+     <div class="col-md-4"  ng-hide="guarantees.idStock !== null">
+        <div class="card" >
+          <h5 class="card-header">Datos de la Venta</h5>
+          <!--Datos del lote-->
+          <div class="card-body" >
+            <dl class="row mb-0"  >
+               <!--Almacen-->
+              <dt class="col-sm-5 text-sm-right">Almacen</dt>
+             <dd class="col-sm-7">{{currentUser.name}}-Almacen</dd>
+                            <!--Almacen-->
+                            <dt class="col-sm-5 text-sm-right">Vendedor</dt>
+                            <dd class="col-sm-7">{{currentUser.name + currentUser.lastName}}</dd>
+                              <!--Almacen-->
+                              <dt class="col-sm-5 text-sm-right">Cliente</dt>
+                              <dd class="col-sm-7">{{guarantees.client.name}}</dd>
+
+            </dl>
+          </div>
+        </div><!--/.card-->
+      </div><!--/.col-sm-4-->
+    <!--Stock del lote-->
+    <div class="col-md-4" ng-show="guarantee.idStock.length">
+      <div class="card">
+        <h5 class="card-header">Datos de la venta</h5>
+        <!--Datos del lote-->
+        <div class="card-body">
+          <dl class="row mb-0">
+            <!--IMEI-->
+            <dt class="col-sm-5 text-sm-right">Almacén</dt>
+            <dd class="col-sm-7">{{stock.warehouse.name}}</dd>
+            <!--Marca-->
+            <dt class="col-sm-5 text-sm-right">Vendedor</dt>
+            <dd class="col-sm-7">{{stock.user.name}}</dd>
+            <!--Modelo-->
+            <dt class="col-sm-5 text-sm-right">Cliente</dt>
+            <dd class="col-sm-7">{{stock.client.name}}</dd>
+            <!--Color-->
+            <dt class="col-sm-5 text-sm-right">Fecha de venta</dt>
+            <dd class="col-sm-7">
+              {{getDateFormat(stock.saleDate, 'L')}}
+              ({{getDaysFrom(stock.saleDate)}})
+            </dd>
+          </dl>
+        </div>
+        <div class="card-footer mb-0"
+          ng-class="validateDate(stock.saleDate, 'sale') ? 'bg-warning' : 'bg-info'">
+          <!--Garantía con costo-->
+          <h5 class="text-center text-white">
+            {{validateDate(stock.saleDate, 'sale') ? 'Equipo Usado' : 'Equipo Nuevo'}}
+          </h5>
+        </div><!--/.card-footer-->
+      </div><!--/.card-->
+    </div><!--/.col-sm-4-->
+  </div>
+  <!--Formulario-->
+  <div class="row my-3">
+    <div class="col-md-8">
+      <h5>Seguimiento a la garantía</h5>
+      <form name="formGuarantee" autocomplete="off" class="needs-validation" novalidate
+        ng-submit="updatee()">
+        <!--Almacén-->
+        <div class="form-row form-group">
+          <label for="warehouse" class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Ingresos anteriores:
+          </label>
+          <div class="col-sm-9">
+            <input type="text" id="warehouse" class="form-control form-control-sm" readonly
+              ng-model="inputs.history">
+          </div>
+        </div>
+        <!--Accesorios-->
+        <div class="form-row form-group">
+          <label for="warehouse" class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Accesorios:
+          </label>
+          <div class="col-sm-9">
+            <input type="text" id="warehouse" class="form-control form-control-sm" readonly
+              ng-model="inputs.accessories">
+          </div>
+        </div>
+        <!--Tipo de falla-->
+        <div class="form-row form-group">
+          <label for="warehouse" class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Fallas registradas:
+          </label>
+          <div class="col-sm-9">
+            <input type="text" id="warehouse" class="form-control form-control-sm" readonly
+              ng-model="inputs.failures">
+          </div>
+        </div>
+        <!--Servicio-->
+        <div class="form-row form-group">
+          <label for="service" class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            La garantía:
+          </label>
+          <div class="col-sm-9">
+            <select id="service" class="form-control form-control-sm" required
+              ng-model="inputs.status"
+              ng-options="event.id as event.label for event in events">
+              <option value="">Seleccione una opción</option>
+            </select>
+          </div>
+        </div>
+        <div ng-show="class === 'guaranteee-first-entry'">
+        <!--Tiene costo-->
+        <div class="form-group form-row justify-content-end">
+          <div class="custom-control custom-checkbox col-sm-9">
+            <input type="checkbox" id="hasCost" class="custom-control-input"
+              ng-model="guarantee.hasCost"
+              ng-disabled="!stock.inTime">
+            <label for="hasCost" class="custom-control-label">
+              Reparado con Costo
+            </label>
+          </div>
+        </div>
+
+
+        <div class="form-group form-row justify-content-end" ng-hide="guarantee.hasCost">
+                <div class="custom-control custom-checkbox col-sm-9">
+                  <input type="checkbox" id="isRefurb" class="custom-control-input"
+                    ng-model="guarantee.isRefurb">
+                  <label for="isRefurb" class="custom-control-label">
+                    El equipo es re-acondicionado:{{guarantee.isRefurb}}
+                  </label>
+                </div>
+              </div>
+     <!--class stock-->
+     <div ng-show="guarantee.isRefurb">
+     <div class="form-row form-group">
+      <label for="service" class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+        <span>*</span>
+         Cambio:
+      </label>
+      <div class="col-sm-2">
+        <select id="service" class="form-control form-control-sm" required ng-model="value" ng-click="select(value)"
+          >
+          <option value="">Selecciona</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
+      </div>
+    </div>
+     <!--Busqueda de IMEI-->
+  <div class="row justify-content-center"
+  >
+  <div class="col-md-6">
+
+      <div class="form-group">
+        <label for="" class="col-form-label">
+         IMEI Anterior:
+        </label>
+        <input type="text" id="imei" class="form-control text-center search" ng-disabled="stock.IMEI"
+          placeholder="000000000000000" autofocus
+          ng-model="stock.IMEI">
+      </div>
+      <div class="form-group">
+        <label for="" class="col-form-label">
+         IMEI Nuevo:
+        </label>
+        <input type="text" id="imei" class="form-control text-center " value="" ng-model="formFilters" ng-submit="newImei()"
+          placeholder="000000000000000" autofocus
+         >
+      </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+        <!--Observaciones-->
+        <div class="form-row form-group">
+          <label for="seller" class="col-sm-3 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Observaciones:
+          </label>
+          <div class="col-sm-9">
+            <textarea class="form-control"
+              ng-model="guarantee.description"></textarea>
+          </div>
+        </div>
+        <!--Botón guardar-->
+        <div class="form-group form-row justify-content-end">
+          <div class="col-sm-9">
+            <button type="submit" class="btn btn-success btn-sm">
+              <span class="fa fa-save"></span>
+              Actualizar garantía
+            </button>
+          </div>
+        </div>
+      </form>
+    </div><!--/.col-sm-8-->
+    <!--Eventos de la garantía-->
+    <div class="col-md-4"  >
+      <div class="card mb-3">
+        <h5 class="card-header">Historial</h5>
+        <div class="card-body">
+          <div class="mt-0 mb-3 border-bottom" ng-repeat="log in guarantee.logs">
+            <strong>{{guaranteeStatus(log.event)}}:</strong>
+            <em><small>{{getDateFormat(log.date, 'LLL')}}</small></em>
+            <br/>
+            {{log.description}}
+          </div>
+        </div>
+
+      </div><!--/.card-->
+
+    </div><!--/.col-md-4-->
+  </div><!--/.row-->
+</div>

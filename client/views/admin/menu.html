@@ -1,0 +1,389 @@
+<ul class="sidebar-nav oculto-impresion">
+  <li class="sidebar-brand">
+    <a href="#">Menú</a>
+  </li>
+  <!--Dashboard de CEO-->
+  <li class="nav-item"
+    ng-show="checkAccess('ce')">
+    <a class="dropdown-toggle" data-target="#subDashboard" data-toggle="collapse" aria-expanded="false">
+      <span class="fa fa-line-chart"></span>
+      Panel de control</a>
+    <ul id="subDashboard" class="collapse">
+      <li><a ui-sref="admin.dashboard.prices"
+        ng-class="checkMenu('prices')">
+        Lista de precios</a></li>
+      <li><a ui-sref="admin.dashboard.profit"
+        ng-class="checkMenu('profit')">
+        Utilidad por lote</a></li>
+    </ul>
+  </li>
+  <!--Ordenes de compra-->
+  <li class="nav-item"
+    ng-show="checkMail('blanca.monroy@axcomunicacion.com.mx')">
+    <a class="dropdown-toggle" data-target="#subPurchase" data-toggle="collapse" aria-expanded="false">
+      <span class="fa fa-shopping-cart"></span>
+      Compras</a>
+    <ul id="subPurchase" class="collapse">
+      <li><a ui-sref="admin.purchase-order.list" ng-class="checkMenu('purchase-order')">
+        Ordenes de compra</a></li>
+    </ul>
+  </li>
+  <!--Registro de inventario-->
+  <li class="nav-item"
+    ng-show="checkAccess('wastsu') && currentUser.isMain">
+    <a data-target="#subStock" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-book"></span>
+      Registro de inventario</a>
+    <ul id="subStock" class="collapse">
+      <li class="nav-item"><a ui-sref="admin.batch.list" ng-class="checkMenu('batch')">
+        Captura de IMEI</a></li>
+    </ul>
+  </li>
+  <!--Operaciones en el almacén-->
+  <li class="nav-item" ng-show="checkAccess('wastsuacmase')">
+    <a data-target="#subShorts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-cubes"></span>
+      Almacén</a>
+    <ul id="subShorts" class="collapse">
+      <li class="nav-item" ng-show="checkAccess('wast')">
+        <a ui-sref="admin.inventory.list" ng-class="checkMenu('inventory')">
+          Inventario</a></li>
+      <li class="nav-item" ng-show="checkAccess('wastsuacmase')">
+        <a ui-sref="admin.assignment.list" ng-class="checkMenu('assignment')">
+          Transferencia de equipo</a></li>
+      <!--<li class="nav-item">
+        <a ui-sref="admin.stock.list" ng-class="checkMenu('stock')">
+          Escaneo de series</a></li>-->
+    </ul>
+  </li>
+  <!--Garantías-->
+  <li class="nav-item"
+    ng-show="checkAccess('wast')">
+    <a data-target="#subGuarantee" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-certificate"></span>
+      Garantías</a>
+    <ul id="subGuarantee" class="collapse">
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.status-sheet"
+          ng-class="checkMenu('status-sheet')">
+          Acuse de garantías</a></li>
+      <li class="nav-item"
+        ng-show="!currentUser.isMain || checkMail('ernesto.lopez@axcomunicacion.com.mx')">
+        <a ui-sref="admin.guarantee-pre-entry.list"
+          ng-class="checkMenu('guarantee-pre-entry')">
+          Recepción de garantías</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('st') && currentUser.isMain">
+        <a ui-sref="admin.guarantee-entry.list"
+          ng-class="checkMenu('guarantee-entry')">
+          Ingreso de garantías</a></li>
+      <li class="nav-item"
+        ng-show="checkMail('rafael.villa@axcomunicacion.com.mx')">
+        <a ui-sref="admin.guarantee-re-assignment.list"
+          ng-class="checkMenu('guarantee-re-assignment')">
+          Asignación de garantías</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('st') && currentUser.isMain">
+        <a ui-sref="admin.guarantee-departure.list"
+        ng-class="checkMenu('guarantee-departure')">
+          Garantias a Proveedor</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('st') && currentUser.isMain">
+        <a ui-sref="admin.guarantee-re-entry.list"
+          ng-class="checkMenu('guarantee-re-entry')">
+          Garantias Re-ingreso</a></li>
+
+      <!--<li class="nav-item"
+        ng-show="!currentUser.isMain">
+        <a ui-sref="admin.guarantee-refurb.list"
+          ng-class="checkMenu('guarantee-refurb')">
+          Garantias Reacondicionadas</a></li>-->
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee-canceled.list"
+          ng-class="checkMenu('guarantee-canceled')">
+          Garantias Rechazadas</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.graph({status: 'for-refund'})"
+          ng-class="checkMenu('for-refund')"
+          ng-show="checkMail('diego.colin@axcomunicacion.com.mx') || checkMail('frida3245@gmail.com') || checkMail('ivonne.ayala@axcomunicacion.com.mx')">
+          Grantias a bonificar</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee-report.list"
+          ng-class="checkMenu('guarantee-report')">
+          Semaforo de garantías</a></li>
+          <li class="nav-item"
+            ng-show="checkAccess('st') && currentUser.isMain">
+            <a ui-sref="admin.guarantee-refound.list"
+              ng-class="checkMenu('guarantee-refound')">
+              Garantias para Entregar</a></li>
+    </ul>
+  </li>
+  <!--Garantías 2--
+  <li class="nav-item"
+    ng-show="checkAccess('wast')">
+    <a data-target="#subGuarantee2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-certificate"></span>
+      Garantías 2</a>
+    <ul id="subGuarantee2" class="collapse">
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.status-sheet"
+          ng-class="checkMenu('status-sheet')">
+          Acuse de garantías</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.graph({status: 'check-in'})"
+          ng-class="checkMenu('check-in')">
+          Recepción de garantías</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.graph({status: 'entry'})"
+          ng-class="checkMenu('entry')">
+          Ingreso de garantías</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.graph({status: 'departure'})"
+        ng-class="checkMenu('departure')">
+          Garantias a proveedor</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.graph({status: 're-entry'})"
+          ng-class="checkMenu('re-entry')">
+          Re-ingreso de garantías</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.graph({status: 're-assignment'})"
+          ng-class="checkMenu('re-assignment')">
+          Re-asignación de garantías</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee.graph({status: 'canceled'})"
+          ng-class="checkMenu('canceled')">
+          Garantias rechazadas</a></li>
+      <!--<li class="nav-item"
+        ng-show="!currentUser.isMain">
+        <a ui-sref="admin.guarantee.refurb"
+          ng-class="checkMenu('guarantee-refurb')">
+          Garantias Reacondicionadas</a></li>-->
+      <!--<li class="nav-item">
+        <a ui-sref="admin.guarantee.graph({status: 'for-refund'})"
+          ng-class="checkMenu('for-refund')"
+          ng-show="checkMail('diego.colin@axcomunicacion.com.mx') || checkMail('frida3245@gmail.com')">
+          Grantias a bonificar</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee-report.list"
+          ng-class="checkMenu('guarantee-report')">
+          Semaforo de garantías</a></li>
+    </ul>
+  </li>-->
+
+  <!--Garantías punto de venta-->
+  <li class="nav-item"
+    ng-show="checkAccess('se')">
+    <a data-target="#subGuarantee" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-certificate"></span>
+      Garantías</a>
+    <ul id="subGuarantee" class="collapse">
+      <li class="nav-item"
+        ng-show="checkAccess('se')"
+        ng-class="checkMenu('guaranteee-first-entry')">
+        <a ui-sref="admin.guaranteee-first-entry.list({idWarehouse:currentUser.idWarehouse})" ui-sref-active="active">
+          Ingreso de garantías</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('se')"
+        ng-class="checkMenu('guaranteee-two-entry')">
+        <a ui-sref="admin.guaranteee-two-entry.list({idWarehouse:currentUser.idWarehouse})" ui-sref-active="active">
+          Re-asignacion de garantías</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('se')"
+        ng-class="checkMenu('guaranteee-four-refound')">
+        <a ui-sref="admin.guaranteee-four-refound.list({idWarehouse:currentUser.idWarehouse})" ui-sref-active="active">
+          Garantias para Entregar</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.guarantee-canceled.list"
+          ng-class="checkMenu('guarantee-canceled')">
+          Garantias Rechazadas</a></li>
+    </ul>
+  </li>
+
+  <!--Registro de ventas-->
+  <li class="nav-item"> <!--Comment (ng-show="checkAccess('wamast')")-->
+    <a data-target="#subOrder" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-money"></span>
+      Ventas</a>
+    <ul id="subOrder" class="collapse">
+      <li class="nav-item" ng-show="checkAccess('ma') || currentUser.isAdmin">
+        <a ui-sref="admin.price.list" ui-sref-active="active">
+          Lista de precios</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.cut.list" ui-sref-active="active">
+          Escaneo de Series</a></li>
+      <!--<li class="nav-item">
+        <a ui-sref="admin.stock.list" ng-class="checkMenu('stock')">
+          Escaneo de Series</a></li>-->
+      <li class="nav-item">
+        <a ui-sref="admin.scanByAvailable.form" ui-sref-active="active">
+          Capturar disponible</a></li>
+      <li class="nav-item" ng-show="checkAccess('ma') || currentUser.isAdmin">
+        <a ui-sref="admin.order.list" ng-show="checkAccess('ma')" ng-class="checkMenu('order')">
+          Registro de ventas</a></li>
+      <li class="nav-item" ng-show="checkAccess('wa') && currentUser.isMain">
+        <a ui-sref="admin.check-payment.list" ng-class="checkMenu('check-payment')">
+          Conciliación de pagos</a></li>
+      <li class="nav-item" ng-show="checkAccess('ad') && currentUser.isMain">
+        <a ui-sref="admin.dashboard.prices" ng-class="checkMenu('prices')">
+          Control de precios</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.dashboardG.list" ng-show="checkAccess('ma') || checkAccess('ceo') || (checkAccess('wa') && currentUser.isMain)" ui-sref-active="active">
+          Ventas General</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.dashboardV" ng-show="checkAccess('ma')" ui-sref-active="active">
+          Ventas Regional</a></li>
+
+      <li class="nav-item" ng-show="checkAccess('se')" ng-class="checkMenu('point-of-sale')">
+        <a ui-sref="admin.pointOfSale.list({idWarehouse:currentUser.idWarehouse})"  ui-sref-active="active">
+          Punto de venta</a></li>
+      <li class="nav-item" ng-show="checkAccess('ma')" ng-class="checkMenu('sale-dashboard')">
+        <a ui-sref="admin.pointOfSale.dashboard"  ui-sref-active="active">
+          Dashboard</a></li>
+    </ul>
+  </li>
+  <!--Abonos y adeudos-->
+  <li class="nav-item"
+    ng-show="checkAccess('ma')">
+    <a data-target="#subPayment" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-dollar"></span>
+      Abonos y Adeudos</a>
+    <ul id="subPayment" class="collapse">
+      <li class="nav-item">
+        <a ui-sref="admin.debts.list" ui-sref-active="active">
+           Abonos y adeudos</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.refund.list" ui-sref-active="active">
+           Bonificaciones de productos</a></li>
+    </ul>
+  </li>
+  <!--Vendedores y Clientes-->
+  <li class="nav-item"
+    ng-show="checkAccess('adma')">
+    <a data-target="#subSellers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-users"></span>
+      Asignaciones
+    </a>
+    <ul id="subSellers" class="collapse">
+      <li class="nav-item">
+        <a ui-sref="admin.assignments-client" ui-sref-active="active">
+          Asignaciones</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.assignments" ui-sref-active="active">
+          Asignar clientes</a></li>
+    </ul>
+  </li>
+  <!--Catálogos-->
+  <li class="nav-item"
+    ng-show="checkAccess('wama') && currentUser.isAdmin || checkAccess('ad')">
+    <a class="dropdown-toggle" data-target="#subCategories" data-toggle="collapse" aria-expanded="false">
+      <span class="fa fa-puzzle-piece"></span>
+      Catálogos
+    </a>
+    <ul id="subCategories" class="collapse">
+      <li class="nav-item"
+        ng-show="checkAccess('ad')">
+        <a ui-sref="admin.user.list" ng-class="checkMenu('user')">
+          Usuarios</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('ad')">
+        <a ui-sref="admin.warehouse.list" ng-class="checkMenu('warehouse')">
+          Almacenes</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('wa') && currentUser.isMain">
+        <a ui-sref="admin.provider.list" ng-class="checkMenu('provider')">
+          Proveedores</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('wa') && currentUser.isMain">
+        <a ui-sref="admin.company.list" ng-class="checkMenu('company')">
+          Empresas</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('ma')">
+        <a ui-sref="admin.client.list" ng-class="checkMenu('client')">
+          Clientes</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('ad')">
+        <a ui-sref="admin.color.list" ng-class="checkMenu('color')">
+          Colores</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('ad')">
+        <a ui-sref="admin.brand.list" ng-class="checkMenu('brand')">
+          Marcas</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('ad')">
+        <a ui-sref="admin.model.list" ng-class="checkMenu('model')">
+          Modelos</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('adwa') && currentUser.isMain">
+        <a ui-sref="admin.product.list" ng-class="checkMenu('product')">
+          Productos</a></li>
+      <li class="nav-item"
+        ng-show="checkAccess('ad')">
+        <a ui-sref="admin.asigmentManager" ui-sref-active="active">
+          Asignar Vendedores</a></li>
+    </ul>
+  </li>
+  <!--Cartas porte-->
+  <li class="nav-item" ng-show="checkAccess('ac') || checkMail('francisco.bello@axcomunicacion.com.mx') || checkMail('marcos.salcedo@axcomunicacion.com.mx')">
+    <a class="dropdown-toggle" data-target="#letterPorte" data-toggle="collapse" aria-expanded="false">
+      <span class="fa fa-book"></span>
+      Carta porte
+    </a>
+    <ul id="letterPorte" class="collapse">
+      <li class="nav-item">
+        <a ui-sref="admin.letterPorte.list" ui-sref-active="active" ng-class="checkMenu('complete-cambaceo')">
+          <span class="fa fa-copy"></span>
+          Cambaceo completo
+        </a>
+      </li>
+      <li class="nav-item">
+        <a ui-sref="admin.letterPorte.complement" ui-sref-active="active" ng-class="checkMenu('complement')">
+          <span class="fa fa-sticky-note"></span>
+          Complemento
+        </a>
+      </li>
+      <li class="nav-item">
+        <a ui-sref="admin.letterPorte.prices" ui-sref-active="active" ng-class="checkMenu('complement')">
+          <span class="fa fa-dollar-sign"></span>
+          Lista de precios
+        </a>
+      </li>
+    </ul>
+  </li>
+  <!--Reportes-->
+  <li class="nav-item" ng-show="checkAccess('wastse')">
+    <a data-target="#subReports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      <span class="fa fa-chart-line"></span>
+      Reportes
+    </a>
+    <ul id="subReports" class="collapse">
+      <li class="nav-item">
+        <a ui-sref="admin.report.routes"
+          ng-show="checkAccess('adwa')"
+          ng-class="checkMenu('routes')">
+          Reporte de rutas</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.report.series"
+          ng-show="checkAccess('adwa')"
+          ng-class="checkMenu('series')">
+          Reporte de series masivas</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.report.sales"
+          ng-show="checkAccess('adwast')"
+          ng-class="checkMenu('sales')">
+          Reporte de ventas</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.report.guarantees"
+          ng-show="checkAccess('adwastse')"
+          ng-class="checkMenu('guarantees')">
+          Reporte de Garantías</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.route.list"
+          ng-class="checkMenu('route')">
+          Hojas de cambaceo</a></li>
+      <li class="nav-item">
+        <a ui-sref="admin.find.form"
+          ng-class="checkMenu('findStock')">
+          Búsqueda de series</a></li>
+    </ul>
+  </li>
+</ul>

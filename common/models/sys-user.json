@@ -1,0 +1,634 @@
+{
+  "name": "SysUser",
+  "plural": "SysUsers",
+  "base": "User",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true,
+    "restrictResetPasswordTokenScope": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "SysUser"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "count",
+        "create",
+        "find",
+        "findById",
+        "getAccessToken",
+        "loginCustomize",
+        "prototype.removeStocks",
+        "setSale",
+        "setSaleReport",
+        "setReportSeries"
+      ],
+      "hide": [
+        "changePassword",
+        "confirm",
+        "deleteById",
+        "replaceById",
+        "resetPassword",
+        "setPassword",
+        "prototype.changePassword",
+        "prototype.verify"
+      ]
+    }
+  },
+  "hidden": [
+    "password",
+    "mobileVerificationToken",
+    "verificationToken"
+  ],
+  "protected": [
+    "password",
+    "mobileVerificationToken",
+    "verificationToken"
+  ],
+  "properties": {
+    "realm": false,
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este lote."
+    },
+    "idParent": {
+      "type": "string",
+      "required": false,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idParent",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del gerente, se utiliza unicamente con vendedores."
+    },
+    "idWarehouse": {
+      "type": "string",
+      "required": false,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idWarehouse",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del almacén, se utiliza unicamente con vendedores."
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "type",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": ""
+    },
+    "employedId": {
+      "type": "string",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "employedId",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": ""
+    },
+    "accountStatus": {
+      "type": "string",
+      "required": true,
+      "length": 30,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "accountStatus",
+        "dataType": "varchar",
+        "dataLength": 30,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": ""
+    },
+    "username": {
+      "type": "string",
+      "required": false,
+      "length": 80,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "username",
+        "dataType": "varchar",
+        "dataLength": 80,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": ""
+    },
+    "email": {
+      "type": "string",
+      "required": true,
+      "length": 120,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "email",
+        "dataType": "varchar",
+        "dataLength": 120,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": ""
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "length": 60,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 60,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": ""
+    },
+    "lastName": {
+      "type": "string",
+      "required": true,
+      "length": 120,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "lastName",
+        "dataType": "varchar",
+        "dataLength": 120,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": ""
+    },
+    "alias": {
+      "type": "string",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "alias",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": ""
+    },
+    "birthDate": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "birthDate",
+        "dataType": "date",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Fecha de nacimiento del usuario."
+    },
+    "date": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Fecha de registro del usuario."
+    },
+    "isAdmin": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "isAdmin",
+        "dataType": "tinyint",
+        "dataLength": 1,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Bandera que indica que es el almacén principal del sistema."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "clients": {
+      "type": "hasMany",
+      "model": "Billing",
+      "foreignKey": "idSeller",
+      "through": "SellerHasClient",
+      "keyThrough": "idClient"
+    },
+    "payments": {
+      "type": "hasMany",
+      "model": "Payment",
+      "foreignKey": "idSeller"
+    },
+    "sellers": {
+      "type": "hasMany",
+      "model": "SysUser",
+      "foreignKey": "idParent"
+    },
+    "stocks": {
+      "type": "hasMany",
+      "model": "Stock",
+      "foreignKey": "idUser"
+    },
+    "warehouseACL": {
+      "type": "hasMany",
+      "model": "WarehouseACL",
+      "foreignKey": "idUser"
+    },
+    "warehouses": {
+      "type": "hasMany",
+      "model": "Warehouse",
+      "foreignKey": "idUser",
+      "through": "WarehouseACL",
+      "keyThrough": "idWarehouse"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": [
+        "findById",
+        "getAccessToken",
+        "login",
+        "patchAttributes",
+        "getStock",
+        "loginCustomize",
+        "setSaleReport",
+        "setReportSeries",
+        "find"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "find",
+        "removeStocks"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "warehouse-boss",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "find",
+        "removeStocks"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "manager",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "find",
+        "getStock",
+        "setClient",
+        "removeStocks",
+        "setSaleReport",
+        "findStock",
+        "setReportSeries"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "storer",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "find",
+        "getStock",
+        "removeStocks"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "support",
+      "permission": "ALLOW",
+      "property": []
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "seller",
+      "permission": "ALLOW",
+      "property": [
+        "findStock",
+        "getStock",
+        "setSale"
+      ]
+    }
+  ],
+  "methods": {
+    "prototype.getStock": {
+      "accepts": [],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Devuelve el usuario con el equipo asignado a su cuenta.",
+      "http": {
+        "verb": "GET",
+        "path": "/getStock"
+      }
+    },
+    "findStock": {
+      "accepts": [
+        {
+          "arg": "imei",
+          "type": "string",
+          "description": "IMEI del producto.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "",
+      "http": {
+        "path": "/findStock",
+        "verb": "GET"
+      }
+    },
+    "getAccessToken": {
+      "accepts": [
+        {
+          "arg": "tokenId",
+          "type": "string",
+          "required": true,
+          "description": "Identificador del token de acceso."
+        }
+      ],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "description": "Devuelve el token de acceso con el identificador dado, incluyendo el usuario al que le pertenece.",
+      "http": {
+        "path": "/getAccessToken/:tokenId",
+        "verb": "GET"
+      }
+    },
+    "getSellers": {
+      "accepts": [],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Devuelve la lista de usuarios sellers activos.",
+      "http": {
+        "path": "/getSellers",
+        "verb": "GET"
+      }
+    },
+    "setClient": {
+      "accepts": [
+        {
+          "arg": "data",
+          "description": "Objeto con identificador de vendedor e identificadores de los clientes.",
+          "type": "object"
+        }
+      ],
+      "returns": {
+        "arg": "data",
+        "type": "any",
+        "root": true
+      },
+      "description": "Asigna varios clientes a un solo vendedor.",
+      "http": {
+        "verb": "POST",
+        "path": "/set-client"
+      }
+    },
+    "setSaleReport": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Array con los IDS de los ejecutivos.",
+          "required": true
+        },
+        {
+          "arg": "res",
+          "type": "object",
+          "http": {
+            "source": "res"
+          }
+        }
+      ],
+      "returns": {
+        "arg": "object",
+        "type": "any",
+        "root": true
+      },
+      "description": "Generar el reporte de rutas.",
+      "http": {
+        "verb": "GET",
+        "path": "/setSaleReport"
+      }
+    },
+    "setReportSeries": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Array con todos los series.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "object",
+        "type": "any",
+        "root": true
+      },
+      "description": "Generar el reporte de series masivas.",
+      "http": {
+        "verb": "GET",
+        "path": "/setReportSeries"
+      }
+    },
+    "prototype.setSale": {
+      "accepts": [
+        {
+          "arg": "idClient",
+          "type": "string",
+          "description": "Indentificador UUID del cliente.",
+          "required": true
+        },
+        {
+          "arg": "idStock",
+          "type": "string",
+          "description": "Indentificador UUID del stock.",
+          "required": true
+        },
+        {
+          "arg": "salesPrice",
+          "type": "number",
+          "description": "Precio en el que se vendio el stock.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "success",
+        "type": "boolean"
+      },
+      "description": "Registra una compra",
+      "http:": {
+        "verb": "POST",
+        "path": "/setSaleReport"
+      }
+    },
+    "loginCustomize": {
+      "accepts": [
+        {
+          "arg": "credentials",
+          "type": "object",
+          "description": "Login credentials",
+          "required": true,
+          "http": {
+            "source": "body"
+          }
+        }
+      ],
+      "returns": {
+        "arg": "token",
+        "type": "object",
+        "root": true
+      },
+      "description": "Devuelve la lista de usuarios sellers activos.",
+      "http": {
+        "path": "/loginCustomize",
+        "verb": "POST"
+      }
+    },
+    "prototype.removeStocks": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Objeto con los datos del almacén destino e ids de los stocks.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Remueve del almacén del vendedor productos.",
+      "http": {
+        "verb": "POST"
+      }
+    }
+  }
+}

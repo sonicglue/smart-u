@@ -1,0 +1,83 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row " >
+      <div class="panel panel-default col-lg-12" style="border-bottom: 0.4cm double #6b0559 ;">
+        <div class="col-lg-12">
+          <div class="  panel-heading collapsed pointer"  data-toggle="collapse"  data-target="#collapse4">
+            <h2 class="panel-title"> Asignacion Vendedor-Gerente <span class="fa fa-group"></span></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+&nbsp;
+<div class="card">
+  <div class="card-body">
+    <div class="col-lg-12" >
+      <div class="row " style="padding-left:2cm; padding-right:2cm;" >
+
+    <!--table manager-->
+        <div class="col-lg-6">
+          <div class="panel-body">
+            <blockquote>
+              <form  class="manager" name="radio" novalidate="" method="post">
+                <div class="table-responsive"  >
+                  <table class="table table table-striped table-condensed" >
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col" class="thead-one " style="height:2.5cm;border:radio"><h3>Selecciona tu Gerente</h3></th>
+                        <th scope="col" class="thead-one "></th>
+                      </tr>
+                    </thead>
+                    <tbody >
+                      <tr ng-repeat="manager in manager">
+                          <td  class="text-left" scope="row">
+                               {{manager.name}} {{manager.lastName}}
+                          </td>
+                          <td><input type="radio" ng-model="manager.id" ng-click="checking(manager)"
+                                     value="{{manager.id}}" required="required"  name="manager" ></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </form>
+            </blockquote>
+          </div>
+        </div>
+
+  <!--tabla asignacion-->
+        <div class="col-lg-6">
+          <div class="panel panel-default">
+            <h4 class="panel-title"> </h4>
+          </div>
+          <div class="panel-body">
+            <blockquote>
+              <div class="table "  style="overflow:scroll; height:750px;width:100%;" >
+                <form  class="user" name="multipleCheckbox" novalidate="" method="post">
+                  <div class="table-responsive">
+                    <table class="table table table-striped table-condensed" >
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col" class="thead-one "style="height:2.5cm;border:radio"><h3>Selecciona tu Vendedor</h3></th>
+                          <th scope="col" class="thead-one "></th>
+                        </tr>
+                      </thead>
+                      <tbody >
+                        <tr ng-repeat="seller in sellers">
+                          <td class="text-left" scope="row">
+                              {{seller.name}} {{seller.lastName}}
+                          </td>
+                          <td><input type="checkbox"  ng-model="seller.idParent" ng-click="check(seller)"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </form>
+                </div>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

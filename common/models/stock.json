@@ -1,0 +1,802 @@
+{
+  "name": "Stock",
+  "plural": "Stocks",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "Stock"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "count",
+        "create",
+        "deleteById",
+        "find",
+        "findOne",
+        "findByImei",
+        "getAssignment",
+        "updateAll",
+        "multipleAssignmentClient",
+        "setMultipleSale",
+        "registerSale",
+        "pay",
+        "setReportSale",
+        "setScanByImei"
+      ],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este item."
+    },
+    "idBatch": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idBatch",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del lote al que pertenece este item."
+    },
+    "idPurchaseOrder": {
+      "type": "string",
+      "required": false,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idPurchaseOrder",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del producto al que pertenece este item."
+    },
+    "idProduct": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idProduct",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del producto al que pertenece este item."
+    },
+    "idWarehouse": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idWarehouse",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del almacen al que pertenece este item."
+    },
+    "idUser": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idUser",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del usuario ..."
+    },
+    "IMEI": {
+      "type": "string",
+      "required": true,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "IMEI",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Número único perteneciente al producto."
+    },
+    "date": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Fecha y hora en la que se registro el IMEI."
+    },
+    "index": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 5,
+      "scale": 0,
+      "default": 0,
+      "mysql": {
+        "columnName": "index",
+        "dataType": "smallint",
+        "dataLength": null,
+        "dataPrecision": 5,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Indice para ordenamiento de productos."
+    },
+    "cost": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "cost",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Costo de adquisición del producto."
+    },
+    "modifiedCost": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "modifiedCost",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Costo modificado después de aplicar los modificadores de costo."
+    },
+    "publicPrice": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "publicPrice",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Costo modificado después de aplicar los modificadores de costo."
+    },
+    "salesPrice": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "salesPrice",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Costo modificado después de aplicar los modificadores de costo."
+    },
+    "status": {
+      "type": "string",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "default": "active",
+      "mysql": {
+        "columnName": "status",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Estado del producto en inventario. Puede ser activo +active+, en transito de un almacén a otro +in-transit+, bloqueado para un pedido +locked+ o +sold+ para cuando ya se ha embarcado en un pedido."
+    },
+    "scanByAvailable": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "scanByAvailable",
+        "dataType": "tinyint",
+        "dataLength": 4,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Define si el tipo de escaneo fue por disponible para el corte de cambaceo."
+    },
+    "confirmSale": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "confirmSale",
+        "dataType": "tinyint",
+        "dataLength": 4,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Define si el tipo de escaneo fue por disponible para el corte de cambaceo."
+    },
+    "isRefurb": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "isRefurb",
+        "dataType": "tinyint",
+        "dataLength": 4,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Define si el equipo fue devuelto por garantía."
+    },
+    "class": {
+      "type": "string",
+      "required": false,
+      "length": 1,
+      "precision": null,
+      "scale": null,
+      "default": "S",
+      "mysql": {
+        "columnName": "class",
+        "dataType": "char",
+        "dataLength": 1,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Clase para identificar la calidad de la garantia del producto."
+    },
+    "idClient": {
+      "type": "string",
+      "required": false,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idClient",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del cliente que compró este item."
+    },
+    "saleDate": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "saleDate",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Fecha y hora en la que se registro la compra del equipo."
+    },
+    "validate": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": true,
+      "mysql": {
+        "columnName": "validate",
+        "dataType": "tinyint",
+        "dataLength": 4,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Bandera para validar físicamente el equipo."
+    },
+    "forRefund": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "forRefund",
+        "dataType": "tinyint",
+        "dataLength": 4,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Bandera para marcar a los equipos para bonificación."
+    },
+    "refundValidate": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "refundValidate",
+        "dataType": "tinyint",
+        "dataLength": 4,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Bandera para validar si el gerente aprueba la bonificación."
+    },
+    "refunded": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "refunded",
+        "dataType": "tinyint",
+        "dataLength": 4,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Bandera para validar si el equipo fue bonificado."
+    },
+    "refundPrice": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "refundPrice",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Monto aplicable para bonificación."
+    },
+    "refundNote": {
+      "type": "string",
+      "required": false,
+      "length": 200,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "refundNote",
+        "dataType": "varchar",
+        "dataLength": 200,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Condición para la bonificación 'por garantía' | 'baja de precio'."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "batch": {
+      "type": "belongsTo",
+      "model": "Batch",
+      "foreignKey": "idBatch"
+    },
+    "client": {
+      "type": "belongsTo",
+      "model": "Billing",
+      "foreignKey": "idClient"
+    },
+    "guaranties": {
+      "type": "hasMany",
+      "model": "Guarantee",
+      "foreignKey": "idStock"
+    },
+    "logs": {
+      "type": "hasMany",
+      "model": "StockLog",
+      "foreignKey": "idStock"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "idProduct"
+    },
+    "purchaseOrder": {
+      "type": "belongsTo",
+      "model": "PurchaseOrder",
+      "foreignKey": "idPurchaseOrder"
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "SysUser",
+      "foreignKey": "idUser"
+    },
+    "warehouse": {
+      "type": "belongsTo",
+      "model": "Warehouse",
+      "foreignKey": "idWarehouse"
+    },
+    "orderProduct": {
+      "type": "belongsTo",
+      "model": "OrderHasProduct",
+      "foreignKey": "idOrderHasProduct",
+      "description-es": "Pedido orden de venta en el que está asignado este registro de producto de inventario."
+    },
+    "orders": {
+      "type": "hasMany",
+      "model": "Order",
+      "foreignKey": "idStock",
+      "through": "OrderHasStock",
+      "keyThrough": "idOrder"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": [
+        "find",
+        "findOne",
+        "findByImei",
+        "getAssignment",
+        "patchAttributes",
+        "setMultipleSale",
+        "multipleAssignmentClient",
+        "registerSale",
+        "pay",
+        "setReportSale",
+        "setScanByImei"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": [
+        "multipleAssignmentClient",
+        "setMultipleSale",
+        "registerSale",
+        "setReportSale"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "ceo",
+      "permission": "ALLOW",
+      "property": [
+        "updateAll"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "warehouse-boss",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "deleteById",
+        "find",
+        "findOne",
+        "patchAttributes"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "support",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "deleteById",
+        "find",
+        "findOne",
+        "patchAttributes"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "storer",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "deleteById",
+        "find",
+        "findOne",
+        "patchAttributes"
+      ]
+    }
+  ],
+  "methods": {
+    "findByImei": {
+      "accepts": [
+        {
+          "arg": "imei",
+          "type": "string",
+          "required": true,
+          "description": "Número de serie del producto."
+        }
+      ],
+      "returns": {
+        "arg": "data",
+        "type": "object",
+        "root": true
+      },
+      "description": "Recupera los datos de un producto por su número de serie/IMEI.",
+      "http": {
+        "verb": "GET"
+      }
+    },
+    "getAssignment": {
+      "accepts": [
+        {
+          "arg": "warehouseId",
+          "type": "string",
+          "required": true,
+          "description": "Identificador del almacén."
+        },
+        {
+          "arg": "date",
+          "type": "date",
+          "required": true,
+          "description": "Fecha de asignación del stock."
+        }
+      ],
+      "returns": {
+        "arg": "model",
+        "type": "Warehouse",
+        "root": true
+      },
+      "http": {
+        "path": "/getAssignment",
+        "verb": "GET"
+      }
+    },
+    "multipleAssignmentClient": {
+      "accepts": [
+        {
+          "arg": "data",
+          "description": "Objeto con identificador del cliente e identificadores de los stocks.",
+          "type": "object"
+        }
+      ],
+      "returns": {
+        "arg": "data",
+        "type": "any",
+        "root": true
+      },
+      "description": "Asigna un cliente a varios stocks.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "setMultipleSale": {
+      "accepts": [
+        {
+          "arg": "data",
+          "description": "Objeto con los identificadores de los stocks que se van a registrar como vendidos",
+          "type": "object"
+        }
+      ],
+      "returns": {
+        "arg": "object",
+        "type": "any",
+        "root": true
+      },
+      "description": "Registra las ventas realizadas por un vendedor.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "registerSale": {
+      "accepts": [
+        {
+          "arg": "data",
+          "description": "Objeto con los identificadores de los stocks que se van a registrar como vendidos",
+          "type": "object"
+        }
+      ],
+      "returns": {
+        "arg": "data",
+        "type": "any",
+        "root": true
+      },
+      "description": "Registra las ventas realizadas por un vendedor.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "setReportSale": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Array con todos los datos a buscar.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "object",
+        "type": "any",
+        "root": true
+      },
+      "description": "Generar el reporte de series masivas.",
+      "http": {
+        "verb": "GET",
+        "path": "/setReportSale"
+      }
+    },
+    "pay": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "http": {
+            "source": "body"
+          }
+        },
+        {
+          "arg": "options",
+          "type": "object",
+          "http": "optionsFromRequest"
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Add a payment for the given imei.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "setScanByImei": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Objeto con los datos del producto y del almacén.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "object",
+        "root": true
+      },
+      "description": "Marca un producto como scaneado.",
+      "http": {
+        "verb": "POST"
+      }
+    }
+  }
+}

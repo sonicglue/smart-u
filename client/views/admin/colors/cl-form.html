@@ -1,0 +1,53 @@
+<div class="row mb-3">
+  <!--Filtros-->
+  <div class="col-sm-9">
+    <h4>Registro de colores</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go(return.to, return.paramsTo)">
+      <span class="fa fa-arrow-left"></span>
+      Regresar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Formulario-->
+<div class="row justify-content-center"
+  ng-hide="busy">
+  <div class="col-md-8">
+    <form name="formColor" autocomplete="off"
+      ng-submit="save()" class="needs-validation" novalidate>
+      <div class="form-row">
+        <div class="form-row form-group col-md-8">
+          <label for="name" class="col-sm-5 col-form-label col-form-label-sm text-md-right">
+            <span>*</span>
+            Color:
+          </label>
+          <div class="col-sm-7">
+            <input type="text" name="name" class="form-control form-control-sm"
+              required placeholder="Escriba el nombre del color"
+              ng-model="color.name">
+            <div class="invalid-feedback">
+              Debe registrar el nombre del nuevo color.
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <button type="submit" class="btn btn-success btn-sm">
+            <span class="fa fa-arrow-right"></span>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

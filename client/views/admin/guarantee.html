@@ -1,0 +1,56 @@
+
+<div class="row page-titles" style="margin: 0 -25px 5px !important;">
+    <div class=" col-lg-12 align-self-right"> 
+        <h4 class="text-themecolor">Garantias Ejecutivo <span class="fa fa-certificate"></span> </h4>
+    </div>&nbsp;
+        
+    </div>
+    <div class="row">
+     <div class="col-lg-12">
+          <div class="table-responsive">
+          <table class="table table table-striped table-condensed">
+            <thead class="thead-light">
+            <tr>
+            <th scope="col" class="thead-one">Ejecutivo</th>
+            <th scope="col" class="thead-one">Tipo</th>
+            <th scope="col" class="thead-one">Estatus</th>
+            <th scope="col" class="thead-one">Correo</th>
+            <th scope="col" class="thead-one">Almacen</th>
+            <th scope="col" class="thead-one" colspan="3"></th>
+            </tr>
+            <tr>
+              <tr ng-repeat="user in users">
+                <td class="text-left" scope="row">
+                  {{user.name}} {{user.lastName}}
+                </td>
+                <td class="text-center">
+                  {{typeLabel[user.type]}}
+                </td>
+                <td class="text-center">
+                  {{statusLabel[user.accountStatus]}}
+                </td>
+                <td class="text-left">
+                  {{user.email}}
+                </td>
+                <td class="text-left">
+                  {{user.warehouse.name}}
+                </td>
+                  <td><div class=" pull-right">
+                        <button type="button" class="btn btn-info"
+                        ui-sref="admin.guaranteeClient">
+                        <span class="fa fa-eye"></span>
+                        Clientes
+                      </button>
+                    </div> </td>
+                  </td>
+                  </tr>
+                </tr>
+            </tbody>
+          </table>
+          </div>
+    
+        
+    
+    </div>
+    
+    

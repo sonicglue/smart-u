@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12" ng-repeat="item in warehouses track by $index" style="padding-bottom:10px;">
+    <a ui-sref="admin.pointOfSale.form({idWarehouse:item.id})" class="link_1">
+      <div class="card">
+        <div class="card-body text-center">
+          <h6>{{item.name}}</h6>
+          <div class="h1 font-weight-semibold mb-1 text-primary"><i class="fas fa-dumpster"></i></div>
+          <small class="displayblock">
+            <i class="fe fe-arrow-up-circle  mr-1 text-success" aria-hidden="true"></i>
+            {{item.address}}
+          </small>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

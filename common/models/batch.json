@@ -1,0 +1,308 @@
+{
+  "name": "Batch",
+  "plural": "Batches",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "Batch"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "create",
+        "deleteById",
+        "find",
+        "findById",
+        "prototype.importFile"
+      ],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este lote."
+    },
+    "idPurchaseOrder": {
+      "type": "string",
+      "required": false,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idPurchaseOrder",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Identificador de la orden de compra del producto."
+    },
+    "idProduct": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idProduct",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del producto para este lote."
+    },
+    "date": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Fecha de registro del lote."
+    },
+    "stockSize": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "stockSize",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Total de productos comprados."
+    },
+    "cost": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "cost",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Costo del producto en pesos (con IVA)."
+    },
+    "providerSupport": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "providerSupport",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Apoyo por parte del proveedor."
+    },
+    "brandSupport": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "brandSupport",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Apoyo por parte de la marca."
+    },
+    "additionalSupport": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "additionalSupport",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Apoyo por baja de precio de la marca o del proveedor."
+    },
+    "isPrepaid": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "isPrepaid",
+        "dataType": "tinyint",
+        "dataLength": 1,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Bandera que indica que lote es producto de prepago."
+    },
+    "boxSize": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "default": 10,
+      "mysql": {
+        "columnName": "boxSize",
+        "dataType": "smallint",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Total de productos en una caja."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "purchaseOrder": {
+      "type": "belongsTo",
+      "model": "PurchaseOrder",
+      "foreignKey": "idPurchaseOrder",
+      "description-es": "Relación entre lotes y orden de compra"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "idProduct",
+      "description-es": "Relación entre lotes y producto"
+    },
+    "stocks": {
+      "type": "hasMany",
+      "model": "Stock",
+      "foreignKey": "idBatch",
+      "description-es": "Relación entre lotes y stock"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": []
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "warehouse-boss",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "storer",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "support",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {
+    "prototype.importFile": {
+      "accepts": [
+        {
+          "arg": "ctx",
+          "type": "object",
+          "http": {
+            "source": "context"
+          }
+        },
+        {
+          "arg": "options",
+          "type": "object",
+          "http": "optionsFromRequest"
+        }
+      ],
+      "returns": {
+        "arg": "fileObject",
+        "type": "object",
+        "root": true
+      },
+      "description": "Carga un archivo csv para registrar números de serie en lote.",
+      "http": {
+        "verb": "POST"
+      }
+    }
+  }
+}

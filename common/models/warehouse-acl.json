@@ -1,0 +1,100 @@
+{
+  "name": "WarehouseACL",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "WarehouseACL"
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para el warehouseACL."
+    },
+    "idUser": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idUser",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del usuario."
+    },
+    "idWarehouse": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idWarehouse",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del almacén."
+    },
+    "index": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "default": 0,
+      "mysql": {
+        "columnName": "index",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Indice, indicando el orden en el que debe aparecer la lista de almacenes."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "SysUser",
+      "foreignKey": "idUser"
+    },
+    "warehouse": {
+      "type": "belongsTo",
+      "model": "Warehouse",
+      "foreignKey": "idWarehouse"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

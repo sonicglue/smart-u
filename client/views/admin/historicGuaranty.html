@@ -1,0 +1,132 @@
+
+
+  <div class="col-md-5 align-self-right"> 
+        <h4 class="text-themecolor">Garantías Historial <span class="	fa fa-certificate"></span></h4>
+    </div>
+<div class="row" style="margin-top:30px;">
+      <div class="col-md-12">
+        <div class="card">
+          <!-- Nav tabs -->
+            <div class="tab-pane p-20" id="profile2" role="tabpanel">
+                <div class="titulo container " style="height:1cm;">
+                    <h4>Historial </h4>
+                    </div>&nbsp;
+                    <div id="reportrange" class="container col-lg-4  "style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                            <i class="fa fa-calendar"></i>
+                            <span></span> <i class="fa fa-caret-down pull-right"></i>
+                        </div>&nbsp;
+                    <div class="container">
+                        <div class="table-responsive " >
+                                <table class="tablez table  table-striped table-bordered" >
+                                  <thead class="thead-light">
+                                    <tr>
+                                      <th class="thead-one">Folio</th>
+                                      <th  class="thead-one">Imei</th>
+                                      <th  class="thead-one">Modelo</th>
+                                      <th  class="thead-one">Vendedor</th>
+                                      <th  class="thead-one">Cliente</th>
+                                      <th  class="thead-one">Problema</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr ng-repeat="billing in billings" >
+                                      <td><a href="javascript:void(0)" class="link"> 22093</a></td>
+                                      <td>355001000685205</td>
+                                      <td>W&O MAX3 NEGRO</td>
+                                      <td>{{user.name}} {{user.lastName}}</td>
+                                      <td>{{billing.name}}</td>
+                                      <td></td>
+                                    </tr>
+                                    <td><a href="javascript:void(0)" class="link"> 22095</a></td>
+                                    <td>860696031357063</td>
+                                    <td>M4 SS4450 PLATA</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                  </tr>
+                                  <td><a href="javascript:void(0)" class="link"> 22102</a></td>
+                                  <td>863870032512404</td>
+                                  <td>W&O MAX3 NEGRO</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                                <td><a href="javascript:void(0)" class="link"> 22094</a></td>
+                                <td>355201000736756</td>
+                                <td>W&O MAX3 NEGRO</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <td><a href="javascript:void(0)" class="link"> 22093</a></td>
+                              <td>355001000685205</td>
+                              <td>W&O MAX3 NEGRO</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <td><a href="javascript:void(0)" class="link"> 22093</a></td>
+                            <td>355001000685205</td>
+                            <td>W&O MAX3 NEGRO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <td><a href="javascript:void(0)" class="link"> 22093</a></td>
+                          <td>355001000685205</td>
+                          <td>W&O MAX3 NEGRO</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <td><a href="javascript:void(0)" class="link"> 22093</a></td>
+                        <td>355001000685205</td>
+                        <td>W&O MAX3 NEGRO</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <td><a href="javascript:void(0)" class="link"> 22093</a></td>
+                      <td>355001000685205</td>
+                      <td>W&O MAX3 NEGRO</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>            
+                 </tbody>
+             </table>
+         </div>
+            <div class="tab-pane p-20" id="messages2" role="tabpanel">3</div>
+          </div><!--End tab-content-->
+        </div><!--End card-->
+      </div><!--End col-md-12-->
+      <script type="text/javascript">
+        $(function() {
+        
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+        
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+        
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                   'Hoy': [moment(), moment()],
+                   'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                   'Ultimos 7 Dias': [moment().subtract(6, 'days'), moment()],
+                   'Ultomos 30 Dias': [moment().subtract(29, 'days'), moment()],
+                   'Este Mes': [moment().startOf('month'), moment().endOf('month')],
+                   'Mes Pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+        
+            cb(start, end);
+        
+        });
+        </script>&nbsp;
+       
+     
+      

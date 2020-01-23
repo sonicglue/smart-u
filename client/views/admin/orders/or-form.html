@@ -1,0 +1,370 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-6">
+    <h4>Ordenes de compra de {{seller.name + ' ' + seller.lastName}}</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-6 text-right">
+    <form class="form-inline justify-content-end" autocomplete="off"
+      ng-submit="search()">
+      <!--Select tipo-->
+      <div class="form-group mb-2 mr-2">
+        <label for="staticEmail2" class="col-form-label mr-2">
+          Fecha:
+        </label>
+        <div class="input-group">
+          <input type="text" id="datepicker" class="form-control form-control-sm"
+            placeholder="mm/dd/aaaa" aria-label="Fecha de compra"
+            ng-model="formFilters.date">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <span class="fa fa-calendar"></span>
+            </span>
+          </div><!--/.input-group-append-->
+        </div><!--/.input-group-->
+      </div><!--/.form-group-->
+      <button type="button" class="btn btn-secondary btn-sm mb-2"
+        ng-click="$state.go('admin.order.list')">
+        <span class="fa fa-arrow-left"></span>
+        Cancelar
+      </button>
+    </form>
+  </div><!--/.col-sm-6-->
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Formularios-->
+<div ng-hide="busy">
+  <!--Tablero de control-->
+  <div class="row mb-4 justify-content-between">
+    <div class="col-sm-4">
+      <!--Tarjeta-->
+      <div class="card">
+        <div class="card-body text-center">
+          <p class="card-text">Total de equipos vendidos</p>
+          <h3>{{seller.stocks.length}}</h3>
+        </div><!--/.card-body-->
+      </div><!--/.card-->
+    </div><!--/.col-sm-4-->
+    <div class="col-sm-4 align-self-end text-right">
+      <button class="btn btn-sm" ng-class="stockView === true ? 'btn-danger' : 'btn-primary'"
+        ng-click="toggleView()"
+        ng-disabled="!order.products.length">
+        <span class="fa" ng-class="stockView === true ? 'fa-close' : 'fa-paste'"></span>
+        {{stockView === true ? 'Cancelar' : 'Generar'}} nota
+      </button>
+    </div>
+  </div>
+  <!--Tabla de orden de compra-->
+  <div class="my-3" ng-show="stockView">
+    <form name="formOrder" class="needs-validation" ng-submit="save()" novalidate>
+      <!--Cliente-->
+      <div class="form-row form-group mx-1">
+        <label class="col-sm-2 col-form-label col-form-label-sm text-md-right">
+          <span>*</span>
+          Cliente:
+        </label>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="fas fa-users"></span>
+              </span>
+            </div>
+            <select class="form-control form-control-sm" required
+              ng-model="order.idClient"
+              ng-options="client.id as client.name for client in seller.clients">
+              <option value="">Elige un cliente</option>
+            </select>
+          </div>
+          <div class="invalid-feedback">
+            Debe seleccionar un cliente de la lista.
+          </div>
+        </div>
+        <h4 class="col-sm-6 text-right">
+          Deuda actual:
+          {{setDebt() | currency}}
+        </h4>
+      </div>
+      <!--Tabla de la orden de compra-->
+      <div class="table-responsive-lg">
+        <table class="table table-sm table-striped table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Modelo</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-hide="order.products.length">
+              <td class="text-center" colspan="4">No se han registrado productos.</td>
+            </tr>
+            <tr ng-repeat="product in order.products">
+              <td class="text-right">{{product.totalItems}}</td>
+              <td>{{product.name}}</td>
+              <td class="text-center">
+
+                  <input type="text" class="form-control form-control-sm text-right money"
+                    format="currency"
+                    ng-change="recalculate(product)"
+                    ng-model="product.salesPrice">
+
+              </td>
+              <td class="text-right">{{product.total | currency}}</td>
+            </tr>
+            <tr ng-repeat="refund in order.refunds">
+              <td class="text-right">{{refund.totalItems}}</td>
+              <td>{{refund.name}} ({{refund.refundNote}})</td>
+              <td class="text-center">
+
+                <input type="text" class="form-control form-control-sm text-right money"
+                  format="currency"
+                  ng-change="recalculateRefund(refund)"
+                  ng-model="refund.refundPrice">
+
+              </td>
+              <td class="text-right">- {{(refund.totalItems * refund.refundPrice) | currency}}</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-right">
+                <b>Subtotal</b>
+              </td>
+              <td class="text-right">
+                <h6>{{order.total | currency}}</h6>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--Registro de efectivo-->
+      <div class="form-row form-group justify-content-end mx-1">
+        <div class="col-sm-4">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="fas fa-hand-holding-usd mr-1"></span>
+                Efectivo
+              </span>
+            </div>
+            <input type="text" class="form-control form-control-sm text-right money"
+              format="currency"
+              ng-model="order.payment.cash">
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Registro de transferencia-->
+      <div class="form-row form-group justify-content-end mx-1">
+        <div class="col-sm-4">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="fas fa-exchange-alt mr-1"></span>
+                Deposito
+              </span>
+            </div>
+            <input type="text" class="form-control form-control-sm-sm text-right money"
+              format="currency"
+              ng-model="order.payment.deposit">
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Registro de cheque-->
+      <div class="form-row form-group justify-content-end mx-1">
+        <div class="col-sm-4">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="fas fa-money-check mr-1"></span>
+                Cheque
+              </span>
+            </div>
+            <input type="text" class="form-control form-control-sm text-right money"
+              format="currency"
+              ng-model="order.payment.check">
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Registro de cheque-->
+      <div class="form-row form-group justify-content-end mx-1">
+        <div class="col-sm-4">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="fas fa-money-check mr-1"></span>
+                Bonificación
+              </span>
+            </div>
+            <input type="text" class="form-control form-control-sm text-right money"
+              format="currency" disabled
+              ng-model="order.payment.refund">
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Registro de crédito-->
+      <div class="form-row form-group justify-content-end mx-1">
+        <div class="col-sm-4">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="fas fa-credit-card mr-1"></span>
+                Crédito
+              </span>
+            </div>
+            <input type="text" class="form-control form-control-sm-sm text-right"
+              format="currency" disabled
+              ng-model="order.payment.credit">
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Total de deuda-->
+      <div class="form-row form-group justify-content-end mx-1">
+        <div class="col-sm-4">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="fas fa-dollar-sign mr-1"></span>
+                Deuda final
+              </span>
+            </div>
+            <input type="text" class="form-control form-control-sm-sm text-right"
+              format="currency" disabled
+              value="{{(setDebt() + order.payment.credit) | currency}}">
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Botón guardar-->
+      <div class="form-row justify-content-end mx-1">
+        <button type="submit" class="btn btn-success btn-sm"
+          ng-disabled="!order.total">
+          <span class="fa fa-save"></span>
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="my-3" ng-hide="stockView">
+    <!--Tabla de cambaceo-->
+    <div class="table-responsive-lg">
+      <table class="table table-sm table-striped table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">
+              <div class="custom-control custom-checkbox d-inline">
+                <input type="checkbox" class="custom-control-input" id="selectAll"
+                  ng-model="selectAll"
+                  ng-click="addAll()">
+                <label class="custom-control-label" for="selectAll">Marcar todo</label>
+              </div>
+            </th>
+            <th colspan="5" scope="col">Lista de equipos vendidos</th>
+          </tr>
+          <tr>
+            <th scope="col" style="width: 16%">IMEI</th>
+            <th scope="col" style="width: 17%">Cliente</th>
+            <th scope="col" style="width: 16%">IMEI</th>
+            <th scope="col" style="width: 17%">Cliente</th>
+            <th scope="col" style="width: 16%">IMEI</th>
+            <th scope="col" style="width: 17%">Cliente</th>
+          </tr>
+        </thead>
+        <tbody ng-hide="products.length">
+          <tr>
+            <td colspan="6" class="text-center">No tiene ventas registradas.</td>
+          </tr>
+        </tbody>
+        <tbody ng-repeat="product in products">
+          <!--Productos-->
+          <tr>
+            <td colspan="6" class="pl-3 py-2">
+              <div class="custom-control custom-checkbox d-inline">
+                <input type="checkbox" class="custom-control-input" id="{{product.id}}"
+                  ng-model="product.check"
+                  ng-click="addProduct(product)">
+                <label class="custom-control-label" for="{{product.id}}"><b>{{product.name}}</b></label>
+              </div>
+              <div class="number text-primary pull-right">{{product.stocks.length}} Pzas.</div>
+            </td>
+          </tr>
+          <!--Equipos-->
+          <tr ng-repeat="stock in product.stocks | limitTo: Math.ceil(product.stocks.length / 3)">
+            <td class="text-center">
+              <!--Primer grupo-->
+              <div class="custom-control custom-checkbox d-inline">
+                <input type="checkbox" class="custom-control-input" id="{{product.stocks[$index * 3].id}}"
+                  ng-click="addCheck(product.stocks[($index * 3)])"
+                  ng-disabled="product.stocks[$index * 3].idClient"
+                  ng-model="product.stocks[$index * 3].confirmSale">
+                <label class="custom-control-label" for="{{product.stocks[$index * 3].id}}"
+                  ng-bind-html="makeSerial(product.stocks[$index * 3].IMEI)"></label>
+              </div>
+            </td>
+            <td>
+              <input type="text" class="form-control form-control-sm" disabled
+                ng-model="product.stocks[$index * 3].client.name">
+            </td>
+            <!--Segundo grupo-->
+            <td class="text-center">
+              <div class="custom-control custom-checkbox d-inline"
+                ng-if="($index * 3) + 1 < product.stocks.length">
+                <input type="checkbox" class="custom-control-input" id="{{product.stocks[$index * 3 + 1].id}}"
+                  ng-click="addCheck(product.stocks[($index * 3) + 1])"
+                  ng-disabled="product.stocks[($index * 3) + 1].idClient"
+                  ng-model="product.stocks[($index * 3) + 1].confirmSale">
+                <label class="custom-control-label" for="{{product.stocks[$index * 3 + 1].id}}"
+                  ng-bind-html="makeSerial(product.stocks[$index * 3 + 1].IMEI)"></label>
+              </div>
+            </td>
+            <td>
+              <input type="text" class="form-control form-control-sm" disabled
+                ng-if="($index * 3) + 1 < product.stocks.length"
+                ng-model="product.stocks[($index * 3) + 1].client.name">
+            </td>
+            <!--Tercer grupo-->
+            <td class="text-center">
+              <div class="custom-control custom-checkbox d-inline"
+                ng-if="($index * 3) + 2 < product.stocks.length">
+                <input type="checkbox" class="custom-control-input" id="{{product.stocks[$index * 3 + 2].id}}"
+                  ng-click="addCheck(product.stocks[($index * 3) + 2])"
+                  ng-disabled="product.stocks[($index * 3) + 2].idClient"
+                  ng-model="product.stocks[($index * 3) + 2].confirmSale">
+                <label class="custom-control-label" for="{{product.stocks[$index * 3 + 2].id}}"
+                  ng-bind-html="makeSerial(product.stocks[$index * 3 + 2].IMEI)"></label>
+              </div>
+            </td>
+            <td>
+              <input type="text" class="form-control form-control-sm" disabled
+                ng-if="($index * 3) + 2 < product.stocks.length"
+                ng-model="product.stocks[($index * 3) + 2].client.name">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!--table-responsive-lg-->
+  </div>
+</div>
+<!--Script del datepicker-->
+<script>
+  $(function() {
+    $("#datepicker").datepicker({
+      dateFormat: 'dd/mm/yy'});
+
+    $('form.needs-validation').on('focusin', 'input.money', function() {
+      var value = parseFloat($(this).val().replace(/[$,]/g, ''));
+      $(this).val(value).select();
+      $(this).prop({type: 'number', format: 'number', step: 0.01, min: 0});
+    });
+
+    $('form.needs-validation').on('focusout', 'input.money', function() {
+      if ($(this).val() <= 0) $(this).val(0);
+      $(this).prop({type: 'text', format: 'currency'});
+    });
+  });
+</script>

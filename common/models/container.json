@@ -1,0 +1,33 @@
+{
+  "name": "Container",
+  "plural": "Containers",
+  "base": "Model",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "download"
+      ],
+      "hide": [
+        "getContainers",
+        "getContainer",
+        "createContainer",
+        "destroyContainer",
+        "getFiles",
+        "getFile",
+        "removeFile",
+        "upload",
+        "uploadStream",
+        "downloadStream"
+      ]
+    }
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

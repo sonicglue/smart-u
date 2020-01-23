@@ -1,0 +1,66 @@
+{
+  "name": "OrderHasStock",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "OrderHasStock"
+  },
+  "mixins": {},
+  "properties": {
+    "idOrder": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idOrder",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador para la orden."
+    },
+    "idStock": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idStock",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador para el stock."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "order": {
+      "type": "belongsTo",
+      "model": "Order",
+      "foreignKey": "idOrder"
+    },
+    "stock": {
+      "type": "belongsTo",
+      "model": "Stock",
+      "foreignKey": "idStock"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

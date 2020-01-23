@@ -1,0 +1,110 @@
+<div class="row mb-3">
+  <!--Filtros-->
+  <div class="col-sm-9">
+    <h4>Actualizar datos</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-disabled="busy"
+      ng-click="$state.go(return.to, return.paramsTo)">
+      <span class="fa fa-arrow-left"></span>
+      Regresar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Formulario-->
+<div class="row justify-content-center"
+  ng-hide="busy">
+  <div class="col-md-8">
+    <form name="formProfile" autocomplete="off"
+      ng-submit="save()" class="needs-validation" novalidate>
+      <!--Nombre(s) del usuario-->
+      <div class="form-group form-row">
+        <label for="name" class="col-sm-4 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Nombre(s):
+        </label>
+        <div class="col-sm-8 col-md-7">
+          <input type="text" id="name" class="form-control form-control-sm"
+            required placeholder="Escriba su nombre"
+            ng-model="user.name">
+          <div class="invalid-feedback">
+            Debe escribir su nombre.
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Apellidos del usuario-->
+      <div class="form-group form-row">
+        <label for="lastName" class="col-sm-4 col-form-label col-form-label-sm text-sm-right">
+          <span>*</span>
+          Apellidos:
+        </label>
+        <div class="col-sm-8 col-md-7">
+          <input type="text" id="lastName" class="form-control form-control-sm"
+            required placeholder="Escriba sus apellidos"
+            ng-model="user.lastName">
+          <div class="invalid-feedback">
+            Debe escribir sus apellidos.
+          </div>
+        </div>
+      </div><!--/.form-row-->
+      <!--Alias-->
+      <div class="form-group form-row">
+        <label for="alias" class="col-sm-4 col-form-label col-form-label-sm text-sm-right">
+          Sobrenombre:
+        </label>
+        <div class="col-sm-8 col-md-7">
+          <input type="text" id="alias" class="form-control form-control-sm"
+            placeholder="Si lo deseas, puedes definir tu nombre corto"
+            ng-model="user.alias">
+        </div>
+      </div><!--/.form-row-->
+      <!--Fecha de nacimiento-->
+      <div class="form-group form-row">
+        <label for="datepicker" class="col-sm-4 col-form-label col-form-label-sm text-sm-right">
+          Fecha de nacimiento:
+        </label>
+        <div class="col-sm-5">
+          <div class="input-group">
+            <input type="text" id="datepicker" class="form-control form-control-sm"
+              placeholder="mm/dd/aaaa" aria-label="Fecha de compra"
+              ng-model="user.birthDate">
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <span class="fa fa-calendar"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Botones-->
+      <div class="form-group form-row justify-content-end">
+        <div class="col-sm-8">
+          <button type="submit" class="btn btn-success btn-sm"
+            ng-disabled="busy">
+            Guardar
+            <span class="fa fa-arrow-right"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div><!--/.row-->
+<!--Script del datepicker-->
+<script>
+  $(function() {
+    $("#datepicker").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: 'dd/mm/yy'});
+  });
+</script>

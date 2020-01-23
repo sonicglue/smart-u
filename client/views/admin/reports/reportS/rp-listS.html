@@ -1,0 +1,46 @@
+
+<div class=" justify-content-center " >
+    <div class="row justify-content-center " >
+      <div class="col-md-10 col-lg-6">
+        <div class="card">
+          <div class="modhedfutt card-header px-3 text-left" style="color: #fff; font-weight: bold; "> Itroduce las Series
+          </div><!--card-header-->
+            <div class=" well card-body p-4">
+
+              <form name="formLogin" autocomplete="off"
+              class="needs-validation" novalidate
+              ng-submit="searchImei()">
+
+              <div class="form-group row">
+                <label for="staticEmail" class="col-sm-4 col-form-label">IMEI</label>
+                <div class="col-sm-6">
+                  <textarea
+                    id="imei"
+                    neme="imei"
+                    type="text"
+                    autocomplete="off"
+                    ng-model="input.serie"
+                    autofocus
+                   class="form-control text-center"
+                    placeholder="00000088000000&#10;88888800888888"
+                    ></textarea>
+
+                </div>
+              </div>&nbsp;
+              <div class="form-group form-row justify-content-end">
+                <div class="col-sm-9 col-md-9">
+                  <button type="submit" id="btn_show" class="btn btn-primary btn-sm pull-right">
+                    Generar reporte
+                    <span class="fas fa-download"></span>
+                  </button>
+                </div>
+              </div>
+
+          </form>
+
+
+            </div><!--/.card-body-->
+          </div><!--card-->
+        </div><!--col-->
+    </div><!--/.row-->
+  </div>

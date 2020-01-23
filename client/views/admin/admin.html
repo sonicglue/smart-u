@@ -1,0 +1,145 @@
+<!--App loading-->
+<div class="wrapper" ng-show="!currentUser">
+  <div class="overlay">
+    <div class="spinner-wrapper">
+      <div id="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="loading">
+          <p class="text-center spinner-message">
+            Generando interfaz
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<nav class="navbar navbar-systemax navbar-expand-md navbar-light fixed-top d-print-none">
+  <div class="navbar-brand">
+    <a href="#menu-toggle" class="btn btn-sp" id="menu-toggle" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span>
+    </a>
+    <img alt="Logo de Smart-U" src="assets/img/logo.png" class="logo-ax">
+  </div>
+  <!--Menú desplegable-->
+  <div class="ml-auto mr-sm-1 mr-lg-2 mr-xl-5">
+    <!--Control de almacén-->
+    <div class="btn-group mr-2" ng-show="currentUser.warehouseACL.length > 1">
+      <button type="button" class="btn btn-sm btn-outline-secondary">
+        <span class="fa fa-cubes"></span>
+        <span class="d-none d-sm-inline">
+          {{$storage.name}}
+        </span>
+      </button>
+      <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a href="#" class="dropdown-item"
+          ng-click="changeWarehouse(wacl.warehouse)"
+          ng-repeat="wacl in currentUser.warehouseACL">
+          {{wacl.warehouse.name}}
+        </a>
+      </div>
+    </div>
+    <!--Control de usuario-->
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-outline-primary">
+        <span class="fa fa-user-circle"></span>
+        <span class="d-none d-sm-inline">
+          {{currentUser.alias || (currentUser.name + ' ' + currentUser.lastName)}}
+        </span>
+      </button>
+      <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a href="#" class="dropdown-item" ui-sref="admin.profile.data">
+          Mis datos personales
+        </a>
+        <!--a href="#" class="dropdown-item" ui-sref="admin.profile.reset">
+          Cambiar contraseña
+        </a-->
+        <a href="#" class="dropdown-item" ui-sref="admin.profile.data">
+          Directorio
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item" ui-sref="logout">Cerrar sesión</a>
+      </div>
+    </div>
+    <!--Botón de impresión--
+    <button type="button" class="btn btn-outline-primary btn-sm">
+      <span class="fas fa-print"></span>
+    </button>-->
+  </div>
+</nav>
+<!--Menú lateral-->
+<div id="wrapper" class="toggled">
+  <!--Sidebar-->
+  <div id="sidebar-wrapper" ng-include="'views/admin/menu.html'" class="d-print-none noprint"></div>
+  <!--Page Content-->
+  <div id="page-content-wrapper">
+    <div class="container container-main py-3" ui-view></div>
+  </div>
+</div>
+<!--Modal generico-->
+<div class="modal fade" id="genericModal" role="dialog" aria-labelledby="genericModalLabel" aria-hidden="true" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <!--Contenido-->
+    <div class="modal-content border border-danger">
+      <!--Encabezado-->
+      <div class="modal-header bg-danger text-white">
+        <h6 class="modal-title" id="genericModalLabel">
+          <span class="{{genericModal.icon}}"></span>
+          {{genericModal.title}}
+        </h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--Cuerpo-->
+      <div class="modal-body">
+        <div class="text-center" ng-bind-html="genericModal.body"></div>
+      </div>
+      <!--Pie de página-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal"
+          ng-hide="genericModal.hideCancel">
+          <span class="fa fa-close"></span>
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-sm btn-danger"
+          ng-click="genericModalAccept()">
+          <span class="fa fa-check"></span>
+          Aceptar
+        </button>
+      </div>
+    </div><!--/.modal-content-->
+  </div><!--/.modal-dialog-->
+</div><!--/.modal-->
+<!--Menu Toggle Script-->
+<script>
+  $("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+  });
+  // Imprimir
+  function imprimir() {
+    // e.preventDefault();
+    $("#wrapper").removeClass("toggled");
+    window.print();
+  }
+</script>
+<!--Sounds-->
+<audio id="positive" preload="auto">
+  <source src="assets/sfx/342749__rhodesmas__notification-01.mp3" type="audio/mpeg">
+</audio>
+<audio id="negative" preload="auto">
+  <source src="assets/sfx/142608__autistic-lucario__error.mp3" type="audio/mpeg">
+</audio>

@@ -1,0 +1,47 @@
+<div class="row mb-3">
+  <!--Filtros-->
+  <div class="col-sm-9">
+    <h4>Mis datos personales</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right">
+    <button type="button" class="btn btn-secondary btn-sm"
+      ng-click="$state.go(return.to, return.paramsTo)">
+      <span class="fa fa-arrow-left"></span>
+      Regresar
+    </button>
+  </div>
+</div><!--/.row-->
+<!--Tarjeta-->
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-6">
+    <div class="card">
+      <div class="card-header px-3 text-right">
+        &nbsp;
+        <button type="button" class="btn btn-primary btn-sm"
+          ng-disabled="busy"
+          ng-hide="purchaseOrder.finishedDate"
+          ng-click="$state.go('admin.profile.edit')">
+          <span class="fas fa-pencil-alt"></span>
+          Editar
+        </button>
+      </div><!--card-header-->
+      <div class="card-body p-3">
+        <dl class="row mb-0">
+          <!--Nombres-->
+          <dt class="col-sm-4 col-md-5 text-sm-right">Nombre(s):</dt>
+          <dd class="col-sm-8 col-md-7">{{user.name}}</dd>
+          <!--Apellidos-->
+          <dt class="col-sm-4 col-md-5 text-sm-right">Apellidos:</dt>
+          <dd class="col-sm-8 col-md-7">{{user.lastName}}</dd>
+          <!--Apodo-->
+          <dt class="col-sm-4 col-md-5 text-sm-right">Alias:</dt>
+          <dd class="col-sm-8 col-md-7">{{user.alias}}</dd>
+          <!--Fecha de nacimiento-->
+          <dt class="col-sm-4 col-md-5 text-sm-right">Fecha de nacimiento:</dt>
+          <dd class="col-sm-8 col-md-7">{{user.birthDate}}</dd>
+        </dl>
+      </div><!--/.card-body-->
+    </div>
+  </div>
+</div><!--/.row-->

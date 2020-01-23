@@ -1,0 +1,269 @@
+
+<div class="row page-titles" style="margin: 0 -25px 5px !important;">   
+    <div class="panel panel-default">
+        <div class="col-lg-12">
+        <div class="  panel-heading collapsed pointer" data-toggle="collapse" data-target="#collapse4">
+          <h4 class="panel-title"> Generar Garantía <span class="	fa fa-certificate"></span></h4>
+        </div>
+      </div>
+    <br>
+     
+  <!--Ciudad y pais-->   
+        <div class="form-row ">
+          </div><!--/.row--><div>
+          <form name="formBilling" autocomplete="off"
+            ng-submit="save()" class="needs-validation" novalidate>
+            <div class="row mb-3">
+            <div class="form-row form-group col-md-12 " >
+              
+                <label for="city" class="col-md-4 col-form-label col-form-label-sm text-md-right" >
+                    Orden de Servicio:
+                </label>
+                <div class="col-md-2">
+                  <input type="text" id="Orden" class="form-control form-control-sm"
+                    ng-model="">
+                </div>
+              </div>
+                <div class="form-row form-group col-md-12 " >
+                <label for="country" class="col-md-4 col-form-label col-form-label-sm text-md-right" >
+                        Fecha de Entrega:
+                      </label>
+                      <div class="col-md-2" >
+                      <input type="text" id="entrega" class="form-control form-control-sm"
+                      ng-model="">
+                      </div>
+                    </div>
+                    <br>
+            
+            
+            <!--referencia-->
+            <div id="about" class="about1 primary-section sec-page col-lg-12">
+  
+              <div class="panel panel-default">
+                <div class="garanty col-lg-12">
+                <div class="  panel-heading collapsed pointer" data-toggle="collapse" data-target="#collapse1">
+                  <h4 class="panel-title"> Datos de la Garantía <span class="fa fa-check-circle pull-right"></span></h4>
+                </div>
+              </div>
+              <div id="collapse1" class="collapse">
+                  <div class="panel-body">
+                    <blockquote>
+                      <div  class="col-lg-12"  >
+                        <div class="row mb-3">
+                            <div class="form-row form-group col-md-8">
+                                <label for="email" class="col-sm-5 col-form-label col-form-label-sm text-md-right">
+                  Ejecutivo:
+                </label>
+                <div class="col-sm-6">
+                  <input type="text" name="ejecutivo" class="form-control form-control-sm"
+                    required
+                    ng-model="user.name">
+                </div>
+              </div>             
+          </div>
+          
+            <div class="row mb-3">
+                <div class="form-row form-group col-md-8">
+                <label for="nameclient" class="col-sm-5 col-form-label col-form-label-sm text-md-right">
+                  Cliente:
+                </label>
+                <div class="col-sm-6">
+                  <input type="text" name="name" class="form-control form-control-sm"
+                    required
+                    ng-model="billing.name">
+                </div>
+              </div>
+            </div>
+              <div class="row mb-3">
+                  <div class="form-row form-group col-md-8">
+                <label for="direccion" class="col-sm-5 col-form-label col-form-label-sm text-md-right">
+                  Direccion:
+                </label>
+                <div class="col-sm-6">
+                  <input type="text" name="direccion" class="form-control form-control-sm"
+                    required
+                    ng-model="billing.state">
+                </div>
+                </div>
+              </div>
+                <div class="form-row">
+                          <label for="rfc" class="col-md-2 col-form-label col-form-label-sm text-md-right">
+                            Marca:
+                          </label>
+                          <div class="col-md-3">
+                              <select id="inputState" class="form-control form-control-sm"
+                                ng-model="">
+                                <option value="">Selecciona una opción</option>
+                              </select>
+                              <div class="invalid-feedback">Debe elegir la marca.</div>
+                            </div>
+                          <label for="inputState" class="col-md-3 col-form-label col-form-label-sm text-md-right">
+                            Modelo:
+                          </label>
+                          <div class="col-md-3">
+                            <select id="inputState" class="form-control form-control-sm"
+                              ng-model="">
+                              <option value="">Selecciona una opción</option>
+                            </select>
+                            <div class="invalid-feedback">Debe elegir el modelo.</div>
+                          </div>
+                        </div>
+                        
+                        <!--Dirección-->
+                        <div class="form-row mt-md-3 ">
+                          <label for="street" class="col-md-2 col-form-label col-form-label-sm text-md-right">
+                            IMEI:
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" id="street" class="form-control form-control-sm"
+                              ng-model="billing.street">
+                            <div class="invalid-feedback">Escriba el IMEI.</div>
+                          </div>
+                          <label for="estate" class="col-md-2 col-form-label col-form-label-sm text-md-right">
+                                  Bonificado:
+                                </label>
+                                <div class="col-md-4">
+                                  <select id="colony" class="form-control form-control-sm">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="">Si</option>
+                                    <option value="">No</option>
+                                    <option>Algo</option>
+                                  </select>
+                                  <div class="invalid-feedback">Debe elegir el estado.</div>
+                                </div>
+                        </div>
+                        <!--Código postal-->
+                        <div class="form-row mt-md-3">
+                              <label for="intNumber" class="col-md-2 col-form-label col-form-label-sm text-md-right">
+                                      Observaciones:
+                                    </label>
+                                    <div class="col-md-4">
+                                      <input type="text" id="intNumber" class="form-control form-control-sm"
+                                        ng-model="billing.intNumber">
+                                      <div class="invalid-feedback">Escriba el número interior, piso o s/n.</div>
+                                    </div>
+                                    <label for="extNumber" class="col-md-2 col-form-label col-form-label-sm text-md-right">
+                                          Problema:
+                                        </label>
+                                        <div class="col-md-4">
+                                          <input type="text" id="extNumber" class="form-control form-control-sm"
+                                            ng-model="billing.extNumber">
+                                          <div class="invalid-feedback">Escriba el número exterior o s/n.</div>
+                                        </div>
+                        </div>
+                        <!--Municipio y estado-->
+                        <div class="form-row mt-md-3">
+                          <label for="estate" class="col-md-2 col-form-label col-form-label-sm text-md-right">
+                            Condiciones del Equipo:
+                          </label>
+                          <div class="col-md-4">
+                            <select id="colony" class="form-control form-control-sm">
+                              <option value="">Selecciona una opción</option>
+                              <option>Algo</option>
+                              <option>Nuevo</option>
+                              <option>Usado</option>
+                            </select>
+                            <div class="invalid-feedback">Debe elegir el estado.</div>
+                          </div>
+                          <label for="municipality" class="col-md-2 col-form-label col-form-label-sm text-md-right">
+                            Acepto:
+                          </label>
+                          <textarea></textarea>
+                          </blockquote>
+                        </div>
+                      </div>
+                    </div>
+                <br>
+                <div class="panel panel-default">
+                    <div class="garanty col-lg-12">
+                <div class=" panel-heading collapsed pointer" data-toggle="collapse" data-target="#collapse5">
+                  <h4 class="panel-title">Especificaciones de la Garantía <span class="fa fa-check-circle pull-right"></span></h4>
+                </div>
+              </div>
+                <div id="collapse5" class="collapse">
+                  <div class="panel-body">
+                    <blockquote>
+                      <div class="form-row mt-md-3 pull-right">
+                            <label for="country" class="col-md-6 col-form-label col-form-label-sm text-md-right">
+                                    Fecha de Compra:
+                                  </label>
+                                  <div class="col-md-6">
+                                  <input type="text" id="city" class="form-control form-control-sm"
+                                  ng-model="billing.city">
+                                  </div>         
+                        </div>
+
+                        <div  class="col-lg-12" >
+                          <div class="table-responsive style="text-align:center;>
+                              <h1>Accesorios con los que se Recibe</h1>
+                            <table class="table table table-striped table-condensed " >
+                              <thead class="thead-light ">
+                                <tr>
+                                  <th scope="col" style="text-align:center; vertical-align: middle;" class="thead-one">CARGADOR</th>
+                                  <th scope="col"style="text-align:center; vertical-align: middle;" class="thead-one">MANOS LIBRES</th>
+                                  <th scope="col" style="text-align:center; vertical-align: middle;" class="thead-one">CABLE USB</th>
+                                  <th scope="col" style="text-align:center; vertical-align: middle;" class="thead-one">TAPA</th>
+                                  <th scope="col" style="text-align:center; vertical-align: middle;" class="thead-one">PILA </th>
+                                  <th scope="col" style="text-align:center; vertical-align: middle;" class="thead-one">CAJA</th>
+                                  <th scope="col" style="text-align:center; vertical-align: middle;" class="thead-one">MEMORIA</th>
+                                  <th scope="col" style="text-align:center; vertical-align: middle;" class="thead-one">FUNDA</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                    <tr class="col-lg-12">
+                                      <td style="text-align:center; vertical-align: middle;"> <input  type="checkbox" aria-label="Checkbox for following text input " ></td> 
+                                      <td style="text-align:center; vertical-align: middle;"> <input type="checkbox" aria-label="Checkbox for following text input "  ></td> 
+                                      <td style="text-align:center; vertical-align: middle;"> <input type="checkbox" aria-label="Checkbox for following text input " ></td> 
+                                      <td style="text-align:center; vertical-align: middle;"> <input  type="checkbox" aria-label="Checkbox for following text input "  ></td> 
+                                      <td style="text-align:center; vertical-align: middle;"> <input  type="checkbox" aria-label="Checkbox for following text input " ></td> 
+                                      <td style="text-align:center; vertical-align: middle;"> <input  type="checkbox" aria-label="Checkbox for following text input "  ></td> 
+                                      <td style="text-align:center; vertical-align: middle;"> <input  type="checkbox" aria-label="Checkbox for following text input "  ></td> 
+                                      <td style="text-align:center; vertical-align: middle;"> <input  type="checkbox" aria-label="Checkbox for following text input "  ></td> 
+                                    </tr>       
+                              </tbody>
+                            </table>         
+                    </blockquote>
+                  
+                      <div class="row">
+                          <div class="col">
+                            <button class="btn btn-md btn btn-danger" data-toggle="modal" data-target="#modalID">Alteraciones en el Equipo <span class="fa fa-plus"></span></button>
+                          </div>
+                        </div>
+                        <div  class="modal fade " id="modalID">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modhedfut modal-header">
+                                    <h2 class="modal-title">Marque y Especifique Alteraciones En El Equipo</h2>
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>                                </div>
+                                <div class="modal-body">
+                                    <div>
+                                    <img class="logo" src="assets/img/iphonee.png ">
+                                  </div>
+                                <div class=" modhedfut modal-footer">
+                                  <div class="col-6">
+                                    <!-- Buttons here -->
+                                    <button type="button" class="btn btn-primary pull-right" (click)="modal.close('Save click')">Guardar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row pull-right">
+              <div class="col-lg-12">
+                <button type="submit" class="btn btn-success btn-sm">
+                  <span class="fa fa-arrow-right"></span>
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </form>
+  </section>
+</div>
+
+
+

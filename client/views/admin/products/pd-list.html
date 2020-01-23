@@ -1,0 +1,72 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-12 col-md-8">
+    <h4>Productos registrados.</h4>
+  </div><!--/.col-sm-6-->
+  <!--Botones-->
+  <div class="col-sm-12 col-md-4 text-right">
+    <a class="btn btn-primary btn-sm" ui-sref="admin.product.add">
+      <span class="fa fa-plus"></span>
+      Agregar un producto
+    </a>
+  </div><!--/.col-sm-6-->
+</div><!--/.row-->
+<!--Lista de modelos-->
+<div class="table-responsive-lg">
+  <table class="table table-sm table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Número</th>
+        <th scope="col">Marca</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Color</th>
+        <th scope="col">Variante</th>
+        <th scope="col">Accesorios</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-hide="products.length">
+        <td colspan="6" class="text-center">
+          No se encontraron productos
+        </td>
+      </tr>
+      <tr ng-repeat="product in products">
+        <td class="text-center" scope="row">
+          {{$index + 1}}
+        </td>
+        <td class="text-center">
+          {{product.brand.name}}
+        </td>
+        <td class="text-center">
+          {{product.model.name}}
+        </td>
+        <td class="text-center">
+          {{product.color.name}}
+        </td>
+        <td class="text-center">
+          {{product.option.value}}
+        </td>
+        <td class="text-center text-nowrap">
+          {{product.accessories.name}}
+          &nbsp;
+           <button class="btn btn-info btn-sm"
+          ng-click="edit(product)"
+             >
+             <span class="far fa-edit"></span>
+         </button>
+        </td>
+        <td class="text-center text-nowrap">
+          <button class="btn btn-danger btn-sm"
+            ng-disabled="product.stocks.length || product.batches.length"
+            ng-click="delete(product)">
+            <span class="far fa-trash-alt"></span>
+          </button>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--Paginación-->
+<div ng-include="'views/common/pagination.html'"></div>

@@ -1,0 +1,52 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-12 col-md-8">
+    <h4>Productos disponibles en {{warehouse.name}}.</h4>
+  </div><!--/.col-sm-6-->
+  <!--Botones-->
+  <div class="col-sm-12 col-md-4 text-right">
+    <!--Reservado-->
+  </div><!--/.col-sm-6-->
+</div><!--/.row-->
+<!--Lista de ordenes de compra-->
+<div class="table-responsive-lg">
+  <table class="table table-sm table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Tipo de producto</th>
+        <th scope="col">Marca</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Color</th>
+        <th scope="col">Variante</th>
+        <th scope="col">Existencias</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-hide="products.length">
+        <td colspan="6" class="text-center">
+          No se encontraron equipos en este almacén
+        </td>
+      </tr>
+      <tr ng-repeat="product in products">
+        <td class="text-center" scope="row">
+          {{product.typeName}}
+        </td>
+        <td class="text-center">
+          {{product.brandName}}
+        </td>
+        <td class="text-center">
+          {{product.modelName}}
+        </td>
+        <td class="text-center">
+          {{product.colorName}}
+        </td>
+        <td class="text-center">
+          {{product.variantOption}}
+        </td>
+        <td class="text-center">
+          <h4>{{product.stockSize | number}}</h4>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

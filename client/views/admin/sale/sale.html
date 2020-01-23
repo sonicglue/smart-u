@@ -1,0 +1,32 @@
+<div class=" justify-content-center " >
+    <div class=" col-md-12" >
+        <h4 class=" panelT panel-title">Corte de Cambaceo &nbsp;<span class=" fa fa-cut"> </span> </h4>         
+    </div>&nbsp;<!--End column 1-->
+    <div class="row justify-content-center " >
+                    <div class="col-md-10 col-lg-6">
+                      <div class="card">
+                        <div class=" modhedfutt card-header px-3 text-right">
+                          &nbsp;
+                       
+                        </div><!--card-header-->
+                        <div class=" well card-body p-3">
+                            <form name="escaneo" ng-submit="cutSeller()" novalidate>
+                            <div class="form-group">
+                                <label for="nombre">Selecciona Vendedor:</label>
+                                <select class="form-control form-control-sm" id="options" name="options" type="text" 
+                                ng-model="formFilters.seller"
+                                ng-options=" seller.name +'' + seller.lastName for seller in sellers" required>
+                                <option value=""></option>
+                              </select>
+                              <span ng-show="formFilters.seller == seller" >Por favor, seleccione un nombre</span>
+                            </div>
+                                <button type="submit"  class="btn btn-primary"> Aceptar  </button>
+                          </form>
+                        </div><!--/.card-body-->
+                       
+                      </div><!--card-->
+                    </div><!--col-->
+                  </div><!--/.row-->
+                  </div>
+                  
+               

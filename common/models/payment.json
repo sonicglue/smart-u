@@ -1,0 +1,335 @@
+{
+  "name": "Payment",
+  "plural": "Payments",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "Payment"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "count",
+        "find",
+        "getDebt",
+        "getSold",
+        "getSalesHistory",
+        "prototype.updateAttributes",
+        "prototype.updatePayments"
+      ],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este abono."
+    },
+    "idSeller": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idSeller",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del vendedor que registra el abono."
+    },
+    "idClient": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idClient",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del cliente que realiza el abono."
+    },
+    "idOrder": {
+      "type": "string",
+      "required": false,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idOrder",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Identificador la orden de compra."
+    },
+    "date": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Fecha de registro del abono."
+    },
+    "index": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "default": 0,
+      "mysql": {
+        "columnName": "index",
+        "dataType": "smallint",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Indice para los tipos de pago."
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "type",
+        "dataType": "varchar",
+        "dataLength": 10,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Tipo de pago 'cash' | 'deposit' | 'check' | 'refund'."
+    },
+    "amount": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "amount",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Dinero registrado en el abono."
+    },
+    "previousDebt": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "previousDebt",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Deuda anterior del cliente, este campo registra el historial credíticio."
+    },
+    "currentDebt": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "currentDebt",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Deuda total posterior al registro del abono o crédito."
+    },
+    "transactionId": {
+      "type": "string",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "transactionId",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Identificador de la transferencia o deposito bancario."
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "status",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Estatus del pago 'paid' | 'pending' | 'canceled'."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "client": {
+      "type": "belongsTo",
+      "model": "Billing",
+      "foreignKey": "idClient"
+    },
+    "order": {
+      "type": "belongsTo",
+      "model": "Order",
+      "foreignKey": "idOrder"
+    },
+    "seller": {
+      "type": "belongsTo",
+      "model": "SysUser",
+      "foreignKey": "idSeller"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": [
+        "find"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "warehouse-boss",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "manager",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {
+    "getDebt": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Objeto con los identificadores del los clientes."
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "array",
+        "root": true
+      },
+      "description": "GET all debts of clients.",
+      "http": {
+        "verb": "GET"
+      }
+    },
+    "getSold": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Objeto con los identificadores del los ejecutivos."
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "array",
+        "root": true
+      },
+      "description": "GET all sold of sellers.",
+      "http": {
+        "verb": "GET"
+      }
+    },
+    "getSalesHistory": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Objeto con los identificadores de los ejecutivos."
+        }
+      ],
+      "returns": {
+        "arg": "result",
+        "type": "array",
+        "root": true
+      },
+      "description": "GET all sold of sellers.",
+      "http": {
+        "verb": "GET"
+      }
+    }
+  }
+}

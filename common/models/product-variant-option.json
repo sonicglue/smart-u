@@ -1,0 +1,150 @@
+{
+  "name": "ProductVariantOption",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "ProductVariantOption"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [
+        "create",
+        "find"
+      ],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para esta opción de variante de producto."
+    },
+    "idProductVariant": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idProductVariant",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador uuid de la variante de producto a la que pertenece esta opción."
+    },
+    "idProductType": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idProductType",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador uuid del tipo de producto a la que pertenece esta opción."
+    },
+    "index": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "index",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Indice, indicando el orden en el que debe aparecer esta opción de variante."
+    },
+    "value": {
+      "type": "string",
+      "required": true,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "value",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Valor textual de la opción de variante. +Ej. _Negro_+."
+    },
+    "tag": {
+      "type": "string",
+      "required": false,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "tag",
+        "dataType": "varchar",
+        "dataLength": 10,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": false,
+      "description-es": "Etiqueta corta de esta opción, es utilizada para la autogeneración de SKU al agregar variantes de productos."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "products": {
+      "type": "hasMany",
+      "model": "Product",
+      "foreignKey": "idVariantOption",
+      "description-es": "Productos con esta variante."
+    },
+    "type": {
+      "type": "belongsTo",
+      "model": "ProductType",
+      "foreignKey": "idProductType",
+      "description-es": "Tipo de producto a la que pertenece esta opción."
+    },
+    "variant": {
+      "type": "belongsTo",
+      "model": "ProductVariant",
+      "foreignKey": "idProductVariant",
+      "description-es": "Variante a la que pertence esta opción."
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

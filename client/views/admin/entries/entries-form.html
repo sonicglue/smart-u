@@ -1,0 +1,89 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+        <div class="col-sm-10">
+            Registro de un producto
+        </div>
+        <div class="col-sm-2">
+          <a class="btn btn-info" ui-sref="admin.entries.blank">
+            <span class="fa fa-arrow-left"></span>
+            Regresar
+          </a>
+        </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <form>
+          <div class="form-group row">
+            <label for="" class="col-sm-4 col-form-label">Tipo de producto:</label>
+            <div class="col-sm-8">
+              <select class="form-control">
+                <option>Celular</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-sm-4 col-form-label">Marca:</label>
+            <div class="col-sm-8">
+              <select class="form-control">
+                <option>Motorola</option>
+                <option>LG</option>
+                <option>W&O</option>
+                <option>Samsung</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+              <label for="" class="col-sm-4 col-form-label">Modelo:</label>
+              <div class="col-sm-8">
+                <select class="form-control">
+                  <option>G6 Plus</option>
+                  <option>Max 13</option>
+                  <option>Galaxy 8</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">Memoria:</label>
+                <div class="col-sm-8">
+                  <select class="form-control">
+                    <option>16 Gb</option>
+                    <option>32 Gb</option>
+                    <option>64 Gb</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                  <label for="" class="col-sm-4 col-form-label">Color:</label>
+                  <div class="col-sm-8">
+                    <select class="form-control">
+                      <option>Negro</option>
+                      <option>Blanco</option>
+                      <option>Azul</option>
+                      <option>Verde</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-8">
+                      <a class="btn btn-info" ui-sref="admin.entries.imei">
+                          <span class="fa fa-ok"></span>
+                          Guardar
+                        </a>
+                  </div>
+                  
+                </div>
+        </form>
+      </div>
+      <div class="col-sm-6">
+        Aviso:
+        <a class="btn btn-default" ui-sref="admin.entries.model">
+          <span class="fa fa-add"></span>
+          Registrar un modelo
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

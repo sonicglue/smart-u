@@ -1,0 +1,381 @@
+<div class="page-body">
+  <div class="row justify-content-center">
+
+    <div class="col-md-8">
+      <div class="panel br-20x panel-default">
+
+        <div class="panel-wrapper">
+          <div class="panel-body">
+              <div class="row">
+
+                <!--Lista de clientes-->
+                <!--<select class="form-control form-control-sm col-sm-5" style="height: 51px; font-size: 14px; font-weight: bold;" id="idSeller" ng-model="itemSeller.idSeller"
+                  ng-options="seller.id  as seller.name +'  ' + seller.lastName for seller in allSellers">
+                </select>-->
+                <!--Nombre del ejecutivo-->
+                <div class="col-sm-5" style="padding: 12px; border: 1px solid #c9ccd7; border-radius: 7px;">
+                  <span style="height: 51px; font-size: 14px; font-weight: bold;">{{seller}}</span>
+                </div>
+
+
+                <div class="col-sm-5">
+                  <div class="input-group">
+                    <input type="text" id="datepicker" class="form-control form-control-sm"
+                      placeholder="mm/dd/aaaa" aria-label="Fecha de compra"
+                      ng-model="itemSeller.date" style="height: 51px; font-size: 14px; font-weight: bold;">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fas fa-calendar-alt"></i>
+                      </span>
+                    </div><!--/.input-group-append-->
+                  </div><!--/.input-group-->
+                </div>
+
+                <div class="col-sm-2">
+                  <button class="btn btn-primary pull-right" style="height:51px;" type="submit" ng-click="searchSeller()">
+                    <i class="fas fa-search"></i> Buscar
+                  </button>
+                </div>
+
+            </div><!--End row-->
+
+        </div><!--End panel-body-->
+      </div><!--End panel-wrapper-->
+    </div><!--End panel-->
+  </div><!--End col-md-8-->
+  </div><!--End justify-content-center-->
+</div><!--End page-body-->
+
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="panel panel-default">
+      <div class="row widget-separator-1 m-0">
+
+        <div class="col-md-6">
+          <div class="widget-1">
+            <div class="content">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h5 class="title">Total de equipos vendidos</h5>
+                </div>
+                <div class="col text-right">
+                  <div class="number text-secondary">{{totalEquipment}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="widget-1">
+            <div class="content">
+              <div class="row align-items-center">
+                <div class="col">
+                  <!--<h5 class="title">Equipos seleccionados</h5>
+                  <span class="descr">{{selectedEquipment}}</span>-->
+                </div>
+                <div class="col text-right">
+
+                  <button class="btn btn-primary" style="height:51px;" type="submit" ng-click="generateNote()">
+                    <i class="far fa-clipboard"></i> Generar nota
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--App loading-->
+<div class="wrapper" ng-show="loading">
+  <div class="overlay">
+    <div class="spinner-wrapper">
+      <div id="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="loading"> <p class="text-center spinner-message">Registrando venta!!!</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-sm table-striped table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th colspan="6">Lista de equipos vendidos</th>
+        </tr>
+        <tr>
+          <th scope="col">
+            <label>
+             <input type="checkbox" ng-model="IsAllChecked" ng-change="selectAll()"/>
+             <span>
+               <span>
+                <svg class="checkmark" viewBox="0 0 24 24"><path class="checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path></svg>
+               </span>
+             </span>
+            </label>
+          </th>
+          <th scope="col" class="text-center" tyle="min-width: 115px;">IMEI</th>
+          <th scope="col">Cliente</th>
+          <th> </th>
+          <th scope="col" style="min-width: 115px;">IMEI</th>
+          <th scope="col">Cliente</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="stock in stocks.items">
+        <tr ng-show="stocks.length < 0">
+          <td colspan="6" class="text-center">
+            No se han escaneado equipos
+          </td>
+        </tr>
+
+        <tr>
+          <td class="text-center"></td>
+          <td colspan="5"><strong class="text-left">{{stock.model}}</strong> <div class=" number text-primary pull-right">{{stock.total}} Pzas.</div></td>
+        </tr>
+
+        <tr ng-repeat="itemImei in stock.stock|limitTo:Math.ceil(stock.stock.length/2)">
+
+          <!--Primer columna-->
+          <td class="text-center" ng-if="$index*2 < stock.stock.length">
+            <label>
+             <input type="checkbox"
+              id="imei_{{stock.stock[$index*2].imei}}"
+              ng-model="stock.stock[$index*2].selected"
+              ng-change="selectEntity(stock.stock[$index*2].id)"
+              ng-disabled="(stock.stock[$index*2].confirmSale === true)"/>
+             <span>
+               <span>
+                <svg class="checkmark" viewBox="0 0 24 24"><path class="checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path></svg>
+               </span>
+             </span>
+            </label>
+          </td>
+          <td class="text-left" ng-if="$index*2 < stock.stock.length">
+            <Text class="firstText" ng-class="stock.stock[$index*2].confirmSale === true ? 'underline' : ''">{{stock.stock[$index*2].imei.substr(0, stock.stock[$index*2].imei.length - 5)}}</Text>
+            <Text class="secondText" ng-class="stock.stock[$index*2].confirmSale === true ? 'underline' : ''">{{stock.stock[$index*2].imei.substring(stock.stock[$index*2].imei.length - 5, stock.stock[$index*2].imei.length)}}</Text>
+          </td>
+          <td ng-if="$index*2 < stock.stock.length">
+            <div class="input-group my-group">
+              <select id="idClient" class="form-control" ng-class="stock.stock[$index*2].confirmSale === true ? 'underline' : ''" ng-model="stock.stock[$index*2].idClient" ng-change="changedValue(stock.stock[$index*2])"
+                ng-options="item.id as item.tag for item in myClients" ng-disabled="true">
+              </select>
+            </div>
+          </td>
+
+          <!--Segunda columna-->
+          <td class="text-center" ng-if="$index*2+1 < stock.stock.length">
+            <label>
+             <input type="checkbox"
+              id="imei_{{stock.stock[$index*2+1].imei}}"
+              ng-model="stock.stock[$index*2+1].selected"
+              ng-change="selectEntity(stock.stock[$index*2+1].id)"
+              ng-disabled="(stock.stock[$index*2+1].confirmSale === true)"/>
+             <span>
+               <span>
+                <svg class="checkmark" viewBox="0 0 24 24"><path class="checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path></svg>
+               </span>
+             </span>
+            </label>
+            <!--<input type="checkbox" ng-model="itemImei.check" ng-change="selectEntity(itemImei.id)">-->
+          </td>
+          <td class="text-left" ng-if="$index*2+1 < stock.stock.length">
+            <Text class="firstText">{{stock.stock[$index*2+1].imei.substr(0, stock.stock[$index*2+1].imei.length - 5)}}</Text>
+            <Text class="secondText">{{stock.stock[$index*2+1].imei.substring(stock.stock[$index*2+1].imei.length - 5, stock.stock[$index*2+1].imei.length)}}</Text>
+          </td>
+          <td ng-if="$index*2+1 < stock.stock.length">
+            <div class="input-group my-group" ng-class="stock.stock[$index*2+1].scanByAvailable === true ? 'hideSelectListClient' : ''">
+              <select id="idClient" class="form-control" ng-model="stock.stock[$index*2+1].idClient" ng-change="changedValue(stock.stock[$index*2+1])"
+                ng-options="item.id as item.tag for item in myClients" ng-disabled="true">
+              </select>
+              <!--<input type="text" id="idClient_{{stock.stock[$index*2+1].idClient}}" class="form-control" name="idClient" ng-model="stock.stock[$index*2+1].idClient" ng-disabled="true">-->
+            </div>
+          </td>
+
+        </tr>
+
+        </tbody>
+      </table>
+
+  </div><!--/.col-md-12-->
+</div><!--End row-->
+
+
+
+<!--=======================================================-->
+<!--           Modal para registrar una venta              -->
+<!--=======================================================-->
+<div class="modal fade" id="registerSaleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-dialog-centered" style="min-width: 800px;" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title-note" id="basicModalLabel">Nota de remisión</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        </div><!--End modal-header-->
+        <div class="modal-body">
+
+
+          <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default" style="margin-bottom: 0px !important;">
+                    <div class="widget-5">
+                        <div class="tbl-cell icon bg-dark"><i class="fas fa-users"></i></div>
+                        <div class="tbl-cell">
+                            <div class="content">
+                              <select id="idClient" class="form-control" ng-model="sendSale.idClient"
+                                ng-options="item.id as item.tag for item in myClients">
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="widget-5">
+                        <div class="tbl-cell icon bg-warning"><i class="fas fa-credit-card"></i></div>
+                        <div class="tbl-cell">
+                            <div class="content">
+                              <label>
+                               <input type="radio" name="radioGroup" ng-model="sendSale.paymentMethod" value="credit"/>
+                               <span><span></span></span>De crédito
+                              </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="widget-5">
+                        <div class="tbl-cell icon bg-primary"><i class="fas fa-hand-holding-usd"></i></div>
+                        <div class="tbl-cell">
+                            <div class="content">
+                              <label>
+                               <input type="radio" name="radioGroup" ng-model="sendSale.paymentMethod" value="cash" />
+	                             <span><span></span></span>De contado
+                              </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Forma de pago-->
+        <div class="row transition-all" ng-style="sendSale.paymentMethod && sendSale.paymentMethod !== 'none' && sendSale.paymentMethod !== 'credit' ? { 'max-height': '350px', overflow: 'hidden' } : { 'max-height': 0, overflow: 'hidden' }">
+            <div class="col-md-4 grid-margin">
+							<div class="card-custom d-flex align-items-center">
+								<div class="card-body">
+									<div class="d-flex flex-row align-items-center">
+										<i class="far fa-money-bill-alt icon-md"></i>
+										<div class="ml-3">
+											<h6 class="text-facebook">Efectivo</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 grid-margin">
+							<div class="card-custom d-flex align-items-center">
+								<div class="card-body">
+									<div class="d-flex flex-row align-items-center">
+                    <i class="fas fa-exchange-alt icon-md"></i>
+										<div class="ml-3">
+											<h6 class="text-youtube">Transferencia</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 grid-margin">
+							<div class="card-custom d-flex align-items-center">
+								<div class="card-body">
+									<div class="d-flex flex-row align-items-center">
+                    <i class="fas fa-money-check icon-md"></i>
+										<div class="ml-3">
+											<h6 class="text-twitter">Cheque</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+          </div>
+
+
+
+
+
+          <table class="table table-sm table-striped table-bordered">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Cantidad</th>
+                <th scope="col" class="text-left">Modelo</th>
+                <th scope="col" class="text-left">Precio</th>
+                <th scope="col" class="text-center">Sub total</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="stock in note.items">
+              <tr>
+                <td class="text-center">{{stock.quantity}}</td>
+                <td><strong class="text-left">{{stock.model}}</strong></td>
+                <td>
+                  <div class="input-group mb-3" style="max-width: 200px !important;">
+                    <input type="text" id="salesPrice_{{stock.id}}" class="form-control" name="salesPrice" ng-model="stock.salesPrice" ng-disabled="(stock.changePrice === true)" ng-change="changeSalePrice(stock.salesPrice, stock.id)" format="currency">
+                    <div class="input-group-append">
+                      <button type="button" ng-click="activeEditInput(stock.id)" class="btn" ng-class="stock.changePrice === true ? 'btn-primary' : 'btn-danger' ">
+                        <i class="fas" ng-class="stock.changePrice === true ? 'fa-edit' : 'fa-times' "></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center"><strong>{{stock.subTotal | currency}}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <div class="container-fluid mt-5 w-100">
+            <p class="text-right mb-2">Sub - Total: {{totalPayment | currency }}</p>
+            <!--<p class="text-right">IVA {{totalPayment * 0.16 | currency}} </p>-->
+            <h4 class="text-right mb-5">Total : {{totalPayment | currency }}</h4>
+          </div>
+
+
+        </div><!--End modal-body-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" ng-click="registerSale()">Registrar venta</button> <!--ng-click="paymentConciliation()"-->
+        </div><!--End modal-footer-->
+    </div><!--End modal-content-->
+  </div><!--End modal-dialog-->
+</div><!--End modal-->
+
+
+
+
+<script>
+  $(function() {
+    $("#datepicker").datepicker({
+      dateFormat: 'dd/mm/yy'});
+  });
+</script>

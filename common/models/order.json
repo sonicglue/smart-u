@@ -1,0 +1,358 @@
+{
+  "name": "Order",
+  "plural": "Orders",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "systemax",
+    "table": "Order"
+  },
+  "mixins": {
+    "DisableAllMethods": {
+      "expose": [],
+      "hide": []
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "defaultFn": "uuid",
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador UUID autogenerado para este pago."
+    },
+    "idSeller": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idSeller",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del vendedor que registra el pago."
+    },
+    "idClient": {
+      "type": "string",
+      "required": true,
+      "length": 36,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idClient",
+        "dataType": "char",
+        "dataLength": 36,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false,
+      "description-es": "Identificador del cliente que realiza el pago."
+    },
+    "orderNumber": {
+      "type": "string",
+      "required": true,
+      "length": 11,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "orderNumber",
+        "dataType": "varchar",
+        "dataLength": 11,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Número de orden."
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "type",
+        "dataType": "varchar",
+        "dataLength": 10,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Tipo de nota 'sale' | 'payment'."
+    },
+    "created": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Fecha de registro de la orden de compra."
+    },
+    "totalItems": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "totalItems",
+        "dataType": "smallint",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Total de productos registrados en la orden de compra."
+    },
+    "subtotal": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "subtotal",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Total de la compra sin aplicar descuentos (incluye IVA)."
+    },
+    "discount": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "discount",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Bonificación o descuentos aplicados en la orden de compra."
+    },
+    "total": {
+      "type": "number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "mysql": {
+        "columnName": "total",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Total de la compra menos descuentos aplicados."
+    },
+    "credit": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "credit",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Cédito solicitado por el cliente en la orden."
+    },
+    "cash": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 12,
+      "scale": 8,
+      "default": 0,
+      "mysql": {
+        "columnName": "cash",
+        "dataType": "decimal",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": 8,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Dinero en efectivo registrado en el pago de la orden."
+    },
+    "status": {
+      "type": "string",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "default": "open",
+      "mysql": {
+        "columnName": "status",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true,
+      "description-es": "Estatus de la orden de compra."
+    },
+    "clientNotes": {
+      "type": "string",
+      "required": false,
+      "length": 200,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "clientNotes",
+        "dataType": "varchar",
+        "dataLength": 200,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Notas del cliente sobre la orden de compra."
+    }
+  },
+  "validations": [],
+  "relations": {
+    "client": {
+      "type": "belongsTo",
+      "model": "Billing",
+      "foreignKey": "idClient"
+    },
+    "orderhasproduct": {
+      "type": "hasMany",
+      "model": "OrderHasProduct",
+      "foreignKey": "idOrder"
+    },
+    "products": {
+      "type": "hasMany",
+      "model": "Product",
+      "foreignKey": "idOrder",
+      "through": "OrderHasProduct",
+      "keyThrough": "idProduct"
+    },
+    "seller": {
+      "type": "belongsTo",
+      "model": "SysUser",
+      "foreignKey": "idSeller"
+    },
+    "stocks": {
+      "type": "hasMany",
+      "model": "Stock",
+      "foreignKey": "idOrder",
+      "through": "OrderHasStock",
+      "keyThrough": "idStock"
+    }
+  },
+  "acls": [],
+  "methods": {
+    "refund": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Objeto con los datos de la bonificación.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "model",
+        "type": "Order",
+        "root": true
+      },
+      "description": "Generar una orden de bonificación.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "return": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Objeto con los datos de la devolución.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "model",
+        "type": "Order",
+        "root": true
+      },
+      "description": "Generar una orden de devolución.",
+      "http": {
+        "verb": "POST"
+      }
+    },
+    "change": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "object",
+          "description": "Objeto con los datos del cambio físico.",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "model",
+        "type": "Order",
+        "root": true
+      },
+      "description": "Generar una orden de cambio físico.",
+      "http": {
+        "verb": "POST"
+      }
+    }
+  }
+}

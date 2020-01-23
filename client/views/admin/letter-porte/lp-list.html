@@ -1,0 +1,144 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-12 col-md-9">
+    <h4>{{!warehouse.name ? 'Búsqueda de cambaceo' : warehouse.name }}.</h4>
+  </div>
+  <!--Botones-->
+  <div class="col-sm-3 text-right" ng-show="warehouse.name && products.length">
+    <!--<button type="button" class="btn btn-dark btn-sm d-print-none" onclick="imprimir()"
+      ng-disabled="busy">
+      <span class="fas fa-print"></span>
+      Generar carta porte
+    </button>-->
+    <form name="direccionForm1" id="direccion-form1" class="payment-system" ng-submit="generateLetter()">
+      <button id="back-button" class="btn btn-dark btn-sm d-print-none">Generar carta porte</button>
+    </form>
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+
+
+<!--App loading-->
+<div class="wrapper" ng-show="loading">
+  <div class="overlay">
+    <div class="spinner-wrapper">
+      <div id="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="loading"> <p class="text-center spinner-message">Generando carta porte!!!</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Contenido-->
+<div ng-hide="busy">
+  <!--Buscador-->
+  <div class="row justify-content-center d-print-none mb-5">
+    <div class="col-md-6">
+      <!--Tarjeta-->
+      <div class="card">
+        <h5 class="card-header bg-primary text-white">
+          Rutas de venta
+        </h5>
+        <div class="card-body">
+          <form name="warehouseForm" ng-submit="search()">
+            <!--Lista de asesores-->
+            <div class="form-group">
+              <select id="warehouse" class="form-control form-control-sm"
+                ng-model="warehouse.id"
+                ng-options="warehouse.id as warehouse.name for warehouse in warehouses">
+                <option value="">Elige una ruta de venta</option>
+              </select>
+            </div>
+            <!--Botón-->
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary btn-sm"
+                ng-disabled="!warehouse.id">
+                Aceptar
+                <span class="fa fa-arrow-right"></span>
+              </button>
+            </div>
+          </form>
+        </div><!--/.card-body-->
+      </div><!--/.card-->
+    </div><!--/.col-md-4-->
+  </div><!--/.row-->
+
+  <!--URL para descargar la hoja de cambaceo-->
+  <div class="porte" ng-show="showGenerateLetter">
+    <a class="text-center btn btn-success" href="{{urlLetter}}" target="_blank">Descargar la carta porte</a>
+  </div>
+
+
+  <!--<embed src="http://www.facturafiel.com/descargas/CP79_SVA120927TE2.pdf" width="500" height="375"
+ type="application/pdf">-->
+
+  <!--Hoja de cambaceo-->
+  <div class="table-responsive-lg"
+    ng-show="products.length">
+    <table class="table table-sm table-striped table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th colspan="6">Reporte de equipos</th>
+        </tr>
+        <tr>
+          <th colspan="3">Ejecutivo: {{warehouse.name}}</th>
+          <th colspan="3">Fecha: {{getDateFormat(today, 'L')}}</th>
+        </tr>
+        <tr>
+          <th colspan="3">Atendido por: {{currentUser.name}} {{currentUser.lastName}}</th>
+          <th colspan="3">Número total de equipos: {{warehouse.stockSize}}</th>
+        </tr>
+        <tr>
+          <th scope="col" class="w-25">IMEI</th>
+          <th scope="col" class="w-auto">Cliente</th>
+          <th scope="col" class="w-25">IMEI</th>
+          <th scope="col" class="w-auto">Cliente</th>
+          <th scope="col" class="w-25">IMEI</th>
+          <th scope="col" class="w-auto">Cliente</th>
+        </tr>
+      </thead>
+      <tbody ng-show="!products.length">
+        <tr>
+          <td colspan="6" class="text-center">No tiene productos registrados.</td>
+        </tr>
+      </tbody>
+      <tbody ng-repeat="product in products">
+        <!--Productos-->
+        <tr>
+          <td colspan="6" class="pl-3 py-2">
+            <span class="double"><b>{{product.name}}</b></span>
+            <div class="number text-primary pull-right">{{product.stocks.length}} Pzas.</div>
+          </td>
+        </tr>
+        <!--Equipos-->
+        <tr ng-repeat="stock in product.stocks | limitTo: Math.ceil(product.stocks.length / 3)">
+          <td><span class="text-center double"
+            ng-bind-html="makeSerial(product.stocks[$index * 3].IMEI)"></span></td>
+          <td>&nbsp;</td>
+          <td><span class="text-center double"
+            ng-bind-html="makeSerial(product.stocks[$index * 3 + 1].IMEI)"></span></td>
+          <td>&nbsp;</td>
+          <td><span class="text-center double"
+            ng-bind-html="makeSerial(product.stocks[$index * 3 + 2].IMEI)"></span></td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!--/.table-responsive-lg-->
+</div>

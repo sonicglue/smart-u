@@ -1,0 +1,64 @@
+<div class="row mb-3">
+  <!--Título-->
+  <div class="col-sm-12 col-md-4">
+    <h4>Asignación de complemento.</h4>
+  </div><!--/.col-sm-6-->
+  <div class="col-sm-12 col-md-8">
+
+  </div>
+</div><!--/.row-->
+<!--Loading-->
+<div class="text-center my-5 py-5"
+  ng-show="busy">
+  <h4>
+    <span class="fa fa-refresh fa-spin"></span>
+    <small>procesando datos...</small>
+  </h4>
+</div>
+<!--Pestañas-->
+<div ng-hide="busy">
+  <!--Contenidos-->
+  <div class="container">
+      <!--Lista de colores-->
+      <div class="table-responsive-lg">
+        <table id="subtable" class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-left">Número</th>
+              <th class="text-left">Origen</th>
+              <th class="text-left">Enviado por</th>
+              <th class="text-left">Destino</th>
+              <th class="text-left">Fecha de envío</th>
+              <th class="text-center">Estado</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-hide="arrayComplement.length">
+              <td colspan="8" class="text-center">
+                No hay asignación de complemento
+              </td>
+            </tr>
+            <tr ng-repeat="assignment in arrayComplement">
+              <td class="text-center">{{$index + 1}}</td>
+              <td class="text-left">{{assignment.number}}</td>
+              <td class="text-left">{{assignment.origin.name}}</td>
+              <td class="text-left">{{assignment.sender.name}} {{assignment.sender.lastName}}</td>
+              <td class="text-left">{{assignment.destiny.name}}</td>
+              <td class="text-left">{{getDateFormat(assignment.created, 'L')}}</td>
+              <td class="text-center">{{getFormatStatus(assignment.status)}}</td>
+              <td class="text-center text-nowrap">
+                <button class="btn btn-light btn-sm"
+                  ng-click="$state.go('admin.letterPorte.sheet', {assignmentId: assignment.id})">
+                  <span class="fa fa-eye"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--Paginación-->
+      <div ng-include="'views/common/pagination.html'"></div>
+  </div><!--/.tab-content-->
+</div>
