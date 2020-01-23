@@ -1,6 +1,6 @@
 {
   "restApiRoot": "/api",
-  "host": "172.31.3.218",
+  "host": "127.0.0.1",
   "port": 3030,
   "remoting": {
     "context": false,
@@ -19,7 +19,7 @@
     },
     "cors": false
   },
-  "url": "127.31.3.218:3030",
+  "url": "127.0.0.1:3030",
   "ff": {
     "generate": {
       "url": "http://www.facturafiel.com/websrv/servicio_timbrado_33.php?wsdl",
