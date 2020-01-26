@@ -130,6 +130,24 @@
       "_selectable": true,
       "description-es": "Bandera que indica que es el almacén principal del sistema."
     },
+    "active": {
+      "type": "boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": true,
+      "mysql": {
+        "columnName": "active",
+        "dataType": "tinyint",
+        "dataLength": 1,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true,
+      "description-es": "Bandera que indica que es el almacén principal del sistema."
+    },
     "date": {
       "type": "date",
       "required": false,

@@ -2,3 +2,4 @@ node_modules/
 package-lock.json
 client/assets/lib/
 client/assets/librery/
+*.txt
