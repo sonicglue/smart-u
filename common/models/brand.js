@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(Brand) {
-  // TODO: implementar código del modelo
+  // Funciones generales
   function beforeCreate(ctx, instance, done) {
     console.log('Brand call beforeCreate');
     let tag = Brand.app.convertToSlug(ctx.args.data.name);
@@ -9,12 +9,14 @@ module.exports = function(Brand) {
       if (err) return done(err);
 
       if (iBrand) {
-        console.log(iBrand);
+        // ...la marca ya está registrada
         return done(Brand.app.newError(422,
           'Error X01: No se puede registrar la marca \'' +
           ctx.args.data.name +
-          '\' Esta marca ya se encuentra en la lista del sistema.'));
+          '\' Esta marca ya se encuentra en la lista del sistema.',
+          {field: 'name'}));
       } else {
+        // ...es una marca nueva
         ctx.args.data.tag = tag;
         done();
       }

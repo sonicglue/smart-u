@@ -3,7 +3,7 @@
 let _ = require('underscore');
 
 module.exports = function(Color) {
-  // TODO: implementar código del modelo
+  // Funciones generales
   function beforeCreate(ctx, instance, done) {
     console.log('Color call beforeCreate');
     let tag = Color.app.convertToSlug(ctx.args.data.name);
@@ -17,7 +17,8 @@ module.exports = function(Color) {
         return done(Color.app.newError(422,
           'Error X01: No se puede registrar el color \'' +
           ctx.args.data.name +
-          '\' Este color ya se encuentra en la lista del sistema.'));
+          '\' Este color ya se encuentra en la lista del sistema.',
+          {field: 'name'}));
       } else {
         ctx.args.data.tag = tag;
         ctx.args.data.index = index;

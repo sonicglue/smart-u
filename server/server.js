@@ -27,9 +27,9 @@ function startsWith(string, array) {
 };
 
 // Ruta generar reporte de rutas
-require('../routes/report-routes')(app);
-require('../routes/report-seriesM')(app);
-require('../routes/reports')(app);
+// require('../routes/report-routes')(app);
+// require('../routes/report-seriesM')(app);
+// require('../routes/reports')(app);
 
 // Define el directorio para los archivos estaticos
 app.use(loopback.static(path.resolve(__dirname, '../client')));
