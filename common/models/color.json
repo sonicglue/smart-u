@@ -17,7 +17,9 @@
         "create",
         "find"
       ],
-      "hide": []
+      "hide": [
+        "prototype.patchAttributes"
+      ]
     }
   },
   "properties": {
@@ -111,9 +113,10 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": [
+        "count",
         "find"
       ]
     },
@@ -121,7 +124,11 @@
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "admin",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": [
+        "create",
+        "deleteById"
+      ]
     },
     {
       "accessType": "*",
@@ -129,10 +136,7 @@
       "principalId": "warehouse-boss",
       "permission": "ALLOW",
       "property": [
-        "count",
-        "create",
-        "deleteById",
-        "find"
+        "create"
       ]
     }
   ],

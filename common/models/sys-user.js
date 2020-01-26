@@ -4,7 +4,7 @@ let rands = require('randomstring');
 let async = require('async');
 
 module.exports = function(SysUser) {
-  // Funciones globales
+  // Funciones generales
   /**
    * @name afterCreate
    * @description Función posterior al registro de un SysUser.
@@ -141,13 +141,13 @@ module.exports = function(SysUser) {
               idParent: instance.idWarehouse,
               name: newName,
               type: 'seller'};
-              Warehouse.create(newWarehouse, (err, iW) => {
+            Warehouse.create(newWarehouse, (err, iW) => {
+              if (err) return next(err);
+              instance.updateAttributes({idWarehouse: iW.id}, (err, I) => {
                 if (err) return next(err);
-                instance.updateAttributes({idWarehouse: iW.id}, (err, I) => {
-                  if (err) return next(err);
-                  next();
-                });
+                next();
               });
+            });
           } else {
             // ...ya existia el almacén
             let updWarehouse = {idWarehouse: iWarehouse.id, active: true};

@@ -18,8 +18,7 @@
         "deleteById",
         "find",
         "findById",
-        "inStock",
-        "prototype.delUser"
+        "inStock"
       ],
       "hide": []
     }
@@ -46,7 +45,7 @@
     },
     "idParent": {
       "type": "string",
-      "required": false,
+      "required": true,
       "length": 36,
       "precision": null,
       "scale": null,
@@ -80,10 +79,11 @@
     },
     "type": {
       "type": "string",
-      "required": true,
+      "required": false,
       "length": 45,
       "precision": null,
       "scale": null,
+      "default": "place",
       "mysql": {
         "columnName": "type",
         "dataType": "varchar",
@@ -208,62 +208,56 @@
       "foreignKey": "idWarehouse"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "find",
+        "findById",
+        "inStock"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": [
+        "create",
+        "patchAttributes"
+      ]
+    }
+  ],
   "methods": {
-    "inStock": {
+    "prototype.inStock": {
       "accepts": [
         {
-          "arg": "id",
-          "type": "string",
-          "required": true
+          "arg": "ctx",
+          "type": "object",
+          "http": {
+            "source": "context"
+          }
         }
       ],
       "returns": {
         "arg": "result",
-        "type": "array",
+        "type": "object",
         "root": true
       },
-      "description": "Ejemplo.",
+      "description": "Stock activo del almacén.",
       "http": {
+        "path": "/in-stock/",
         "verb": "GET"
-      }
-    },
-    "prototype.addUser": {
-      "accepts": [
-        {
-          "arg": "idUser",
-          "type": "string",
-          "description": "User id",
-          "required": true
-        }
-      ],
-      "returns": {
-        "arg": "result",
-        "type": "boolean",
-        "root": true
-      },
-      "description": "Agrega al usuario al acceso del almacén.",
-      "http": {
-        "verb": "POST"
-      }
-    },
-    "prototype.delUser": {
-      "accepts": [
-        {
-          "arg": "idUser",
-          "type": "string",
-          "description": "User id",
-          "required": true
-        }
-      ],
-      "returns": {
-        "arg": "result",
-        "type": "boolean",
-        "root": true
-      },
-      "description": "Elimina el acceso del usuario al almacén.",
-      "http": {
-        "verb": "POST"
       }
     }
   }
