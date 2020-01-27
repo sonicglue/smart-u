@@ -242,6 +242,20 @@ module.exports = function(SysUser) {
     ctx.attached = attached;
     done();
   }// End beforeUpdate
+  /**
+   * @name observeLoaded
+   * @description
+   */
+  function observeLoaded(ctx, done) {
+    let Warehouse = SysUser.app.models.Warehouse;
+    return Warehouse.findById(ctx.data.idWarehouse, (err, iWarehouse) => {
+      if (err) return done();
+      if (iWarehouse) {
+        ctx.data.warehouse = iWarehouse;
+      }
+      done();
+    });
+  }// End observeLoaded
   // Middlewares
   // Before
   SysUser.beforeRemote('prototype.patchAttributes', beforeUpdate);
@@ -251,6 +265,8 @@ module.exports = function(SysUser) {
   SysUser.afterRemote('create', afterCreate);
   SysUser.afterRemote('login', afterLogin);
   SysUser.afterRemote('prototype.patchAttributes', afterUpdate);
+  // Observe
+  SysUser.observe('loaded', observeLoaded);
   // Metodos remotos
   /**
    * @name getAccessToken
