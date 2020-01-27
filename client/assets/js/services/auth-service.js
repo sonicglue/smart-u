@@ -21,7 +21,6 @@ angular.module('systemax')
           alias: accessToken.user.alias,
           type: accessToken.user.type,
           status: accessToken.user.accountStatus,
-          warehouseACL: accessToken.user.warehouseACL,
           isAdmin: accessToken.user.isAdmin};
           console.log("Datos del usuario", $rootScope.currentUser);
       }// End setupCurrentUser
