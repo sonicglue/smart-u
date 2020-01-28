@@ -276,8 +276,20 @@ module.exports = function(SysUser) {
    */
   SysUser.getAccessToken = function(tokenId, done) {
     console.log('SysUser call getAccessToken');
+    let Warehouse = SysUser.app.models.Warehouse;
     let AccessToken = SysUser.app.models.AccessToken;
     let filter = {include: 'user'};
-    AccessToken.findById(tokenId, filter, done);
+    AccessToken.findById(tokenId, filter, (err, iAccessToken) => {
+      if (err) return done(err);
+
+      let accessToken = iAccessToken.toObject();
+      Warehouse.findById(accessToken.user.idWarehouse, (err, iWarehouse) => {
+        if (err) return done(err);
+
+        accessToken.user.warehouse = iWarehouse.toObject();
+        return done(accessToken);
+      });
+      // console.log(iAccessToken.toObject());
+    });
   };// End getAccessToken
 };

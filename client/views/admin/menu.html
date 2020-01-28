@@ -19,7 +19,7 @@
   </li>
   <!--Ordenes de compra-->
   <li class="nav-item"
-    ng-show="checkMail('blanca.monroy@axcomunicacion.com.mx')">
+    ng-show="checkAccess('wa') && currentUser.isMain">
     <a class="dropdown-toggle" data-target="#subPurchase" data-toggle="collapse" aria-expanded="false">
       <span class="fa fa-shopping-cart"></span>
       Compras</a>
