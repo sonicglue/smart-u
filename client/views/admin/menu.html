@@ -45,7 +45,7 @@
       <span class="fa fa-cubes"></span>
       Almacén</a>
     <ul id="subShorts" class="collapse">
-      <li class="nav-item" ng-show="checkAccess('wast')">
+      <li class="nav-item" ng-show="checkAccess('ad')">
         <a ui-sref="admin.inventory.list" ng-class="checkMenu('inventory')">
           Inventario</a></li>
       <li class="nav-item" ng-show="checkAccess('wastsuacmase')">
@@ -205,7 +205,7 @@
       <span class="fa fa-money"></span>
       Ventas</a>
     <ul id="subOrder" class="collapse">
-      <li class="nav-item" ng-show="checkAccess('ma') || currentUser.isAdmin">
+      <li class="nav-item" ng-show="checkAccess('x') && currentUser.isAdmin">
         <a ui-sref="admin.price.list" ui-sref-active="active">
           Lista de precios</a></li>
       <li class="nav-item">
@@ -281,11 +281,11 @@
     </a>
     <ul id="subCategories" class="collapse">
       <li class="nav-item"
-        ng-show="checkAccess('ad')">
+        ng-show="checkAccess('ad') && currentUser.isAdmin">
         <a ui-sref="admin.user.list" ng-class="checkMenu('user')">
           Usuarios</a></li>
       <li class="nav-item"
-        ng-show="checkAccess('ad')">
+        ng-show="checkAccess('adwa') && currentUser.isAdmin">
         <a ui-sref="admin.warehouse.list" ng-class="checkMenu('warehouse')">
           Almacenes</a></li>
       <li class="nav-item"

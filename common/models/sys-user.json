@@ -368,6 +368,19 @@
         "findById",
         "patchAttributes"
       ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "warehouse-boss",
+      "permission": "ALLOW",
+      "property": [
+        "count",
+        "create",
+        "find",
+        "findById",
+        "patchAttributes"
+      ]
     }
   ],
   "methods": {
