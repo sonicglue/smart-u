@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/jspdf": "^1.1.31",
-    "eslint": "^3.17.1",
+    "eslint": "^6.8.0",
     "eslint-config-loopback": "^8.0.0",
     "nsp": "^3.2.1"
   },
