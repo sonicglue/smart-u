@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.28, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.29, for Linux (x86_64)
 --
--- Host: database-1.cl2ohcfjhrae.us-east-2.rds.amazonaws.com    Database: IntDeMed
+-- Host: localhost    Database: SmartU
 -- ------------------------------------------------------
--- Server version	8.0.16
+-- Server version	5.7.29-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,14 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
-SET @@SESSION.SQL_LOG_BIN= 0;
-
---
--- GTID state at the beginning of the backup 
---
-
-SET @@GLOBAL.GTID_PURGED='';
 
 --
 -- Table structure for table `AccessToken`
@@ -46,7 +38,6 @@ CREATE TABLE `AccessToken` (
 
 LOCK TABLES `AccessToken` WRITE;
 /*!40000 ALTER TABLE `AccessToken` DISABLE KEYS */;
-INSERT INTO `AccessToken` VALUES ('1N3JTwzxm1FNj5lps6aE25EmPK50piuLQVSkAddbwykZfph3d2plBVZhC7LcqlXo',1209600,'2020-01-27 18:07:57','c9f2db10-136d-11e9-bea1-5b35f2aa1f82',NULL),('3GO5ANYhKhl5ENeYpNCdWa31Gb4EMKHo1AmrXBZ1cQmz5OJwutvnW9QseB0zqjk5',1209600,'2020-01-27 18:37:20','c9f2db10-136d-11e9-bea1-5b35f2aa1f82',NULL),('uoQ8xJhvlN4ytKB106yuWhbW2InJhdCWskDRXO3uPZEkcDpSFQLNbmAo7pAbvT0v',1209600,'2019-01-14 23:55:48','e24bf180-1857-11e9-aa52-01bf601a2b94',NULL);
 /*!40000 ALTER TABLE `AccessToken` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +104,6 @@ CREATE TABLE `Assignment` (
 
 LOCK TABLES `Assignment` WRITE;
 /*!40000 ALTER TABLE `Assignment` DISABLE KEYS */;
-INSERT INTO `Assignment` VALUES ('570a0690-183c-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','79914320-13a7-11e9-98f3-6963032782d8','20190114001','c9f2db10-136d-11e9-bea1-5b35f2aa1f82','d9142060-137f-11e9-93bf-1b522a6f7761','received','2019-01-14 20:38:24','2019-01-14 23:39:52'),('d373f6f0-1855-11e9-aa52-01bf601a2b94','79914320-13a7-11e9-98f3-6963032782d8','4b301ee0-183c-11e9-a70b-e1d3c1cd98df','20190114002','d9142060-137f-11e9-93bf-1b522a6f7761','d9142060-137f-11e9-93bf-1b522a6f7761','received','2019-01-14 23:40:51','2019-01-14 23:41:24');
 /*!40000 ALTER TABLE `Assignment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +133,6 @@ CREATE TABLE `AssignmentHasStock` (
 
 LOCK TABLES `AssignmentHasStock` WRITE;
 /*!40000 ALTER TABLE `AssignmentHasStock` DISABLE KEYS */;
-INSERT INTO `AssignmentHasStock` VALUES ('e29a9aa0-183f-11e9-a70b-e1d3c1cd98df','570a0690-183c-11e9-a70b-e1d3c1cd98df','1a8ccbd0-183c-11e9-a70b-e1d3c1cd98df',0),('e32ec450-183f-11e9-a70b-e1d3c1cd98df','570a0690-183c-11e9-a70b-e1d3c1cd98df','1b66ff30-183c-11e9-a70b-e1d3c1cd98df',0),('e3fa0190-1855-11e9-aa52-01bf601a2b94','d373f6f0-1855-11e9-aa52-01bf601a2b94','1a8ccbd0-183c-11e9-a70b-e1d3c1cd98df',0),('e4dd37a0-183f-11e9-a70b-e1d3c1cd98df','570a0690-183c-11e9-a70b-e1d3c1cd98df','1bb6cce0-183c-11e9-a70b-e1d3c1cd98df',0),('e55b6650-1855-11e9-aa52-01bf601a2b94','d373f6f0-1855-11e9-aa52-01bf601a2b94','1b66ff30-183c-11e9-a70b-e1d3c1cd98df',0);
 /*!40000 ALTER TABLE `AssignmentHasStock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +170,6 @@ CREATE TABLE `Batch` (
 
 LOCK TABLES `Batch` WRITE;
 /*!40000 ALTER TABLE `Batch` DISABLE KEYS */;
-INSERT INTO `Batch` VALUES ('218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','2019-01-14 14:22:36',999,1.00,0.00,0.00,0.00,0,10);
 /*!40000 ALTER TABLE `Batch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,7 +214,6 @@ CREATE TABLE `Billing` (
 
 LOCK TABLES `Billing` WRITE;
 /*!40000 ALTER TABLE `Billing` DISABLE KEYS */;
-INSERT INTO `Billing` VALUES ('1fc47f70-fcbd-11e8-9999-696167e4f583',NULL,'fisica','company','AX Comunicaciones, S.A. de C.V.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'México','1234567890',NULL,0,'contacto@axcomunicacion.com',NULL,0.00,0.00,NULL,0),('2fb85190-185b-11e9-854d-6d5d71b35990',NULL,'fisica','client','Enrique Sotelo Ponce',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'México','5510828038',NULL,0,'sotelo.enrique@gmail.com',NULL,0.00,0.00,NULL,0),('34cb0920-fcbd-11e8-9999-696167e4f583',NULL,'fisica','provider','Martín Mejía',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'México','9876543210',NULL,0,'martin@multiplicame.com',NULL,0.00,0.00,NULL,0),('dc4dbad0-ec5f-11e8-9fca-7791a022412d',NULL,'fisica','company','MadMedia Advertising, S.A. de C.V.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'México','1234567890',NULL,0,'contacto@madmedia.com',NULL,0.00,0.00,NULL,0),('e1318f90-ec5f-11e8-9fca-7791a022412d','IUS890616RH6','moral','provider','AT&T Comercialización Móvil, S. de R.L. de C.V.','Rio Lerma','232','Piso 20','06500',NULL,'Ciudad de México',NULL,NULL,'México','55666548',NULL,0,'contacto@att.com','Edificio de AT&T',0.00,0.00,NULL,0);
 /*!40000 ALTER TABLE `Billing` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,7 +238,6 @@ CREATE TABLE `Brand` (
 
 LOCK TABLES `Brand` WRITE;
 /*!40000 ALTER TABLE `Brand` DISABLE KEYS */;
-INSERT INTO `Brand` VALUES ('0893aab0-0d2f-11e9-8708-bd30568592dd','Xiaomi','xiaomi'),('f0eba990-ec5d-11e8-9fca-7791a022412d','Sony','sony'),('f6652260-c670-11e8-a469-8596b1acfbf3','AT&T','att'),('f8a5f860-b55e-11e8-a22e-3f02da1bc6c3','W&O','wo');
 /*!40000 ALTER TABLE `Brand` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,7 +332,6 @@ CREATE TABLE `Guarantee` (
 
 LOCK TABLES `Guarantee` WRITE;
 /*!40000 ALTER TABLE `Guarantee` DISABLE KEYS */;
-INSERT INTO `Guarantee` VALUES ('a2a58c80-1866-11e9-abf6-333034df22b8','1a8ccbd0-183c-11e9-a70b-e1d3c1cd98df','e24bf180-1857-11e9-aa52-01bf601a2b94','4b301ee0-183c-11e9-a70b-e1d3c1cd98df','2fb85190-185b-11e9-854d-6d5d71b35990','20190114001','open','2019-01-14 19:41:10',NULL,0,NULL);
 /*!40000 ALTER TABLE `Guarantee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -437,7 +422,6 @@ CREATE TABLE `GuaranteeLog` (
 
 LOCK TABLES `GuaranteeLog` WRITE;
 /*!40000 ALTER TABLE `GuaranteeLog` DISABLE KEYS */;
-INSERT INTO `GuaranteeLog` VALUES ('a2a84ba0-1866-11e9-abf6-333034df22b8','a2a58c80-1866-11e9-abf6-333034df22b8','2019-01-14 19:41:10','create','Registro de garantía.');
 /*!40000 ALTER TABLE `GuaranteeLog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -707,7 +691,6 @@ CREATE TABLE `Product` (
 
 LOCK TABLES `Product` WRITE;
 /*!40000 ALTER TABLE `Product` DISABLE KEYS */;
-INSERT INTO `Product` VALUES ('12b3d470-0d2f-11e9-8708-bd30568592dd','0893aab0-0d2f-11e9-8708-bd30568592dd','0df67370-0d2f-11e9-8708-bd30568592dd','bf547ac0-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','7689c7d0-b5d6-11e8-a22e-3f02da1bc6c3','Xiaomi M2, Oro 32 Gb',15,NULL),('21895950-183a-11e9-a70b-e1d3c1cd98df','f0eba990-ec5d-11e8-9fca-7791a022412d','b7acd3b0-0a27-11e9-93ce-6bdc9aa95e8f','aafc3270-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','6fd52ab0-b5d6-11e8-a22e-3f02da1bc6c3','Sony Xperia XA1, Negro 16 Gb',15,NULL),('4d802ae0-0d2f-11e9-8708-bd30568592dd','f8a5f860-b55e-11e8-a22e-3f02da1bc6c3','0293dca0-b561-11e8-a22e-3f02da1bc6c3','bf547ac0-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','7689c7d0-b5d6-11e8-a22e-3f02da1bc6c3','W&O Max 13, Oro 32 Gb',15,NULL),('5f611130-0a27-11e9-93ce-6bdc9aa95e8f','f8a5f860-b55e-11e8-a22e-3f02da1bc6c3','0293dca0-b561-11e8-a22e-3f02da1bc6c3','c5d25070-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','6fd52ab0-b5d6-11e8-a22e-3f02da1bc6c3','W&O Max 13, Plata 16 Gb',15,NULL),('635f40e0-0a27-11e9-93ce-6bdc9aa95e8f','f8a5f860-b55e-11e8-a22e-3f02da1bc6c3','0293dca0-b561-11e8-a22e-3f02da1bc6c3','bf547ac0-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','6fd52ab0-b5d6-11e8-a22e-3f02da1bc6c3','W&O Max 13, Oro 16 Gb',15,NULL),('71635d00-1366-11e9-a50d-17be207bb5c0','0893aab0-0d2f-11e9-8708-bd30568592dd','0df67370-0d2f-11e9-8708-bd30568592dd','85dec2a0-c5d3-11e8-a892-b1d151a2612c','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','6fd52ab0-b5d6-11e8-a22e-3f02da1bc6c3','Xiaomi M2, Naranja 16 Gb',15,NULL),('be449a00-0a27-11e9-93ce-6bdc9aa95e8f','f0eba990-ec5d-11e8-9fca-7791a022412d','b7acd3b0-0a27-11e9-93ce-6bdc9aa95e8f','b360c980-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','7689c7d0-b5d6-11e8-a22e-3f02da1bc6c3','Sony Xperia XA1, Blanco 32 Gb',15,NULL),('c6167cd0-0d2e-11e9-8708-bd30568592dd','f0eba990-ec5d-11e8-9fca-7791a022412d','b7acd3b0-0a27-11e9-93ce-6bdc9aa95e8f','ba142e20-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','7689c7d0-b5d6-11e8-a22e-3f02da1bc6c3','Sony Xperia XA1, Gris 32 Gb',15,NULL),('d5630730-0a27-11e9-93ce-6bdc9aa95e8f','f0eba990-ec5d-11e8-9fca-7791a022412d','b7acd3b0-0a27-11e9-93ce-6bdc9aa95e8f','aafc3270-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','7689c7d0-b5d6-11e8-a22e-3f02da1bc6c3','Sony Xperia XA1, Negro 32 Gb',15,NULL),('e6458c90-12e1-11e9-95fa-4537798ab2df','f0eba990-ec5d-11e8-9fca-7791a022412d','b7acd3b0-0a27-11e9-93ce-6bdc9aa95e8f','85dec2a0-c5d3-11e8-a892-b1d151a2612c','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','6fd52ab0-b5d6-11e8-a22e-3f02da1bc6c3','Sony Xperia XA1, Naranja 16 Gb',15,NULL),('ede52aa0-ecfd-11e8-a91b-058493a62f06','f8a5f860-b55e-11e8-a22e-3f02da1bc6c3','0293dca0-b561-11e8-a22e-3f02da1bc6c3','aafc3270-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','6fd52ab0-b5d6-11e8-a22e-3f02da1bc6c3','W&O Max 13, Negro 16 Gb',15,NULL),('f0a76630-0d2e-11e9-8708-bd30568592dd','f0eba990-ec5d-11e8-9fca-7791a022412d','b7acd3b0-0a27-11e9-93ce-6bdc9aa95e8f','ba142e20-b561-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','7cd96190-b5d6-11e8-a22e-3f02da1bc6c3','Sony Xperia XA1, Gris 64 Gb',15,NULL);
 /*!40000 ALTER TABLE `Product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -766,7 +749,6 @@ CREATE TABLE `ProductModel` (
 
 LOCK TABLES `ProductModel` WRITE;
 /*!40000 ALTER TABLE `ProductModel` DISABLE KEYS */;
-INSERT INTO `ProductModel` VALUES ('0293dca0-b561-11e8-a22e-3f02da1bc6c3',NULL,'f8a5f860-b55e-11e8-a22e-3f02da1bc6c3','Max 13','max-13',0.00,0.00),('0df67370-0d2f-11e9-8708-bd30568592dd',NULL,'0893aab0-0d2f-11e9-8708-bd30568592dd','M2','m2',0.00,0.00),('3ad76980-c671-11e8-a469-8596b1acfbf3',NULL,'f6652260-c670-11e8-a469-8596b1acfbf3','Sim Trio','sim-trio',0.00,0.00),('b7acd3b0-0a27-11e9-93ce-6bdc9aa95e8f',NULL,'f0eba990-ec5d-11e8-9fca-7791a022412d','Xperia XA1','xperia-xa1',0.00,0.00);
 /*!40000 ALTER TABLE `ProductModel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -850,7 +832,6 @@ CREATE TABLE `ProductVariantOption` (
 
 LOCK TABLES `ProductVariantOption` WRITE;
 /*!40000 ALTER TABLE `ProductVariantOption` DISABLE KEYS */;
-INSERT INTO `ProductVariantOption` VALUES ('56ec84d0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',1,'1 Gb','1-gb'),('5e285350-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',2,'2 Gb','2-gb'),('631a0ac0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',3,'4 Gb','4-gb'),('685eeb40-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',4,'8 Gb','8-gb'),('6fd52ab0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',5,'16 Gb','16-gb'),('7689c7d0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',6,'32 Gb','32-gb'),('7cd96190-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',7,'64 Gb','64-gb'),('8704aee0-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',8,'128 Gb','128-gb'),('8d13bd30-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',9,'256 Gb','256-gb'),('939f0060-b5d6-11e8-a22e-3f02da1bc6c3','22e175b0-b5d6-11e8-a22e-3f02da1bc6c3','073e1ca0-b5d6-11e8-a22e-3f02da1bc6c3',10,'512 Gb','512-gb'),('d2b7ae50-c670-11e8-a469-8596b1acfbf3','a5ed4fb0-c670-11e8-a469-8596b1acfbf3','52d333d0-c670-11e8-a469-8596b1acfbf3',0,'3G','3g'),('dc0a75f0-c670-11e8-a469-8596b1acfbf3','a5ed4fb0-c670-11e8-a469-8596b1acfbf3','52d333d0-c670-11e8-a469-8596b1acfbf3',1,'4G','4g');
 /*!40000 ALTER TABLE `ProductVariantOption` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -939,7 +920,7 @@ CREATE TABLE `RoleMapping` (
   `roleId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `principalId` (`principalId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -948,7 +929,7 @@ CREATE TABLE `RoleMapping` (
 
 LOCK TABLES `RoleMapping` WRITE;
 /*!40000 ALTER TABLE `RoleMapping` DISABLE KEYS */;
-INSERT INTO `RoleMapping` VALUES (1,'USER','c9f2db10-136d-11e9-bea1-5b35f2aa1f82',2),(2,'USER','d9142060-137f-11e9-93bf-1b522a6f7761',1),(3,'USER','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',4),(4,'USER','e24bf180-1857-11e9-aa52-01bf601a2b94',5);
+INSERT INTO `RoleMapping` VALUES (1,'USER','c9f2db10-136d-11e9-bea1-5b35f2aa1f82',2);
 /*!40000 ALTER TABLE `RoleMapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1031,7 +1012,6 @@ CREATE TABLE `Stock` (
 
 LOCK TABLES `Stock` WRITE;
 /*!40000 ALTER TABLE `Stock` DISABLE KEYS */;
-INSERT INTO `Stock` VALUES ('1a8ccbd0-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','4b301ee0-183c-11e9-a70b-e1d3c1cd98df','e24bf180-1857-11e9-aa52-01bf601a2b94',NULL,'356825080569767','2019-01-14 14:36:43',NULL,0.00,0.00,0.00,NULL,'sold',0,0,0,'S',NULL,'2fb85190-185b-11e9-854d-6d5d71b35990','2019-01-14',1,0,0,0,0,NULL,NULL),('1b66ff30-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','4b301ee0-183c-11e9-a70b-e1d3c1cd98df','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080569783','2019-01-14 14:36:44',NULL,0.00,0.00,0.00,NULL,'assigned',0,0,0,'S',NULL,NULL,NULL,0,0,0,0,0,NULL,NULL),('1bb6cce0-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','79914320-13a7-11e9-98f3-6963032782d8','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080569809','2019-01-14 14:36:45',NULL,0.00,0.00,0.00,NULL,'assigned',0,0,0,'S',NULL,NULL,NULL,0,0,0,0,0,NULL,NULL),('1c1d2fd0-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080569841','2019-01-14 14:36:46',NULL,0.00,0.00,0.00,NULL,'active',0,0,0,'S',NULL,NULL,NULL,1,0,0,0,0,NULL,NULL),('1c727bc0-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080569866','2019-01-14 14:36:46',NULL,0.00,0.00,0.00,NULL,'active',0,0,0,'S',NULL,NULL,NULL,1,0,0,0,0,NULL,NULL),('1cc7c7b0-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080569908','2019-01-14 14:36:47',NULL,0.00,0.00,0.00,NULL,'active',0,0,0,'S',NULL,NULL,NULL,1,0,0,0,0,NULL,NULL),('1d1e2510-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080569924','2019-01-14 14:36:47',NULL,0.00,0.00,0.00,NULL,'active',0,0,0,'S',NULL,NULL,NULL,1,0,0,0,0,NULL,NULL),('1d767e40-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080569940','2019-01-14 14:36:48',NULL,0.00,0.00,0.00,NULL,'active',0,0,0,'S',NULL,NULL,NULL,1,0,0,0,0,NULL,NULL),('1dd0d340-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080569965','2019-01-14 14:36:48',NULL,0.00,0.00,0.00,NULL,'active',0,0,0,'S',NULL,NULL,NULL,1,0,0,0,0,NULL,NULL),('1e1e7e10-183c-11e9-a70b-e1d3c1cd98df','218adff0-183a-11e9-a70b-e1d3c1cd98df',NULL,'21895950-183a-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','0ed54b20-183a-11e9-a70b-e1d3c1cd98df',NULL,'356825080570021','2019-01-14 14:36:49',NULL,0.00,0.00,0.00,NULL,'active',0,0,0,'S',NULL,NULL,NULL,1,0,0,0,0,NULL,NULL);
 /*!40000 ALTER TABLE `Stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1060,7 +1040,6 @@ CREATE TABLE `StockLog` (
 
 LOCK TABLES `StockLog` WRITE;
 /*!40000 ALTER TABLE `StockLog` DISABLE KEYS */;
-INSERT INTO `StockLog` VALUES ('1a8e7980-183c-11e9-a70b-e1d3c1cd98df','1a8ccbd0-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:43','create','Ingreso del equipo al sistema.'),('1b6885d0-183c-11e9-a70b-e1d3c1cd98df','1b66ff30-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:44','create','Ingreso del equipo al sistema.'),('1bb85380-183c-11e9-a70b-e1d3c1cd98df','1bb6cce0-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:45','create','Ingreso del equipo al sistema.'),('1c1d7df0-183c-11e9-a70b-e1d3c1cd98df','1c1d2fd0-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:46','create','Ingreso del equipo al sistema.'),('1c740260-183c-11e9-a70b-e1d3c1cd98df','1c727bc0-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:46','create','Ingreso del equipo al sistema.'),('1cc94e50-183c-11e9-a70b-e1d3c1cd98df','1cc7c7b0-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:47','create','Ingreso del equipo al sistema.'),('1d1fd2c0-183c-11e9-a70b-e1d3c1cd98df','1d1e2510-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:47','create','Ingreso del equipo al sistema.'),('1d7804e0-183c-11e9-a70b-e1d3c1cd98df','1d767e40-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:48','create','Ingreso del equipo al sistema.'),('1dd19690-183c-11e9-a70b-e1d3c1cd98df','1dd0d340-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:48','create','Ingreso del equipo al sistema.'),('1e202bc0-183c-11e9-a70b-e1d3c1cd98df','1e1e7e10-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 14:36:49','create','Ingreso del equipo al sistema.'),('b04e0260-1855-11e9-aa52-01bf601a2b94','1a8ccbd0-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 17:39:52','assigned','Traspaso de Almacén Central a Pre-almacén.'),('b0504c50-1855-11e9-aa52-01bf601a2b94','1b66ff30-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 17:39:52','assigned','Traspaso de Almacén Central a Pre-almacén.'),('b05136b0-1855-11e9-aa52-01bf601a2b94','1bb6cce0-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 17:39:52','assigned','Traspaso de Almacén Central a Pre-almacén.'),('e76c44f0-1855-11e9-aa52-01bf601a2b94','1a8ccbd0-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 17:41:24','assigned','Traspaso de Pre-almacén a Ruta de ejemplo.'),('e76ce130-1855-11e9-aa52-01bf601a2b94','1b66ff30-183c-11e9-a70b-e1d3c1cd98df','2019-01-14 17:41:24','assigned','Traspaso de Pre-almacén a Ruta de ejemplo.');
 /*!40000 ALTER TABLE `StockLog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1103,7 +1082,7 @@ CREATE TABLE `SysUser` (
 
 LOCK TABLES `SysUser` WRITE;
 /*!40000 ALTER TABLE `SysUser` DISABLE KEYS */;
-INSERT INTO `SysUser` VALUES ('0ed54b20-183a-11e9-a70b-e1d3c1cd98df','c9f2db10-136d-11e9-bea1-5b35f2aa1f82','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','support',NULL,'active',NULL,'support@multiplicame.com','$2a$10$n4wxyjzW2IZdpOxVPy/2gelZXkWNM5Br9BA.CncLPJafwdjI8D/ry',NULL,NULL,'Enrique','Soporte',NULL,NULL,'2019-01-14 14:22:04',0),('c9f2db10-136d-11e9-bea1-5b35f2aa1f82',NULL,'c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','admin',NULL,'active','admin','sotelo.enrique@gmail.com','$2a$10$uABZT2lotQaI087Wm4xBDeSzYSx0JZ2CXJkgxWPsys1nCRYlL21d6',NULL,NULL,'Enrique','Sotelo Ponce',NULL,NULL,'2019-01-08 11:49:47',1),('d9142060-137f-11e9-93bf-1b522a6f7761','c9f2db10-136d-11e9-bea1-5b35f2aa1f82','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','warehouse-boss',NULL,'active',NULL,'alejandro.sezma@integradora.com','$2a$10$gnp4n1lAdV9moK3Ztekix.ykUV9Uc9rrA/WzcI/cdRSN38KcMG7nq',NULL,NULL,'Alejandro','Sezma',NULL,NULL,'2019-01-08 13:59:03',1),('e24bf180-1857-11e9-aa52-01bf601a2b94','c9f2db10-136d-11e9-bea1-5b35f2aa1f82','4b301ee0-183c-11e9-a70b-e1d3c1cd98df','seller',NULL,'active',NULL,'seller@multiplicame.com','$2a$10$htMu0G5tjEUDB32Fwv6i/eFNTJCCg4tjAtVi.RTvkYDdtH7S5NgqG',NULL,NULL,'Enrique','Vendedor',NULL,NULL,'2019-01-14 17:55:34',0);
+INSERT INTO `SysUser` VALUES ('c9f2db10-136d-11e9-bea1-5b35f2aa1f82',NULL,'c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','admin',NULL,'active','admin','sotelo.enrique@gmail.com','$2a$10$uABZT2lotQaI087Wm4xBDeSzYSx0JZ2CXJkgxWPsys1nCRYlL21d6',NULL,NULL,'Enrique','Sotelo Ponce',NULL,NULL,'2019-01-08 11:49:47',1);
 /*!40000 ALTER TABLE `SysUser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1135,7 +1114,7 @@ CREATE TABLE `Warehouse` (
 
 LOCK TABLES `Warehouse` WRITE;
 /*!40000 ALTER TABLE `Warehouse` DISABLE KEYS */;
-INSERT INTO `Warehouse` VALUES ('4b301ee0-183c-11e9-a70b-e1d3c1cd98df','79914320-13a7-11e9-98f3-6963032782d8','Ruta de ejemplo','seller',NULL,0,1,'2019-01-14 14:38:05'),('79914320-13a7-11e9-98f3-6963032782d8','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82','Pre-almacén','place','Calle Lago Margarita #49, piso 1',0,1,'2019-01-08 18:42:43'),('c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82',NULL,'Almacén Central','place','Lago Margarita',1,1,'2019-01-08 11:49:47');
+INSERT INTO `Warehouse` VALUES ('c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82',NULL,'Almacén Central','place','Lago Margarita',1,1,'2019-01-08 11:49:47');
 /*!40000 ALTER TABLE `Warehouse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1165,10 +1144,9 @@ CREATE TABLE `WarehouseACL` (
 
 LOCK TABLES `WarehouseACL` WRITE;
 /*!40000 ALTER TABLE `WarehouseACL` DISABLE KEYS */;
-INSERT INTO `WarehouseACL` VALUES ('0ed746f0-183a-11e9-a70b-e1d3c1cd98df','0ed54b20-183a-11e9-a70b-e1d3c1cd98df','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82',0),('7ea56f50-13aa-11e9-98f3-6963032782d8','d9142060-137f-11e9-93bf-1b522a6f7761','79914320-13a7-11e9-98f3-6963032782d8',1),('c9f4afd0-136d-11e9-bea1-5b35f2aa1f82','c9f2db10-136d-11e9-bea1-5b35f2aa1f82','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82',0),('d9177bc0-137f-11e9-93bf-1b522a6f7761','d9142060-137f-11e9-93bf-1b522a6f7761','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82',0),('e24ed7b0-1857-11e9-aa52-01bf601a2b94','e24bf180-1857-11e9-aa52-01bf601a2b94','4b301ee0-183c-11e9-a70b-e1d3c1cd98df',0);
+INSERT INTO `WarehouseACL` VALUES ('c9f4afd0-136d-11e9-bea1-5b35f2aa1f82','c9f2db10-136d-11e9-bea1-5b35f2aa1f82','c9e0b2a0-136d-11e9-bea1-5b35f2aa1f82',0);
 /*!40000 ALTER TABLE `WarehouseACL` ENABLE KEYS */;
 UNLOCK TABLES;
-SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1179,4 +1157,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-28 17:33:05
+-- Dump completed on 2020-04-18 14:20:34
