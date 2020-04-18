@@ -24,8 +24,8 @@
     "generate": {
       "url": "http://www.facturafiel.com/websrv/servicio_timbrado_33.php?wsdl",
       "AmbienteDePruebas": "NO",
-      "ApiKey": "2C3DF9D963AE4326",
-      "RFC_Emisor": "EMI1402128T0"
+      "ApiKey": "9E4D4E318FEA4D1A",
+      "RFC_Emisor": "SAX190312K1A"
     },
     "cancel": {
       "url": "http://www.facturafiel.com/websrv/servicio_cancelacion.php?wsdl"

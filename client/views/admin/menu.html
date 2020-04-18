@@ -285,7 +285,7 @@
         <a ui-sref="admin.user.list" ng-class="checkMenu('user')">
           Usuarios</a></li>
       <li class="nav-item"
-        ng-show="checkAccess('adwa') && currentUser.isAdmin">
+        ng-show="checkAccess('ad') && currentUser.isAdmin">
         <a ui-sref="admin.warehouse.list" ng-class="checkMenu('warehouse')">
           Almacenes</a></li>
       <li class="nav-item"
@@ -301,19 +301,19 @@
         <a ui-sref="admin.client.list" ng-class="checkMenu('client')">
           Clientes</a></li>
       <li class="nav-item"
-        ng-show="checkAccess('ad')">
+        ng-show="checkAccess('adwa')">
         <a ui-sref="admin.color.list" ng-class="checkMenu('color')">
           Colores</a></li>
       <li class="nav-item"
-        ng-show="checkAccess('ad')">
+        ng-show="checkAccess('adwa')">
         <a ui-sref="admin.brand.list" ng-class="checkMenu('brand')">
           Marcas</a></li>
       <li class="nav-item"
-        ng-show="checkAccess('ad')">
+        ng-show="checkAccess('adwa')">
         <a ui-sref="admin.model.list" ng-class="checkMenu('model')">
           Modelos</a></li>
       <li class="nav-item"
-        ng-show="checkAccess('adwa') && currentUser.isMain">
+        ng-show="checkAccess('adwawa') && currentUser.isMain">
         <a ui-sref="admin.product.list" ng-class="checkMenu('product')">
           Productos</a></li>
       <li class="nav-item"
